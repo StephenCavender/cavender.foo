@@ -1,0 +1,25 @@
+---
+interface Props {
+  appStoreUrl: string;
+  googlePlayUrl: string;
+}
+
+const { appStoreUrl, googlePlayUrl } = Astro.props;
+---
+
+<div>
+  {
+    !!appStoreUrl && (
+      <a href={appStoreUrl}>
+        <img src="/images/app-store-badge.svg" />
+      </a>
+    )
+  }
+  {
+    !!googlePlayUrl && (
+      <a href={googlePlayUrl}>
+        <img alt="Google Play badge link" src="/images/google-play-badge.png" />
+      </a>
+    )
+  }
+</div>
