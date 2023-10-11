@@ -11,7 +11,7 @@ const { appStoreUrl, googlePlayUrl } = Astro.props;
   {
     !!appStoreUrl && (
       <a href={appStoreUrl}>
-        <img src="/images/app-store-badge.svg" />
+        <img alt="App Store badge link" src="/images/app-store-badge.svg" />
       </a>
     )
   }
@@ -23,3 +23,20 @@ const { appStoreUrl, googlePlayUrl } = Astro.props;
     )
   }
 </div>
+<style>
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  img {
+    width: 200px;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    transition-duration: 300ms;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+</style>
