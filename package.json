@@ -7,12 +7,17 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "bunx @biomejs/biome check .",
+    "format": "bunx @biomejs/biome format . --write"
   },
   "dependencies": {
     "@astrojs/mdx": "^1.1.0",
     "@astrojs/rss": "^3.0.0",
     "@astrojs/sitemap": "^3.0.0",
     "astro": "^3.2.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.2.2"
   }
 }
