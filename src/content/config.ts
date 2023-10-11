@@ -6,7 +6,7 @@ const articles = defineCollection({
 		title: z.string(),
 		description: z.string(),
 		// Transform string to Date object
-		publishedDate: z.coerce.date(),
+		pubDate: z.coerce.date(),
 		updatedDate: z.coerce.date().optional(),
 		heroImage: z.object({
 			url: z.string(),
