@@ -15,7 +15,7 @@ In this article we'll be creating a react native application and updating it to 
 
 To begin we'll need a React Native application to add SVGs to. Either create a new one with the `npx react-native init PROJECTNAME` command or use existing app but you'll have to check version compatibility. Our next step is to fire up the app. I run `npm run start` which just calls `react-native start`. Now metro is running in this terminal and we need to open a new terminal. In the new terminal let's fire up the app in either iOS or Android. I started with Android so I ran `npm run android` which just runs `react-native run-android`. Now we have an Android emulator running our app! Here's a screenshot of where we're at on Android:
 
-![Initial Screen](init.png)
+![Initial Screen](@assets/articles/react-native-svg/init.png)
 
 ## Drawing SVGs
 
@@ -46,7 +46,7 @@ export default SvgComp;
 
 And here's a screenshot of how it renders in the Android emulator:
 
-![SVG Drawing](drawing.png)
+![SVG Drawing](@assets/articles/react-native-svg/drawing.png)
 
 ---
 
@@ -115,7 +115,7 @@ export default SvgFilesComp;
 
 And here's a screenshot of how it renders in the Android emulator:
 
-![SVG File Initial Screen](file-1.png)
+![SVG File Initial Screen](@assets/articles/react-native-svg/file-1.png)
 
 ---
 
@@ -134,7 +134,7 @@ For instance, both SVGs I chose have widths and heights set for them. If we don'
 <Coffee />
 ```
 
-![SVG File Firefox Width](file-2.png)
+![SVG File Firefox Width](@assets/articles/react-native-svg/file-2.png)
 
 The image is the correct size but the overall SVG is still taking up a lot more room than it needs. We have to pass in both sizes to fix this. While we're at it, let's give some color to our coffee icon by passing in a fill color.
 
@@ -143,7 +143,7 @@ The image is the correct size but the overall SVG is still taking up a lot more 
 <Coffee fill={'blue'} />
 ```
 
-![SVG File Firefox Size Coffee Fill](file-3.png)
+![SVG File Firefox Size Coffee Fill](@assets/articles/react-native-svg/file-3.png)
 
 Now our firefox looks good but our coffee icon does not. This particular icon isn't meant to have a fill. Rather, we should pass in a stroke to get the desired look.
 
@@ -152,7 +152,7 @@ Now our firefox looks good but our coffee icon does not. This particular icon is
 <Coffee stroke={'#333'} />
 ```
 
-![SVG File Final](file-4.png)
+![SVG File Final](@assets/articles/react-native-svg/file-4.png)
 
 ## Using an SVG Font
 
@@ -177,7 +177,7 @@ export default FeatherComp;
 
 And here's a screenshot of how it renders in the Android emulator:
 
-![Feather Icon](feather-1.png)
+![Feather Icon](@assets/articles/react-native-svg/feather-1.png)
 
 This is great because now we have access to all of the Feather icons as React components. But what if we had an SVG file we wanted to use?
 
