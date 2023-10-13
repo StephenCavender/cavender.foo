@@ -14,7 +14,11 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "bunx @biomejs/biome check .",
-    "format": "bunx @biomejs/biome format . --write"
+    "format": "prettier --write ."
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "prettier": "^3.0.3",
+    "prettier-plugin-astro": "^0.12.0"
+  }
 }
