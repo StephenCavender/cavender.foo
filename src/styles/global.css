@@ -7,6 +7,7 @@
 :root {
 	--accent: #ffb86c;
 	--text: 15, 18, 25;
+	--code: #f472b6;
 	--background: #fff;
 	--surface: rgb(var(--gray-light));
 	--gray: 96, 115, 159;
@@ -47,7 +48,7 @@ body {
 	background-size: 100% 600px;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
+	color: var(--text);
 	font-size: 20px;
 	line-height: 1.7;
 }
@@ -115,7 +116,8 @@ img {
 }
 code {
 	padding: 2px 5px;
-	background-color: rgb(var(--gray-light));
+	background-color: var(--surface);
+	color: var(--code);
 	border-radius: 2px;
 }
 pre {
