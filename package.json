@@ -14,7 +14,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "bunx @biomejs/biome check .",
-    "format": "prettier --write ."
+    "format": "prettier --write 'src/**/*.{mdx,astro}'"
   },
   "type": "module",
   "devDependencies": {
