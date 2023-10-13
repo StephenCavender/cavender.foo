@@ -5,9 +5,12 @@ import { SITE_TITLE } from "../consts";
 
 <header>
   <nav>
-    <h2><a href="/">{SITE_TITLE}</a></h2>
+    <a class="title" href="/">
+      <img src="/favicon.svg" alt="" />
+      <h2>{SITE_TITLE}</h2>
+    </a>
     <div class="internal-links">
-      <HeaderLink href="/">Home</HeaderLink>
+      <HeaderLink class="home" href="/">Home</HeaderLink>
       <HeaderLink href="/articles">Articles</HeaderLink>
       <HeaderLink href="/projects">Projects</HeaderLink>
     </div>
@@ -62,6 +65,14 @@ import { SITE_TITLE } from "../consts";
     background: var(--surface);
     box-shadow: 0 2px 8px rgba(var(--text), 5%);
   }
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+  .title img {
+    width: 3em;
+  }
   h2 {
     margin: 0;
     font-size: 1em;
@@ -92,6 +103,12 @@ import { SITE_TITLE } from "../consts";
   }
   @media (max-width: 720px) {
     .social-links {
+      display: none;
+    }
+    .title h2 {
+      display: none;
+    }
+    .home {
       display: none;
     }
   }
