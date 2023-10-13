@@ -8,25 +8,7 @@ const articles = defineCollection({
     // Transform string to Date object
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    heroImage: z
-      .object({
-        url: z.string(),
-        credit: z.object({
-          name: z.string(),
-          url: z.string(),
-        }),
-      })
-      .optional(),
   }),
 });
 
-const projects = defineCollection({
-  // Type-check frontmatter using a schema
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    heroImage: z.string().optional(),
-  }),
-});
-
-export const collections = { articles, projects };
+export const collections = { articles };
