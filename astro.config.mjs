@@ -3,12 +3,9 @@ import { defineConfig, passthroughImageService } from "astro/config";
 
 import sitemap from "@astrojs/sitemap";
 
-const isDev = import.meta.env.DEV;
-
 // https://astro.build/config
 export default defineConfig({
-  site: "https://stephencavender.github.io",
-  base: isDev ? undefined : "/garden",
+  site: "https://cavender.foo",
   integrations: [mdx(), sitemap()],
   image: {
     service: passthroughImageService(),
