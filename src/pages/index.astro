@@ -1,50 +1,40 @@
 ---
-import BaseHead from "@components/BaseHead.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import BaseLayout from "@layouts/BaseLayout.astro";
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-  </head>
-  <body>
-    <Header title={SITE_TITLE} />
-    <main>
-      <img alt="bio" src="/images/bio.jpg" />
-      <h2>Hi</h2>
-      <p>My name is Steve.</p>
-      <p>Christian, Husband, Father</p>
-      <p>
-        Software engineer at <a href="https://otto.vet">Otto</a>.
-      </p>
-      <p>
-        I enjoy coding, music, fitness, video games, whiskey, and{" "}
-        <a href="https://strenuouslife.co">doing hard things</a>.
-      </p>
-    </main>
-    <Footer />
-    <style>
-      h2 {
-        font-size: 2em;
-      }
-      main img {
-        float: right;
-        width: 180px;
-        border-radius: 100%;
-      }
-      a {
-        text-decoration: underline;
-      }
-      a:hover {
-        filter: brightness(var(--hover-brightness));
-      }
-      p {
-        color: rgb(var(--text));
-        margin-top: 0.5em;
-      }
-    </style>
-  </body>
-</html>
+<BaseLayout>
+  <main>
+    <img alt="bio" src="/images/bio.jpg" />
+    <h2>Hi</h2>
+    <p>My name is Steve.</p>
+    <p>Christian, Husband, Father</p>
+    <p>
+      Software engineer at <a href="https://otto.vet">Otto</a>.
+    </p>
+    <p>
+      I enjoy coding, music, fitness, video games, whiskey, and{" "}
+      <a href="https://strenuouslife.co">doing hard things</a>.
+    </p>
+  </main>
+</BaseLayout>
+
+<style>
+  h2 {
+    font-size: 2em;
+  }
+  main img {
+    float: right;
+    width: 180px;
+    border-radius: 100%;
+  }
+  a {
+    text-decoration: underline;
+  }
+  a:hover {
+    filter: brightness(var(--hover-brightness));
+  }
+  p {
+    color: rgb(var(--text));
+    margin-top: 0.5em;
+  }
+</style>
