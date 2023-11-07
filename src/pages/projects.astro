@@ -1,63 +1,52 @@
 ---
-import BaseHead from "@components/BaseHead.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import BaseLayout from "@layouts/BaseLayout.astro";
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <style>
-      main {
-        width: 720px;
-      }
-      ul {
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-        color: rgb(var(--text));
-      }
-      ul li {
-        width: calc(50% - 1rem);
-        margin: 0.5em 0;
-      }
-      ul li * {
-        text-decoration: none;
-        transition: 0.2s ease;
-      }
-      ul li a {
-        display: block;
-        color: rgb(var(--text));
-      }
-      ul li a:hover {
-        color: var(--accent);
-      }
-      @media (max-width: 720px) {
-        ul {
-          gap: 0.5em;
-        }
-        ul li {
-          width: 100%;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <Header />
-    <main>
-      <section>
-        <ul>
-          <li>
-            <a href="https://gymbutler.cavender.io/">GymButler</a>
-          </li>
-          <li>
-            <a href="https://simpledex.cavender.io">SimpleDex</a>
-          </li>
-        </ul>
-      </section>
-    </main>
-    <Footer />
-  </body>
-</html>
+<BaseLayout>
+  <main>
+    <section>
+      <ul>
+        <li>
+          <a href="https://gymbutler.cavender.io/">GymButler</a>
+        </li>
+        <li>
+          <a href="https://simpledex.cavender.io">SimpleDex</a>
+        </li>
+      </ul>
+    </section>
+  </main>
+</BaseLayout>
+<style>
+  main {
+    width: 720px;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    color: rgb(var(--text));
+  }
+  ul li {
+    width: calc(50% - 1rem);
+    margin: 0.5em 0;
+  }
+  ul li * {
+    text-decoration: none;
+    transition: 0.2s ease;
+  }
+  ul li a {
+    display: block;
+    color: rgb(var(--text));
+  }
+  ul li a:hover {
+    color: var(--accent);
+  }
+  @media (max-width: 720px) {
+    ul {
+      gap: 0.5em;
+    }
+    ul li {
+      width: 100%;
+    }
+  }
+</style>
