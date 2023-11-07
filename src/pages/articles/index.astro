@@ -33,7 +33,6 @@ const articles = (await getCollection("articles")).sort(
     color: rgb(var(--text));
   }
   ul li {
-    width: calc(50% - 1rem);
     margin: 0.5em 0;
   }
   ul li * {
@@ -46,10 +45,5 @@ const articles = (await getCollection("articles")).sort(
   }
   ul li a:hover {
     color: var(--accent);
-  }
-  @media (max-width: 720px) {
-    ul li {
-      width: 100%;
-    }
   }
 </style>
