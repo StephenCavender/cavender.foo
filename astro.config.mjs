@@ -10,4 +10,8 @@ export default defineConfig({
   image: {
     service: passthroughImageService(),
   },
+  redirects: {
+    "/feed": "/rss.xml",
+    "/rss": "/rss.xml",
+  },
 });
