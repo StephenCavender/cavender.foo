@@ -1,0 +1,55 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+---
+
+<BaseLayout>
+  <main>
+    <h2>Blogroll</h2>
+    <p>description</p>
+    <section>
+      <h3>Blogs</h3>
+      <ul>
+        <li>Art of Manliness</li>
+        <li>TBD</li>
+        <li>TBD</li>
+        <li>TBD</li>
+        <li>TBD</li>
+        <li>TBD</li>
+      </ul>
+    </section>
+  </main>
+</BaseLayout>
+<style>
+  main {
+    width: 720px;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    color: rgb(var(--text));
+  }
+  ul li {
+    width: calc(50% - 1rem);
+    margin: 0.5em 0;
+  }
+  ul li * {
+    text-decoration: none;
+    transition: 0.2s ease;
+  }
+  ul li a {
+    display: block;
+    color: rgb(var(--text));
+  }
+  ul li a:hover {
+    color: var(--accent);
+  }
+  @media (max-width: 720px) {
+    ul {
+      gap: 0.5em;
+    }
+    ul li {
+      width: 100%;
+    }
+  }
+</style>
