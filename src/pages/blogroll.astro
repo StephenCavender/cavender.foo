@@ -5,16 +5,25 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 <BaseLayout>
   <main>
     <h2>Blogroll</h2>
-    <p>description</p>
     <section>
       <h3>Blogs</h3>
       <ul>
-        <li>Art of Manliness</li>
-        <li>TBD</li>
-        <li>TBD</li>
-        <li>TBD</li>
-        <li>TBD</li>
-        <li>TBD</li>
+        <li><a href="https://www.artofmanliness.com/">Art of Manliness</a></li>
+        <li><a href="https://bricolage.io/">Kyle Mathews</a></li>
+        <li><a href="https://lazybear.io">lazybear.io</a></li>
+        <li><a href="https://garrit.xyz"></a>Garrit Franke</li>
+        <li><a href="https://gurwinder.substack.com/">The Prism</a></li>
+        <li><a href="https://medium.com/@_ericelliott">Eric Elliott</a></li>
+        <li><a href="https://jason.energy">Jason Lengstorf</a></li>
+        <li><a href="https://www.learnwithjason.dev/">Learn With Jason</a></li>
+      </ul>
+    </section>
+    <section>
+      <h3>Newsletters</h3>
+      <ul>
+        <li><a href="https://nodeweekly.com/">Node Weekly</a></li>
+        <li><a href="https://javascriptweekly.com/">JavaScript Weekly</a></li>
+        <li><a href="https://frontendfoc.us/">Frontend Focus</a></li>
       </ul>
     </section>
   </main>
@@ -38,7 +47,6 @@ import BaseLayout from "@layouts/BaseLayout.astro";
     transition: 0.2s ease;
   }
   ul li a {
-    display: block;
     color: rgb(var(--text));
   }
   ul li a:hover {
@@ -51,5 +59,8 @@ import BaseLayout from "@layouts/BaseLayout.astro";
     ul li {
       width: 100%;
     }
+  }
+  section {
+    margin-top: 2em;
   }
 </style>
