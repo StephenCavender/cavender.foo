@@ -2,10 +2,10 @@
   "name": "cavender.foo",
   "version": "0.0.1",
   "dependencies": {
-    "@astrojs/mdx": "^1.1.0",
-    "@astrojs/rss": "^3.0.0",
-    "@astrojs/sitemap": "^3.0.0",
-    "astro": "^3.2.2"
+    "@astrojs/mdx": "2.1.1",
+    "@astrojs/rss": "4.0.5",
+    "@astrojs/sitemap": "3.0.5",
+    "astro": "4.4.0"
   },
   "scripts": {
     "dev": "astro dev",
