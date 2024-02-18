@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+const articles = await Astro.glob("../../content/articles/*.mdx");
+const tags = [
+  ...new Set(articles.map((article) => article.frontmatter.tags).flat()),
+];
+---
+
+<BaseLayout>
+  <main>
+    <h2>Tags</h2>
+    <section>
+      <ul>
+        {
+          tags.map((tag) => (
+            <li>
+              <a href={`/tags/${tag}/`}>{tag}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+</BaseLayout>
+<style>
+  main {
+    width: 720px;
+  }
+  h2 {
+    font-size: 2em;
+    margin-bottom: 1em;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    color: rgb(var(--text));
+  }
+  ul li {
+    margin: 0.5em 0;
+  }
+  ul li * {
+    text-decoration: none;
+    transition: 0.2s ease;
+  }
+  ul li a {
+    display: block;
+    color: rgb(var(--text));
+  }
+  ul li a:hover {
+    color: var(--accent);
+  }
+</style>
