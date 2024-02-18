@@ -1,15 +1,16 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const articles = await Astro.glob("../../content/articles/*.mdx");
+  const articles = await getCollection("articles");
   const uniqueTags = [
-    ...new Set(articles.map((post) => post.frontmatter.tags).flat()),
+    ...new Set(articles.map((article) => article.data.tags).flat()),
   ];
 
   return uniqueTags.map((tag) => {
-    const filteredArticles = articles.filter((post) =>
-      post.frontmatter.tags.includes(tag),
+    const filteredArticles = articles.filter((article) =>
+      article.data.tags.includes(tag),
     );
     return {
       params: { tag },
@@ -27,10 +28,12 @@ const { articles } = Astro.props;
     <h2>Articles tagged with <code>{tag}</code></h2>
     <ul>
       {
-        articles.map((post) => (
-          <li>
-            <a href={post.url}>{post.frontmatter.title}</a>
-          </li>
+        articles.map((article) => (
+          <>
+            <li>
+              <a href={`/articles/${article.slug}`}>{article.data.title}</a>
+            </li>
+          </>
         ))
       }
     </ul>
