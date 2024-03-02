@@ -3,28 +3,24 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 ---
 
 <BaseLayout>
-  <main>
-    <section>
-      <ul>
-        <li>
-          <a href="https://gymbutler.cavender.io/">GymButler</a>
-        </li>
-        <li>
-          <a href="https://simpledex.cavender.io">SimpleDex</a>
-        </li>
-      </ul>
-    </section>
-  </main>
+  <h2>Projects</h2>
+  <section>
+    <ul>
+      <li>
+        <a href="https://gymbutler.cavender.io/">GymButler</a>
+      </li>
+      <li>
+        <a href="https://simpledex.cavender.io">SimpleDex</a>
+      </li>
+    </ul>
+  </section>
 </BaseLayout>
 <style>
-  main {
-    width: 720px;
-  }
   ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
-    color: rgb(var(--text));
+    color: rgb(var(--text-primary));
   }
   ul li {
     width: calc(50% - 1rem);
@@ -36,7 +32,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
   }
   ul li a {
     display: block;
-    color: rgb(var(--text));
+    color: rgb(var(--text-primary));
   }
   ul li a:hover {
     color: var(--accent);
