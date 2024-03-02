@@ -6,6 +6,8 @@
   --bg-secondary-darker: #393939;
   --border: #232323;
   --border-darker: #464646;
+  --page-width: 720px;
+  --page-max-width: calc(100% - 2em)
 }
 
 @media (prefers-color-scheme: dark) {
@@ -68,13 +70,7 @@ body {
   color: var(--text-primary);
 }
 
-/* Layout */
-main {
-  width: 720px;
-  max-width: calc(100% - 2em);
-  margin: auto;
-  padding: 3em 1em;
-}
+
 
 .sr-only {
   border: 0;

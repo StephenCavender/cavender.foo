@@ -18,8 +18,23 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
     <BaseHead title={title} description={description} />
   </head>
   <body>
-    <Header title={SITE_TITLE} />
-    <slot />
-    <Footer />
+    <div class="container">
+      <Header title={SITE_TITLE} />
+      <main>
+        <slot />
+      </main>
+      <Footer />
+    </div>
+    <style>
+      .container {
+        width: 100%;
+        max-width: 720px;
+        margin: auto;
+        padding: 1em;
+      }
+      main {
+        margin-top: 1em;
+      }
+    </style>
   </body>
 </html>

@@ -7,24 +7,19 @@ const articles = (await getCollection("articles")).sort(
 ---
 
 <BaseLayout>
-  <main>
-    <section>
-      <ul>
-        {
-          articles.map((article) => (
-            <li>
-              <a href={`/articles/${article.slug}/`}>{article.data.title}</a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-  </main>
+  <section>
+    <ul>
+      {
+        articles.map((article) => (
+          <li>
+            <a href={`/articles/${article.slug}/`}>{article.data.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
 </BaseLayout>
 <style>
-  main {
-    width: 720px;
-  }
   ul {
     margin: 0;
     padding: 0;
