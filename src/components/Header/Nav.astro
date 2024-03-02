@@ -1,0 +1,34 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import NavLink from "./NavLink.astro";
+
+type Props = HTMLAttributes<"a">;
+
+const { href, class: className, ...props } = Astro.props;
+---
+
+<nav>
+  <a href="/">
+    <img src="/logo.svg" alt="logo" />
+  </a>
+  <div class="internal-links">
+    <NavLink class="home" href="/">Home</NavLink>
+    <NavLink href="/articles">Articles</NavLink>
+    <NavLink href="/projects">Projects</NavLink>
+  </div>
+</nav>
+<style>
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  img {
+    width: 2.5em;
+  }
+  @media (max-width: 720px) {
+    .home {
+      display: none;
+    }
+  }
+</style>
