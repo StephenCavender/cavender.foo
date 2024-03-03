@@ -31,25 +31,15 @@ const { title, description, pubDate, updatedDate } = Astro.props;
   </article>
 </BaseLayout>
 <style>
-  .prose {
-    width: 720px;
-    max-width: calc(100% - 2em);
-    margin: auto;
-    padding: 1em;
-    color: rgb(var(--text-primary));
-  }
   .title {
     margin-bottom: 1em;
-    padding: 1em 0;
     text-align: center;
-    line-height: 1;
   }
   .title h1 {
-    margin: 0 0 0.5em 0;
+    margin-bottom: 0.5em;
   }
   .date {
-    margin-bottom: 0.5em;
-    color: rgb(var(--gray));
+    color: var(--text-secondary);
   }
   .last-updated-on {
     font-style: italic;
