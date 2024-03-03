@@ -7,12 +7,14 @@ const articles = (await getCollection("articles")).sort(
 ---
 
 <BaseLayout>
+  <h2>Blog</h2>
   <section>
     <ul>
       {
         articles.map((article) => (
           <li>
-            <a href={`/articles/${article.slug}/`}>{article.data.title}</a>
+            {/* TODO: add date */}
+            <a href={`/blog/${article.slug}/`}>{article.data.title}</a>
           </li>
         ))
       }

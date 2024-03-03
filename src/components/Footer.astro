@@ -3,7 +3,7 @@ const today = new Date();
 ---
 
 <footer>
-  &copy; {today.getFullYear()} Stephen Cavender. All rights reserved.
+  <div>&copy; {today.getFullYear()} Stephen Cavender. All rights reserved.</div>
   <div>Made in the USA</div>
   <div class="icthys">
     <svg
@@ -106,12 +106,14 @@ const today = new Date();
 </footer>
 <style>
   footer {
-    padding: 2em 1em 6em 1em;
-    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    margin: 2em 0 6em;
     color: rgb(var(--text-primary));
     text-align: center;
   }
-  .social-links {
+  footer div {
     display: flex;
     justify-content: center;
     gap: 1em;
