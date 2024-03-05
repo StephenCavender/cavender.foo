@@ -65,54 +65,46 @@ input, button, textarea, select {
 p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
+/* End Reset */
 
-/* Global */
 body {
   font-family: "Atkinson", sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
 }
-
-/* Paragraph Links */
-p > a {
+article a {
   color: var(--text-primary);
   text-decoration-color: var(--text-secondary);
   font-weight: 600;
 }
-
-p > a:hover {
+article a:hover {
   text-decoration-color: var(--text-primary);
 }
-
 img {
   border-radius: 8px;
 }
-
 code {
   color: var(--code);
 }
-
 pre {
   padding: 1em;
   border-radius: 8px;
   border: 1px solid var(--border);
 }
-
 pre > code {
   all: unset;
 }
-
 blockquote {
   border-left: 4px solid var(--accent);
   padding: 0 0 0 20px;
   margin: 0px;
   font-size: 1.333em;
 }
-
 article p {
   margin: 1em;
 }
 
+/* Screenreader only */
 .sr-only {
   border: 0;
   padding: 0;
