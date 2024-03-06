@@ -72,15 +72,17 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
 }
-article a {
+main p a, article a {
   color: var(--text-primary);
   text-decoration-color: var(--text-secondary);
   font-weight: 600;
 }
-article a:hover {
+main p a:hover, article a:hover {
   text-decoration-color: var(--text-primary);
 }
 img {
+  max-width: 100%;
+  height: auto;
   border-radius: 8px;
 }
 code {
@@ -100,8 +102,11 @@ blockquote {
   margin: 0px;
   font-size: 1.333em;
 }
+article h3 {
+  margin: 0.75em auto;
+}
 article p {
-  margin: 1em;
+  margin: 0.75em auto;
 }
 
 /* Screenreader only */
