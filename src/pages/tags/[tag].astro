@@ -24,8 +24,8 @@ const { articles } = Astro.props;
 ---
 
 <BaseLayout title={tag}>
-  <main>
-    <h2>Articles tagged with <code>{tag}</code></h2>
+  <h2>Articles tagged with <code>{tag}</code></h2>
+  <section>
     <ul>
       {
         articles.map((article) => (
@@ -37,16 +37,10 @@ const { articles } = Astro.props;
         ))
       }
     </ul>
-  </main>
+  </section>
+  <a href="/tags">All Tags</a>
 </BaseLayout>
 <style>
-  main {
-    width: 720px;
-  }
-  h2 {
-    font-size: 2em;
-    margin-bottom: 1em;
-  }
   ul {
     margin: 0;
     padding: 0;
@@ -60,11 +54,12 @@ const { articles } = Astro.props;
     text-decoration: none;
     transition: 0.2s ease;
   }
-  ul li a {
-    display: block;
-    color: rgb(var(--text-primary));
+  a {
+    color: var(--text-primary);
+    text-decoration-color: var(--text-secondary);
+    font-weight: 600;
   }
-  ul li a:hover {
-    color: var(--accent);
+  a:hover {
+    text-decoration-color: var(--text-primary);
   }
 </style>

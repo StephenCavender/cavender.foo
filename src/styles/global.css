@@ -72,12 +72,12 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
 }
-main p a, article a {
+main p a, article a, section a {
   color: var(--text-primary);
   text-decoration-color: var(--text-secondary);
   font-weight: 600;
 }
-main p a:hover, article a:hover {
+main p a:hover, article a:hover, section {
   text-decoration-color: var(--text-primary);
 }
 img {
@@ -102,7 +102,7 @@ blockquote {
   margin: 0px;
   font-size: 1.333em;
 }
-article h3 {
+article h2, article h3 {
   margin: 0.75em auto;
 }
 article p {

@@ -6,34 +6,26 @@ const tags = [...new Set(articles.map((article) => article.data.tags).flat())];
 ---
 
 <BaseLayout>
-  <main>
-    <h2>Tags</h2>
-    <section>
-      <ul>
-        {
-          tags.map((tag) => (
-            <li>
-              <a href={`/tags/${tag}/`}>{tag}</a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-  </main>
+  <h2>Tags</h2>
+  <section>
+    <ul>
+      {
+        tags.map((tag) => (
+          <li>
+            <a href={`/tags/${tag}/`}>{tag}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
 </BaseLayout>
 <style>
-  main {
-    width: 720px;
-  }
-  h2 {
-    font-size: 2em;
-    margin-bottom: 1em;
-  }
   ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
     color: rgb(var(--text-primary));
+    columns: 3;
   }
   ul li {
     margin: 0.5em 0;
@@ -41,12 +33,5 @@ const tags = [...new Set(articles.map((article) => article.data.tags).flat())];
   ul li * {
     text-decoration: none;
     transition: 0.2s ease;
-  }
-  ul li a {
-    display: block;
-    color: rgb(var(--text-primary));
-  }
-  ul li a:hover {
-    color: var(--accent);
   }
 </style>
