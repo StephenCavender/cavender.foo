@@ -13,12 +13,15 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "bunx @biomejs/biome check .",
     "format": "prettier --write 'src/**/*.{mdx,astro}'"
   },
   "type": "module",
   "devDependencies": {
+    "fast-glob": "^3.3.2",
+    "feed": "^4.2.2",
+    "gray-matter": "^4.0.3",
     "prettier": "^3.0.3",
-    "prettier-plugin-astro": "^0.12.0"
+    "prettier-plugin-astro": "^0.12.0",
+    "tsx": "^4.7.1"
   }
 }
