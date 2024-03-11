@@ -12,8 +12,8 @@ import matter from "gray-matter";
     description: SITE_DESCRIPTION,
     id: SITE_URL,
     link: SITE_URL,
-    image: `${SITE_URL}/favicon.webp`,
-    favicon: `${SITE_URL}/favicon.webp`,
+    image: `${SITE_URL}/favicon.svg`,
+    favicon: `${SITE_URL}/favicon.svg`,
     copyright: `copyright ${year} Stephen Cavender all rights reserved`,
     feedLinks: {
       json: `${SITE_URL}/json`,
