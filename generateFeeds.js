@@ -30,7 +30,7 @@ import matter from 'gray-matter';
   const articles = await Promise.all(
     files.map(async (file) => {
       const source = await fs.readFile(file, 'utf-8');
-      const { data, content } = matter(source);
+      const { data } = matter(source);
 
       const slug = data.title
         .trim()
