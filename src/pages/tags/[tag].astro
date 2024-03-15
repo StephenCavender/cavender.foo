@@ -1,16 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const articles = await getCollection('articles');
+  const articles = await getCollection("articles");
   const uniqueTags = [
     ...new Set(articles.map((article) => article.data.tags).flat()),
   ];
 
   return uniqueTags.map((tag) => {
     const filteredArticles = articles.filter((article) =>
-      article.data.tags.includes(tag)
+      article.data.tags.includes(tag),
     );
     return {
       params: { tag },
@@ -40,26 +40,3 @@ const { articles } = Astro.props;
   </section>
   <a href="/tags">All Tags</a>
 </BaseLayout>
-<style>
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    color: rgb(var(--text-primary));
-  }
-  ul li {
-    margin: 0.5em 0;
-  }
-  ul li * {
-    text-decoration: none;
-    transition: 0.2s ease;
-  }
-  a {
-    color: var(--text-primary);
-    text-decoration-color: var(--text-secondary);
-    font-weight: 600;
-  }
-  a:hover {
-    text-decoration-color: var(--text-primary);
-  }
-</style>

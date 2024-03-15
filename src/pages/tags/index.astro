@@ -1,10 +1,11 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-const articles = await getCollection('articles');
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+const articles = await getCollection("articles");
 const tags = [...new Set(articles.map((article) => article.data.tags).flat())];
 ---
 
+<!-- todo: add number of articles with that tag -->
 <BaseLayout>
   <h2>Tags</h2>
   <section>
@@ -21,17 +22,6 @@ const tags = [...new Set(articles.map((article) => article.data.tags).flat())];
 </BaseLayout>
 <style>
   ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    color: rgb(var(--text-primary));
     columns: 3;
-  }
-  ul li {
-    margin: 0.5em 0;
-  }
-  ul li * {
-    text-decoration: none;
-    transition: 0.2s ease;
   }
 </style>
