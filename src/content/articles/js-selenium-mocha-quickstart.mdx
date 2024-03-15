@@ -78,12 +78,12 @@ Let's create a new JS file in our project folder: I'll create test1.js.
 
 ```javascript
 // Load dependecies
-var assert = require('chai').assert,
-  test = require('selenium-webdriver/testing'),
-  webdriver = require('selenium-webdriver');
+var assert = require("chai").assert,
+  test = require("selenium-webdriver/testing"),
+  webdriver = require("selenium-webdriver");
 
 // Our test
-test.describe('Test', function () {
+test.describe("Test", function () {
   test.it('Title should be "The Internet"', function () {
     // Set timeout to 10 seconds
     this.timeout(10000);
@@ -103,11 +103,11 @@ test.describe('Test', function () {
       .build();
 
     // Go to URL
-    driver.get('http://the-internet.herokuapp.com');
+    driver.get("http://the-internet.herokuapp.com");
 
     // Find title and assert
-    driver.executeScript('return document.title').then(function (return_value) {
-      assert.equal(return_value, 'The Internet');
+    driver.executeScript("return document.title").then(function (return_value) {
+      assert.equal(return_value, "The Internet");
     });
 
     // Quit webdriver

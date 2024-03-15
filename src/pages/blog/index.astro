@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 const articles = (await getCollection("articles")).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
 
@@ -13,7 +13,7 @@ const articles = (await getCollection("articles")).sort(
       {
         articles.map((article) => (
           <li>
-            {/* TODO: add date */}
+            <span>{article.data.pubDate.toLocaleDateString()}</span>
             <a href={`/blog/${article.slug}/`}>{article.data.title}</a>
           </li>
         ))
@@ -21,3 +21,11 @@ const articles = (await getCollection("articles")).sort(
     </ul>
   </section>
 </BaseLayout>
+<style>
+  li {
+    display: flex;
+  }
+  span {
+    flex: 0 0 100px;
+  }
+</style>

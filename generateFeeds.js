@@ -51,7 +51,7 @@ import matter from "gray-matter";
         link: `${SITE_URL}/blog/${slug}`,
         description: data.description,
       };
-    }),
+    })
   );
 
   articles.sort((a, b) => +new Date(b.date) - +new Date(a.date));

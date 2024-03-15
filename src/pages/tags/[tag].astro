@@ -10,7 +10,7 @@ export async function getStaticPaths() {
 
   return uniqueTags.map((tag) => {
     const filteredArticles = articles.filter((article) =>
-      article.data.tags.includes(tag),
+      article.data.tags.includes(tag)
     );
     return {
       params: { tag },
