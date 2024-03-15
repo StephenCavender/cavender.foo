@@ -58,7 +58,7 @@ Check out the [supported elements](https://github.com/react-native-svg/react-nat
 Maybe we have some SVG files we want to include rather than drawing them. For this case we'll need another package. [Kristerkari](https://github.com/kristerkari) has us covered with [react-native-svg-transformer](https://github.com/kristerkari/react-native-svg-transformer). Install the package with `npm i --save-dev react-native-svg-transformer`. Next we'll update our metro config to handle transforming SVGs. Here's what my metro.config.js looks like now:
 
 ```js
-const { getDefaultConfig } = require("metro-config");
+const { getDefaultConfig } = require('metro-config');
 
 module.exports = (async () => {
   const {
@@ -72,11 +72,11 @@ module.exports = (async () => {
           inlineRequires: true,
         },
       }),
-      babelTransformerPath: require.resolve("react-native-svg-transformer"),
+      babelTransformerPath: require.resolve('react-native-svg-transformer'),
     },
     resolver: {
-      assetExts: assetExts.filter((ext) => ext !== "svg"),
-      sourceExts: [...sourceExts, "svg"],
+      assetExts: assetExts.filter((ext) => ext !== 'svg'),
+      sourceExts: [...sourceExts, 'svg'],
     },
   };
 })();

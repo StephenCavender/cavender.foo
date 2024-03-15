@@ -8,24 +8,24 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-  --text-primary: #ededed;
-  --text-secondary: #a0a0a0;
-  --bg-primary: #161616;
-  --border: #898ea4;
+    --text-primary: #ededed;
+    --text-secondary: #a0a0a0;
+    --bg-primary: #161616;
+    --border: #898ea4;
   }
 }
 
 @font-face {
-  font-family: "Atkinson";
-  src: url("/fonts/atkinson-regular.woff") format("woff");
+  font-family: 'Atkinson';
+  src: url('/fonts/atkinson-regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Atkinson";
-  src: url("/fonts/atkinson-bold.woff") format("woff");
+  font-family: 'Atkinson';
+  src: url('/fonts/atkinson-bold.woff') format('woff');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -35,7 +35,9 @@
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 * {
@@ -45,29 +47,46 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
-img, picture, video, canvas, svg {
+img,
+picture,
+video,
+canvas,
+svg {
   display: block;
   max-width: 100%;
 }
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
-p, h1, h2, h3, h4, h5, h6 {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   overflow-wrap: break-word;
 }
 /* End Reset */
 
 body {
-  font-family: "Atkinson", sans-serif;
+  font-family: 'Atkinson', sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
 }
-main p a, article a, section a {
+main p a,
+article a,
+section a {
   color: var(--text-primary);
   text-decoration-color: var(--text-secondary);
   font-weight: 600;
 }
-main p a:hover, article a:hover, section {
+main p a:hover,
+article a:hover,
+section {
   text-decoration-color: var(--text-primary);
 }
 img {
@@ -92,7 +111,8 @@ blockquote {
   margin: 0px;
   font-size: 1.333em;
 }
-article h2, article h3 {
+article h2,
+article h3 {
   margin: 0.75em auto;
 }
 article p {

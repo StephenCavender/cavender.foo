@@ -1,9 +1,8 @@
-import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "./src/consts";
-import { Feed } from "feed";
-import fs from "fs/promises";
-import fg from "fast-glob";
-import matter from "gray-matter";
-
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from './src/consts';
+import { Feed } from 'feed';
+import fs from 'fs/promises';
+import fg from 'fast-glob';
+import matter from 'gray-matter';
 (async () => {
   const year = new Date().getFullYear();
 
@@ -21,23 +20,23 @@ import matter from "gray-matter";
       rss: `${SITE_URL}/rss.xml`,
     },
     author: {
-      name: "Stephen Cavender",
-      email: "steve@cavender.io",
+      name: 'Stephen Cavender',
+      email: 'steve@cavender.io',
       link: SITE_URL,
     },
   });
 
-  const files = await fg("src/content/articles/*.mdx");
+  const files = await fg('src/content/articles/*.mdx');
   const articles = await Promise.all(
     files.map(async (file) => {
-      const source = await fs.readFile(file, "utf-8");
+      const source = await fs.readFile(file, 'utf-8');
       const { data, content } = matter(source);
 
       const slug = data.title
         .trim()
-        .replace(/[^A-Za-z0-9 ]/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/^-+|-+$/g, "")
+        .replace(/[^A-Za-z0-9 ]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/^-+|-+$/g, '')
         .toLowerCase();
 
       return {
@@ -47,15 +46,15 @@ import matter from "gray-matter";
         link: `${SITE_URL}/blog/${slug}`,
         description: data.description,
       };
-    }),
+    })
   );
 
   articles.sort((a, b) => +new Date(b.date) - +new Date(a.date));
   articles.forEach((item) => feed.addItem(item));
 
-  const output = "./dist";
+  const output = './dist';
   await fs.access(output);
-  await fs.writeFile(`${output}/rss.xml`, feed.rss2(), "utf-8");
-  await fs.writeFile(`${output}/atom.xml`, feed.atom1(), "utf-8");
-  await fs.writeFile(`${output}/feed.json`, feed.json1(), "utf-8");
+  await fs.writeFile(`${output}/rss.xml`, feed.rss2(), 'utf-8');
+  await fs.writeFile(`${output}/atom.xml`, feed.atom1(), 'utf-8');
+  await fs.writeFile(`${output}/feed.json`, feed.json1(), 'utf-8');
 })();
