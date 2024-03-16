@@ -114,6 +114,10 @@ article h3 {
 article p {
   margin: 0.75em auto;
 }
+ul, ol {
+  padding-left: 1.5em;
+  margin: 0.75em auto;
+}
 ul:not(article ul) {
   padding-left: 0;
   list-style-type: none;
