@@ -1,0 +1,69 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+---
+
+<BaseLayout>
+  <h2>Uses</h2>
+  <div>
+    <section>
+      <h3>Software</h3>
+      <ul>
+        <li>VSCode</li>
+        <li>Arc</li>
+        <li>ITerm2</li>
+        <li>Bear</li>
+        <li>LICEcap</li>
+        <li>Spotify</li>
+        <li>Raycast</li>
+        <li>Thinkorswim</li>
+        <li>1Password</li>
+      </ul>
+    </section>
+    <section>
+      <h3>Hardware</h3>
+      <ul>
+        <li>MacBook Air</li>
+        <li>iPhone 13 Pro</li>
+        <li>Mechanical Keyboard</li>
+        <li>Bose QC 35</li>
+        <li>Secret Lab Chair</li>
+        <li>Branch Sit/Stand Desk</li>
+        <li>Logitech MX Master 2</li>
+      </ul>
+    </section>
+    <section>
+      <h3>Fitness</h3>
+      <ul>
+        <li>Signature Fitness fold-out rack</li>
+        <li>EXmark men's olympic barbell</li>
+        <li>Vulcan fleck colored plates</li>
+        <li>Random assortment of hex dumbells</li>
+        <li>Rep fitness jump rope</li>
+        <li>Adidas lifting shoes</li>
+        <li>Nike CrossFit shoes</li>
+        <li>Knee wraps</li>
+      </ul>
+    </section>
+    <section>
+      <h3>Music</h3>
+      <ul>
+        <li>Red Fender strat lookalike?</li>
+        <li>Blue Fender strat</li>
+        <li>Fender Acoustic</li>
+        <li>Taylor Acoustic</li>
+        <li>Marshall Amp</li>
+        <li>Boss ME-60 Pedal</li>
+      </ul>
+    </section>
+  </div>
+</BaseLayout>
+<style>
+  div {
+    display: grid;
+    gap: 1em 1.25em;
+    grid-template-columns: repeat(auto-fill, minmax(min(10rem, 100%), 1fr));
+  }
+  section {
+    margin-top: 2em;
+  }
+</style>
