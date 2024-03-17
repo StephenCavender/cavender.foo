@@ -107,6 +107,9 @@ blockquote {
   margin: 0px;
   font-size: 1.333em;
 }
+p {
+  margin: 0.75em auto;
+}
 article h2,
 article h3 {
   margin: 0.75em auto;
