@@ -1,24 +1,25 @@
 {
   "name": "cavender.foo",
   "short_name": "cavender.foo",
-  "start_url": "/",
-  "id": "/",
-  "background_color": "#ededed",
-  "theme_color": "#161616",
   "description": "Personal site of Steve Cavender",
+  "theme_color": "#161616",
+  "background_color": "#ededed",
   "display": "standalone",
-  "icons": [{ "src": "favicon.svg", "sizes": "512x512", "type": "image/svg" }],
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }],
   "screenshots": [
     {
       "src": "images/wide.webp",
-      "sizes": "1448x1009",
+      "sizes": "2560x1440",
       "type": "image/webp",
       "form_factor": "wide",
       "label": "homescreen"
     },
     {
       "src": "images/narrow.webp",
-      "sizes": "612x914",
+      "sizes": "1170x2532",
       "type": "image/webp",
       "form_factor": "narrow",
       "label": "homescreen"
