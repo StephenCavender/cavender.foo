@@ -10,7 +10,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "postbuild": "node generateFeeds.js",
+    "postbuild": "node scripts/generateFeeds.js",
     "preview": "astro preview",
     "astro": "astro",
     "format": "prettier --write .",
