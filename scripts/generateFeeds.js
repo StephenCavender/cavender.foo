@@ -48,11 +48,10 @@ const getFeed = ({
       const source = await fs.readFile(file, "utf-8");
       const { data } = matter(source);
 
-      const slug = data.title
+      const fileParts = file.split("/");
+      const slug = fileParts[fileParts.length - 1]
+        .split(".")[0]
         .trim()
-        .replace(/[^A-Za-z0-9 ]/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/^-+|-+$/g, "")
         .toLowerCase();
 
       return {
