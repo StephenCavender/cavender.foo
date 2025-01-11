@@ -1,22 +1,56 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
+const recentArticles = (await getCollection("articles"))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
 ---
 
 <BaseLayout>
-  <h2>Hi, I'm Steve</h2>
-  <img alt="Steve" src="/images/profile.jpg" />
-  <p>
-    I value faith, family, and freedom over everything else. I'm a software
-    engineer at <a href="https://otto.vet">Otto</a>. I enjoy coding, music,
-    fitness, video games, whiskey, and <a href="https://strenuouslife.co"
-      >doing hard things</a
-    >. Read more about me <a href="/about">here</a>.
-  </p>
-  <p>Check out my <a href="/now">now</a> and <a href="/uses">uses</a> pages.</p>
-  <!-- TODO: Add bookmarks, blogroll, recent articles -->
+  <div>
+    <section>
+      <h2>Hey, I'm Steve</h2>
+      <img alt="Steve" src="/images/profile.jpg" />
+      <p>
+        I value faith, family, and freedom over everything else. I'm a husband
+        and father. I'm a software engineer. I enjoy coding, music, fitness,
+        video games, whiskey, and <a href="https://strenuouslife.co"
+          >doing hard things</a
+        >. Read more about me <a href="/about">here</a>.
+      </p>
+    </section>
+    <section>
+      <h2>Fun things on my site</h2>
+      <p>See what I'm doing <a href="/now">now</a>.</p>
+      <p>See what I'm <a href="/uses">using</a>.</p>
+      <p>See my list of useful <a href="/bookmarks">bookmarks</a>.</p>
+      <p>Check out my <a href="/blogroll">blogroll</a>.</p>
+      <p>See how i'm using <a href="/ai">ai</a>.</p>
+      <p>Check out my <a href="/projects">projects</a>.</p>
+      <p>Read my favorite poem, <a href="/if">If</a>.</p>
+    </section>
+    <section>
+      <h2>Recent Articles</h2>
+      <ul>
+        {
+          recentArticles.map((article) => (
+            <li>
+              <a href={`/blog/${article.slug}/`}>{article.data.title}</a>
+            </li>
+          ))
+        }
+      </ul>
+      <a href="/blog">See all</a>
+    </section>
+  </div>
 </BaseLayout>
 
 <style>
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+  }
   h2 {
     font-size: 2em;
   }
