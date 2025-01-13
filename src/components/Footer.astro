@@ -3,12 +3,7 @@ const today = new Date();
 ---
 
 <footer>
-  <!-- TODO: add 'other' links -->
   <div>
-    Copyright &copy; {today.getFullYear()} Stephen Cavender. All rights reserved.
-  </div>
-  <div>Made in the USA</div>
-  <div class="icthys">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="32"
@@ -18,7 +13,13 @@ const today = new Date();
       ></path></svg
     >
   </div>
-  <div class="social-links">
+  <div>Made in the USA</div>
+
+  <div>
+    Copyright &copy; {today.getFullYear()} Stephen Cavender. All rights reserved.
+  </div>
+
+  <div>
     <a href="/rss.xml">
       <span class="sr-only">RSS Feed</span>
       <svg
@@ -103,7 +104,7 @@ const today = new Date();
   footer {
     display: flex;
     flex-direction: column;
-    gap: 0.3em;
+    gap: 0.5em;
     margin: 2em 0 6em;
     color: rgb(var(--text-primary));
     text-align: center;
@@ -113,11 +114,11 @@ const today = new Date();
     justify-content: center;
     gap: 1em;
   }
-  .social-links a {
+  a {
     text-decoration: none;
     color: rgb(var(--text-primary));
   }
-  .social-links a:hover {
+  a:hover {
     color: var(--accent);
   }
 </style>
