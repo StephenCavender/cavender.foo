@@ -13,5 +13,6 @@ export default defineConfig({
   redirects: {
     "/feed": "/rss.xml",
     "/rss": "/rss.xml",
+    "/resume": "/cv",
   },
 });
