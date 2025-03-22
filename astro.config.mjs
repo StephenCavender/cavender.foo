@@ -14,5 +14,7 @@ export default defineConfig({
     "/feed": "/rss.xml",
     "/rss": "/rss.xml",
     "/resume": "/cv",
+    "/blog": "/posts",
+    "/blog/[...slug]": "/posts/[...slug]",
   },
 });

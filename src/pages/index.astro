@@ -21,27 +21,25 @@ const recentArticles = (await getCollection("articles"))
     </section>
     <section>
       <h2>Fun things on my site</h2>
-      <p>See what I'm doing <a href="/now">now</a>.</p>
       <p>Check out stuff I <a href="/uses">use</a>.</p>
       <p>Peruse my list of useful <a href="/bookmarks">bookmarks</a>.</p>
       <p>See blogs I follow on my <a href="/blogroll">blogroll</a>.</p>
       <p>Read about how I'm using <a href="/ai">ai</a>.</p>
-      <p>Check out my <a href="/projects">projects</a>.</p>
       <p>Take a look at my <a href="/cv">cv</a>.</p>
       <p>Read my favorite poem, <a href="/if">If</a>.</p>
     </section>
     <section>
-      <h2>Recent Articles</h2>
+      <h2>Recent Posts</h2>
       <ul>
         {
           recentArticles.map((article) => (
             <li>
-              <a href={`/blog/${article.slug}/`}>{article.data.title}</a>
+              <a href={`/posts/${article.slug}/`}>{article.data.title}</a>
             </li>
           ))
         }
       </ul>
-      <a href="/blog">See all</a>
+      <a href="/posts">See all</a>
     </section>
   </div>
 </BaseLayout>

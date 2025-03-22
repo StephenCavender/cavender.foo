@@ -4,6 +4,7 @@
   --bg-primary: #ededed;
   --border: #898ea4;
   --code: #f06292;
+  --link: #6272a4;
 }
 
 @media (prefers-color-scheme: dark) {

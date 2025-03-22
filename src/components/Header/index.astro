@@ -3,5 +3,29 @@ import Nav from "./Nav.astro";
 ---
 
 <header>
+  <a href="/" aria-label="home">
+    <svg
+      version="1.2"
+      xmlns="http://www.w3.org/2000/svg"
+      width="2.5em"
+      height="2.5em"
+      viewBox="0 0 512 512"
+      ><path
+        fill="currentColor"
+        d="m278.2 203.3l136.6-136.6 33.2 33.2-103.3 103.4 103.3 103.3-33.2 33.2zm-73.9-31l22.4 22.4 114.2 114.2-136.6 136.5-33.2-33.2 103.3-103.3-65.7-65.8-37.6-37.6zm-10.4 94.5l39.9 39.8-33.3 33.3-50-50-86.5-86.6 136.5-136.5 33.3 33.2-103.4 103.3z"
+      ></path></svg
+    >
+    <h1>Steve Cavender</h1>
+  </a>
   <Nav />
 </header>
+
+<style>
+  header > a {
+    display: flex;
+    gap: 0.5em;
+    font-size: 0.75em;
+    align-items: center;
+    text-decoration: none;
+  }
+</style>
