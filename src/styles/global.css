@@ -1,20 +1,31 @@
 :root {
-  --text-primary: #161616;
+  color-scheme: light dark;
+
+  --bg-primary: light-dark(#f8f8ff, #282a36);
+  --bg-secondary: light-dark(#e2e2ea, #44475a);
+  --text-primary: light-dark(#282a36, #f8f8ff);
+  --text-secondary: light-dark(#6272a4, #bd93f9);
+  --text-link: light-dark(#ff79c6, #ff79c6);
+  --bg-inline-code: light-dark(#f8f8ff, #44475a);
+  --text-inline-code: light-dark(#bd93f9, #f8f8ff);
+  --line: light-dark(#d3d3d3, #44475a);
+
+  /* --text-primary: #161616;
   --text-secondary: #1c1c1c;
   --bg-primary: #ededed;
   --border: #898ea4;
   --code: #f06292;
-  --link: #6272a4;
+  --link: #6272a4; */
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --text-primary: #ededed;
     --text-secondary: #a0a0a0;
     --bg-primary: #161616;
     --border: #898ea4;
   }
-}
+} */
 
 @font-face {
   font-family: "Atkinson";
@@ -80,11 +91,16 @@ body {
 }
 a {
   color: var(--text-primary);
-  text-decoration-color: var(--text-secondary);
-  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--text-primary);
 }
 a:hover {
-  text-decoration-color: var(--text-primary);
+  color: var(--text-secondary);
+  text-decoration-color: var(--text-secondary);
+}
+a:focus {
+  outline: 2px solid var(--text-secondary);
+  outline-offset: 2px;
 }
 img {
   max-width: 100%;
@@ -92,18 +108,18 @@ img {
   border-radius: 8px;
 }
 code {
-  color: var(--code);
+  color: var(--text-inline-code);
 }
 pre {
   padding: 1em;
   border-radius: 8px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
 }
 pre > code {
   all: unset;
 }
 blockquote {
-  border-left: 4px solid var(--accent);
+  border-left: 4px solid var(--line);
   padding: 0 0 0 20px;
   margin: 0px;
   font-size: 1.333em;
@@ -126,16 +142,16 @@ ol {
 ul:not(article ul) {
   padding-left: 0;
   list-style-type: none;
-}
-ul:not(article ul) li {
-  margin: 0.5em 0;
-}
-ul:not(article ul) li a {
-  text-decoration: none;
-  font-weight: normal;
-}
-ul:not(article ul) li a:hover {
-  color: var(--text-secondary);
+  li {
+    margin: 0.5em 0;
+    a {
+      text-decoration: none;
+      font-weight: normal;
+    }
+    a:hover {
+      color: var(--text-secondary);
+    }
+  }
 }
 
 /* Screenreader only */
