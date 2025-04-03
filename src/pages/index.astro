@@ -29,17 +29,17 @@ const recentArticles = (await getCollection("articles"))
       <p>Read my favorite poem, <a href="/if">If</a>.</p>
     </section>
     <section>
-      <h2>Recent Posts</h2>
+      <h2>Recent Articles</h2>
       <ul>
         {
           recentArticles.map((article) => (
             <li>
-              <a href={`/posts/${article.slug}/`}>{article.data.title}</a>
+              <a href={`/articles/${article.slug}/`}>{article.data.title}</a>
             </li>
           ))
         }
       </ul>
-      <a href="/posts">See all</a>
+      <a href="/articles">See all</a>
     </section>
   </div>
 </BaseLayout>

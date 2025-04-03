@@ -57,8 +57,8 @@ const getFeed = ({
       return {
         ...data,
         date: new Date(data.pubDate),
-        id: `${SITE_URL}/posts/${slug}`,
-        link: `${SITE_URL}/posts/${slug}`,
+        id: `${SITE_URL}/articles/${slug}`,
+        link: `${SITE_URL}/articles/${slug}`,
         description: data.description,
       };
     })
