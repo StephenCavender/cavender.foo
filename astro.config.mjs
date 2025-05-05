@@ -13,10 +13,10 @@ export default defineConfig({
   redirects: {
     "/feed": "/rss.xml",
     "/rss": "/rss.xml",
-    "/resume": "/cv",
-    "/blog": "/articles",
-    "/blog/[...slug]": "/articles/[...slug]",
-    "/posts": "/articles",
-    "/posts/[...slug]": "/articles/[...slug]",
+    "/cv": "/resume",
+    "/articles": "/blog",
+    "/articles/[...slug]": "/blog/[...slug]",
+    "/posts": "/blog",
+    "/posts/[...slug]": "/blog/[...slug]",
   },
 });
