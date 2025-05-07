@@ -14,9 +14,9 @@ export default defineConfig({
     "/feed": "/rss.xml",
     "/rss": "/rss.xml",
     "/cv": "/resume",
-    "/articles": "/blog",
-    "/articles/[...slug]": "/blog/[...slug]",
-    "/posts": "/blog",
-    "/posts/[...slug]": "/blog/[...slug]",
+    "/blog": "/articles",
+    "/blog/[...slug]": "/articles/[...slug]",
+    "/posts": "/articles",
+    "/posts/[...slug]": "/articles/[...slug]",
   },
 });
