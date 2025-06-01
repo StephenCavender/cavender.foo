@@ -9,23 +9,7 @@
   --bg-inline-code: light-dark(#f8f8ff, #44475a);
   --text-inline-code: light-dark(#bd93f9, #f8f8ff);
   --line: light-dark(#d3d3d3, #44475a);
-
-  /* --text-primary: #161616;
-  --text-secondary: #1c1c1c;
-  --bg-primary: #ededed;
-  --border: #898ea4;
-  --code: #f06292;
-  --link: #6272a4; */
 }
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --text-primary: #ededed;
-    --text-secondary: #a0a0a0;
-    --bg-primary: #161616;
-    --border: #898ea4;
-  }
-} */
 
 @font-face {
   font-family: "Atkinson";
