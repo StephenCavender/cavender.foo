@@ -25,7 +25,7 @@ const getFeed = ({
     },
     author: {
       name: "Stephen Cavender",
-      email: "steve@cavender.io",
+      email: "s@cavender.foo",
       link: SITE_URL,
     },
   });
