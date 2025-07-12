@@ -12,4 +12,23 @@ const articles = defineCollection({
   }),
 });
 
-export const collections = { articles };
+const bookReviews = defineCollection({
+  // Type-check frontmatter using a schema
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    // Book specific fields
+    author: z.string(),
+    coverImage: z.string().optional(),
+    rating: z.number().min(1).max(5).optional(),
+    // Transform string to Date object
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    readDate: z.coerce.date().optional(),
+    tags: z.array(z.string()),
+    genre: z.array(z.string()).optional(),
+    isbn: z.string().optional(),
+  }),
+});
+
+export const collections = { articles, bookReviews };

@@ -1,0 +1,203 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const bookReviews = await getCollection("bookReviews");
+  return bookReviews.map((book) => ({
+    params: { slug: book.slug },
+    props: book,
+  }));
+}
+type Props = CollectionEntry<"bookReviews">;
+
+const book = Astro.props;
+const { Content } = await book.render();
+---
+
+<BaseLayout>
+  <article class="book-review">
+    <header>
+      <h1>{book.data.title}</h1>
+      <div class="book-meta">
+        <p class="book-author">by <strong>{book.data.author}</strong></p>
+        {
+          book.data.rating && (
+            <div class="book-rating">
+              <span class="stars">
+                {"★".repeat(book.data.rating)}
+                {"☆".repeat(5 - book.data.rating)}
+              </span>
+              <span class="rating-text">{book.data.rating} / 5</span>
+            </div>
+          )
+        }
+        <div class="book-dates">
+          {
+            book.data.readDate && (
+              <p class="read-date">
+                Read on: {book.data.readDate.toLocaleDateString()}
+              </p>
+            )
+          }
+          <p class="review-date">
+            Reviewed on: {book.data.pubDate.toLocaleDateString()}
+          </p>
+          {
+            book.data.updatedDate && (
+              <p class="updated-date">
+                Updated: {book.data.updatedDate.toLocaleDateString()}
+              </p>
+            )
+          }
+        </div>
+        {
+          book.data.genre && book.data.genre.length > 0 && (
+            <div class="book-genres">
+              <span>Genres: </span>
+              {book.data.genre.map((g, i) => (
+                <>
+                  <span class="genre">{g}</span>
+                  {i < book.data.genre.length - 1 && <span>, </span>}
+                </>
+              ))}
+            </div>
+          )
+        }
+        {book.data.isbn && <p class="book-isbn">ISBN: {book.data.isbn}</p>}
+      </div>
+      {
+        book.data.coverImage && (
+          <div class="cover-image">
+            <img
+              src={book.data.coverImage}
+              alt={`Cover for ${book.data.title}`}
+            />
+          </div>
+        )
+      }
+    </header>
+
+    <div class="book-content">
+      <Content />
+    </div>
+
+    {
+      book.data.tags && book.data.tags.length > 0 && (
+        <footer>
+          <div class="tags">
+            {book.data.tags.map((tag) => (
+              <a href={`/tags/${tag}/`} class="tag">
+                {tag}
+              </a>
+            ))}
+          </div>
+        </footer>
+      )
+    }
+  </article>
+</BaseLayout>
+
+<style>
+  .book-review {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  header {
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .book-meta {
+    margin-bottom: 1.5rem;
+    color: #555;
+    font-size: 0.95rem;
+  }
+
+  .book-author {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .book-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .stars {
+    color: #f5a623;
+    margin-right: 0.5rem;
+  }
+
+  .rating-text {
+    font-weight: bold;
+  }
+
+  .book-dates {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .book-dates p {
+    margin: 0.2rem 0;
+  }
+
+  .book-genres {
+    margin-top: 0.5rem;
+  }
+
+  .genre {
+    font-style: italic;
+  }
+
+  .book-isbn {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: 0.5rem;
+  }
+
+  .cover-image {
+    margin: 1.5rem 0;
+    text-align: center;
+  }
+
+  .cover-image img {
+    max-width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .book-content {
+    line-height: 1.6;
+  }
+
+  footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eaeaea;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    background-color: #f0f0f0;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    color: #555;
+    transition: background-color 0.2s;
+  }
+
+  .tag:hover {
+    background-color: #e0e0e0;
+  }
+</style>
