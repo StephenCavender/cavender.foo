@@ -16,18 +16,7 @@ type Props = CollectionEntry<"bookReviews">;
 const book = Astro.props;
 const { Content } = await book.render();
 
-// Handle cover image
-let coverImage;
-if (book.data.coverImage) {
-  try {
-    coverImage = book.data.coverImage.startsWith("src/")
-      ? (await import(/* @vite-ignore */ `../../../${book.data.coverImage}`))
-          .default
-      : book.data.coverImage;
-  } catch (e) {
-    console.error(`Could not load cover image for ${book.data.title}:`, e);
-  }
-}
+const coverImage = book.data.coverImage;
 ---
 
 <BaseLayout>
