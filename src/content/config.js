@@ -28,6 +28,7 @@ const bookReviews = defineCollection({
     tags: z.array(z.string()),
     genre: z.array(z.string()).optional(),
     isbn: z.string().optional(),
+    amazonLink: z.string().url().optional(),
   }),
 });
 

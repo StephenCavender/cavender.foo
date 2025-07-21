@@ -1,6 +1,8 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import { existsSync } from "fs";
 
 export async function getStaticPaths() {
   const bookReviews = await getCollection("bookReviews");
@@ -13,86 +15,135 @@ type Props = CollectionEntry<"bookReviews">;
 
 const book = Astro.props;
 const { Content } = await book.render();
+
+// Handle cover image
+let coverImage;
+if (book.data.coverImage) {
+  try {
+    coverImage = book.data.coverImage.startsWith("src/")
+      ? (await import(/* @vite-ignore */ `../../../${book.data.coverImage}`))
+          .default
+      : book.data.coverImage;
+  } catch (e) {
+    console.error(`Could not load cover image for ${book.data.title}:`, e);
+  }
+}
 ---
 
 <BaseLayout>
   <article class="book-review">
     <header>
-      <h1>{book.data.title}</h1>
-      <div class="book-meta">
-        <p class="book-author">by <strong>{book.data.author}</strong></p>
-        {
-          book.data.rating && (
-            <div class="book-rating">
-              <span class="stars">
-                {"★".repeat(book.data.rating)}
-                {"☆".repeat(5 - book.data.rating)}
-              </span>
-              <span class="rating-text">{book.data.rating} / 5</span>
-            </div>
-          )
-        }
-        <div class="book-dates">
+      <div class="book-container">
+        <div class="book-meta">
+          <h1>{book.data.title}</h1>
+          <p class="book-author">by <strong>{book.data.author}</strong></p>
+
           {
-            book.data.readDate && (
-              <p class="read-date">
-                Read on: {book.data.readDate.toLocaleDateString()}
+            book.data.rating && (
+              <div class="book-rating">
+                <span class="stars">
+                  {"★".repeat(book.data.rating)}
+                  {"☆".repeat(5 - book.data.rating)}
+                </span>
+                <span class="rating-text">{book.data.rating} / 5</span>
+              </div>
+            )
+          }
+
+          <div class="book-dates">
+            {
+              book.data.readDate && (
+                <p class="read-date">
+                  <span class="meta-label">Read on:</span>{" "}
+                  {book.data.readDate.toLocaleDateString()}
+                </p>
+              )
+            }
+            <p class="review-date">
+              <span class="meta-label">Reviewed:</span>
+              {book.data.pubDate.toLocaleDateString()}
+            </p>
+            {
+              book.data.updatedDate && (
+                <p class="updated-date">
+                  <span class="meta-label">Updated:</span>{" "}
+                  {book.data.updatedDate.toLocaleDateString()}
+                </p>
+              )
+            }
+          </div>
+
+          {
+            book.data.isbn && (
+              <p class="book-isbn">
+                <span class="meta-label">ISBN:</span> {book.data.isbn}
               </p>
             )
           }
-          <p class="review-date">
-            Reviewed on: {book.data.pubDate.toLocaleDateString()}
-          </p>
+
           {
-            book.data.updatedDate && (
-              <p class="updated-date">
-                Updated: {book.data.updatedDate.toLocaleDateString()}
+            book.data.amazonLink && (
+              <p class="book-amazon">
+                <span class="meta-label">Buy:</span>{" "}
+                <a
+                  href={book.data.amazonLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="amazon-link"
+                >
+                  Amazon <span class="external-link-icon">↗</span>
+                </a>
               </p>
+            )
+          }
+
+          {
+            book.data.genre && book.data.genre.length > 0 && (
+              <div class="book-genres">
+                <span class="meta-label">Genres:</span>
+                <div class="genre-list">
+                  {book.data.genre.map((g, i) => (
+                    <span class="genre-tag">{g}</span>
+                  ))}
+                </div>
+              </div>
             )
           }
         </div>
-        {
-          book.data.genre && book.data.genre.length > 0 && (
-            <div class="book-genres">
-              <span>Genres: </span>
-              {book.data.genre.map((g, i) => (
-                <>
-                  <span class="genre">{g}</span>
-                  {i < book.data.genre.length - 1 && <span>, </span>}
-                </>
-              ))}
-            </div>
-          )
-        }
-        {book.data.isbn && <p class="book-isbn">ISBN: {book.data.isbn}</p>}
+
+        <div class="book-cover">
+          {
+            book.data.coverImage && (
+              <div class="cover-image">
+                {typeof coverImage === "string" ? (
+                  <img src={coverImage} alt={`Cover for ${book.data.title}`} />
+                ) : coverImage ? (
+                  <Image
+                    src={coverImage}
+                    alt={`Cover for ${book.data.title}`}
+                    width={300}
+                    height={450}
+                    quality={80}
+                  />
+                ) : null}
+              </div>
+            )
+          }
+        </div>
       </div>
-      {
-        book.data.coverImage && (
-          <div class="cover-image">
-            <img
-              src={book.data.coverImage}
-              alt={`Cover for ${book.data.title}`}
-            />
-          </div>
-        )
-      }
     </header>
 
-    <div class="book-content">
+    <div class="book-content prose">
       <Content />
     </div>
 
     {
       book.data.tags && book.data.tags.length > 0 && (
-        <footer>
-          <div class="tags">
-            {book.data.tags.map((tag) => (
-              <a href={`/tags/${tag}/`} class="tag">
-                {tag}
-              </a>
-            ))}
-          </div>
-        </footer>
+        <div class="tags">
+          {book.data.tags.map((tag) => (
+            <a href={`/tags/${tag}/`}>#{tag}</a>
+          ))}
+        </div>
       )
     }
   </article>
@@ -108,96 +159,186 @@ const { Content } = await book.render();
     margin-bottom: 2rem;
   }
 
-  h1 {
-    margin-bottom: 0.5rem;
+  .book-container {
+    display: flex;
+    gap: 1.5rem;
+    background-color: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 2rem;
   }
 
   .book-meta {
-    margin-bottom: 1.5rem;
-    color: #555;
-    font-size: 0.95rem;
+    flex: 3;
+    min-width: 280px;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    padding-right: 1rem;
+  }
+
+  .book-cover {
+    flex: 1;
+    min-width: 160px;
+    max-width: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  h1 {
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+    color: var(--text-primary);
   }
 
   .book-author {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
   }
 
   .book-rating {
     display: flex;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
   }
 
   .stars {
     color: #f5a623;
     margin-right: 0.5rem;
+    font-size: 1.2rem;
   }
 
   .rating-text {
     font-weight: bold;
   }
 
+  .meta-label {
+    font-weight: bold;
+    margin-right: 0.5rem;
+    color: var(--text-primary);
+  }
+
   .book-dates {
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
+    margin-bottom: 1rem;
   }
 
   .book-dates p {
-    margin: 0.2rem 0;
+    margin: 0.5rem 0;
   }
 
   .book-genres {
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+  }
+
+  .genre-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     margin-top: 0.5rem;
   }
 
-  .genre {
-    font-style: italic;
+  .genre-tag {
+    background-color: var(--bg-primary);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    display: inline-block;
   }
 
-  .book-isbn {
-    font-size: 0.85rem;
-    color: #777;
-    margin-top: 0.5rem;
+  .book-isbn,
+  .book-amazon {
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+  }
+
+  .amazon-link {
+    color: var(--text-link);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .amazon-link:hover {
+    text-decoration: underline;
+  }
+
+  .external-link-icon {
+    font-size: 0.8em;
+    margin-left: 0.2em;
   }
 
   .cover-image {
-    margin: 1.5rem 0;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 0;
+    padding-top: 0;
+    width: 100%;
   }
 
-  .cover-image img {
-    max-width: 200px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  .cover-image img,
+  .cover-image :global(img) {
+    max-width: 160px;
+    height: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    margin-top: 0;
+  }
+
+  @media (max-width: 768px) {
+    .book-container {
+      flex-direction: column-reverse;
+      gap: 2rem;
+    }
+
+    .book-cover {
+      margin: 0 auto 1rem auto;
+      max-width: 180px;
+      justify-content: center;
+    }
+
+    .book-meta {
+      padding-right: 0;
+    }
+
+    .cover-image {
+      justify-content: center;
+    }
+
+    .cover-image img,
+    .cover-image :global(img) {
+      max-width: 160px;
+      margin: 0 auto;
+    }
   }
 
   .book-content {
     line-height: 1.6;
   }
 
-  footer {
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid #eaeaea;
-  }
-
+  /* Tags styling to match article tags */
   .tags {
     display: flex;
+    justify-content: center;
+    column-gap: 0.75em;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
   }
 
-  .tag {
-    background-color: #f0f0f0;
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
+  .tags a {
+    font-weight: normal;
     text-decoration: none;
-    font-size: 0.85rem;
-    color: #555;
-    transition: background-color 0.2s;
   }
 
-  .tag:hover {
-    background-color: #e0e0e0;
+  .tags a:hover {
+    color: var(--text-secondary);
   }
 </style>

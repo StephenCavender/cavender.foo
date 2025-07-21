@@ -9,82 +9,24 @@ const bookReviews = (await getCollection("bookReviews")).sort(
 <BaseLayout>
   <h2>Book Reviews</h2>
   <section>
-    {bookReviews.length === 0 ? (
-      <p>No book reviews available yet. Check back soon!</p>
-    ) : (
-      <ul class="book-list">
-        {
-          bookReviews.map((book) => (
-            <li class="book-item">
-              <div class="book-meta">
-                <span class="book-date">{book.data.pubDate.toLocaleDateString()}</span>
-                {book.data.rating && (
-                  <span class="book-rating">
-                    {"★".repeat(book.data.rating)}{"☆".repeat(5 - book.data.rating)}
-                  </span>
-                )}
-              </div>
-              <div class="book-details">
-                <a href={`/books/${book.slug}/`} class="book-title">{book.data.title}</a>
-                <span class="book-author">by {book.data.author}</span>
-                <p class="book-description">{book.data.description}</p>
-              </div>
-            </li>
-          ))
-        }
-      </ul>
-    )}
+    <ul>
+      {
+        bookReviews.map((book) => (
+          <li>
+            <span>{book.data.pubDate.toLocaleDateString()}</span>
+            <a href={`/books/${book.slug}/`}>{book.data.title}</a>
+          </li>
+        ))
+      }
+    </ul>
   </section>
 </BaseLayout>
 <style>
-  .book-list {
-    list-style: none;
-    padding: 0;
-  }
-
-  .book-item {
-    margin-bottom: 2rem;
-    border-bottom: 1px solid #eaeaea;
-    padding-bottom: 1.5rem;
-  }
-
-  .book-item:last-child {
-    border-bottom: none;
-  }
-
-  .book-meta {
+  li {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    color: #666;
   }
-
-  .book-rating {
-    color: #f5a623;
-  }
-
-  .book-details {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .book-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    text-decoration: none;
-    margin-bottom: 0.25rem;
-  }
-
-  .book-author {
-    font-style: italic;
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-  }
-
-  .book-description {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    margin-top: 0.5rem;
+  span {
+    flex: 0 0 100px;
+    min-width: 100px;
   }
 </style>
