@@ -1,20 +1,56 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
-const articles = (await getCollection("articles")).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+
+// Get the environment to determine whether to show drafts
+const isDev = import.meta.env.DEV;
+
+// Filter articles based on environment and exclude template
+const allArticles = await getCollection("articles");
+const articles = allArticles
+  .filter((article) => {
+    // Exclude template file and respect draft status
+    return (
+      !article.id.startsWith("_template") && (isDev || !article.data.draft)
+    );
+  })
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Get template if in dev mode
+const template = isDev
+  ? (
+      await getCollection("articles", (article) =>
+        article.id.startsWith("_template")
+      )
+    ).at(0)
+  : null;
 ---
 
 <BaseLayout>
   <h2>Articles</h2>
   <section>
+    {
+      isDev && template && (
+        <div class="template-container">
+          <h3>Article Template</h3>
+          <p>This template is only visible in development mode</p>
+          <a href={`/articles/${template.slug}/`} class="template-link">
+            View Template
+          </a>
+        </div>
+      )
+    }
     <ul>
       {
         articles.map((article) => (
           <li>
             <span>{article.data.pubDate.toLocaleDateString()}</span>
-            <a href={`/articles/${article.slug}/`}>{article.data.title}</a>
+            <a href={`/articles/${article.slug}/`}>
+              {article.data.title}
+              {article.data.draft && (
+                <span class="draft-indicator">[DRAFT]</span>
+              )}
+            </a>
           </li>
         ))
       }
@@ -27,5 +63,30 @@ const articles = (await getCollection("articles")).sort(
   }
   span {
     flex: 0 0 100px;
+  }
+  .draft-indicator {
+    margin-left: 0.5rem;
+    color: #ff6b6b;
+    font-size: 0.85em;
+    font-weight: bold;
+  }
+  .template-container {
+    background-color: #4a3f7d;
+    border: 2px dashed #8269ff;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+  }
+  .template-link {
+    display: inline-block;
+    background-color: #8269ff;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-top: 0.5rem;
+  }
+  .template-link:hover {
+    background-color: #6a4dff;
   }
 </style>

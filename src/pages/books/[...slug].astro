@@ -5,11 +5,18 @@ import { Image } from "astro:assets";
 import { existsSync } from "fs";
 
 export async function getStaticPaths() {
+  const isDev = import.meta.env.DEV;
   const bookReviews = await getCollection("bookReviews");
-  return bookReviews.map((book) => ({
-    params: { slug: book.slug },
-    props: book,
-  }));
+  return bookReviews
+    .filter((book) => {
+      // In production, exclude templates and drafts
+      // In development, include everything
+      return isDev || (!book.id.startsWith("_template") && !book.data.draft);
+    })
+    .map((book) => ({
+      params: { slug: book.slug },
+      props: book,
+    }));
 }
 type Props = CollectionEntry<"bookReviews">;
 
@@ -21,6 +28,20 @@ const coverImage = book.data.coverImage;
 
 <BaseLayout>
   <article class="book-review">
+    {
+      book.data.draft && (
+        <div class="draft-banner">
+          DRAFT - This book review is not published in production
+        </div>
+      )
+    }
+    {
+      book.id.startsWith("_template") && (
+        <div class="template-banner">
+          TEMPLATE - This is a template file for reference only
+        </div>
+      )
+    }
     <header>
       <div class="book-container">
         <div class="book-meta">
@@ -104,17 +125,7 @@ const coverImage = book.data.coverImage;
           {
             book.data.coverImage && (
               <div class="cover-image">
-                {typeof coverImage === "string" ? (
-                  <img src={coverImage} alt={`Cover for ${book.data.title}`} />
-                ) : coverImage ? (
-                  <Image
-                    src={coverImage}
-                    alt={`Cover for ${book.data.title}`}
-                    width={300}
-                    height={450}
-                    quality={80}
-                  />
-                ) : null}
+                <img src={coverImage} alt={`Cover for ${book.data.title}`} />
               </div>
             )
           }
@@ -329,5 +340,23 @@ const coverImage = book.data.coverImage;
 
   .tags a:hover {
     color: var(--text-secondary);
+  }
+
+  .draft-banner,
+  .template-banner {
+    text-align: center;
+    padding: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+    font-weight: bold;
+    color: white;
+  }
+
+  .draft-banner {
+    background-color: #ff6b6b;
+  }
+
+  .template-banner {
+    background-color: #8269ff;
   }
 </style>

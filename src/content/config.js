@@ -9,6 +9,7 @@ const articles = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     tags: z.array(z.string()),
+    draft: z.boolean().optional().default(false),
   }),
 });
 
@@ -29,6 +30,7 @@ const bookReviews = defineCollection({
     genre: z.array(z.string()).optional(),
     isbn: z.string().optional(),
     amazonLink: z.string().url().optional(),
+    draft: z.boolean().optional().default(false),
   }),
 });
 
