@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const bookReviews = await getCollection("bookReviews");
+  const uniqueTags = [
+    ...new Set(bookReviews.map((review) => review.data.tags).flat()),
+  ];
+
+  return uniqueTags.map((tag) => {
+    const filteredReviews = bookReviews.filter((review) =>
+      review.data.tags.includes(tag)
+    );
+    return {
+      params: { tag },
+      props: { reviews: filteredReviews },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { reviews } = Astro.props;
+---
+
+<BaseLayout title={`Book Reviews tagged with ${tag}`}>
+  <h2>Book Reviews tagged with <code>{tag}</code></h2>
+  <section>
+    <ul>
+      {
+        reviews.map((review) => (
+          <>
+            <li>
+              <a href={`/books/${review.slug}`}>{review.data.title}</a>
+            </li>
+          </>
+        ))
+      }
+    </ul>
+  </section>
+  <a href="/books/tags">All Book Review Tags</a>
+</BaseLayout>

@@ -26,6 +26,12 @@ const template = isDev
 
 <BaseLayout>
   <h2>Book Reviews</h2>
+  <div
+    style="display: flex; justify-content: space-between; align-items: center;"
+  >
+    <div></div>
+    <a href="/books/tags/">Browse by Tags</a>
+  </div>
   <section>
     {
       isDev && template && (

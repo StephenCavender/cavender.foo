@@ -141,7 +141,7 @@ const coverImage = book.data.coverImage;
       book.data.tags && book.data.tags.length > 0 && (
         <div class="tags">
           {book.data.tags.map((tag) => (
-            <a href={`/tags/${tag}/`}>#{tag}</a>
+            <a href={`/books/tags/${tag}/`}>#{tag}</a>
           ))}
         </div>
       )
