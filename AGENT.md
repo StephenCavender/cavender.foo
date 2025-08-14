@@ -20,13 +20,11 @@ To get the project running locally, follow these steps:
     ```
     The site will be available at `http://localhost:4321`.
 
-## Creating a new article
+## Content Generation Policy
 
-To create a new blog post, follow these steps:
+**IMPORTANT**: AI agents are explicitly forbidden from creating, writing, or modifying any content on this site. This includes blog posts, articles, book reviews, or any other user-facing text. Your role is to assist with code-related tasks, such as fixing bugs, implementing features, or improving tooling. You are not a content author for this project.
 
-1.  Create a new `.mdx` file in `src/content/articles/`. You can use `src/content/articles/_template.mdx` as a starting point.
-2.  The filename will be used as the URL slug. For example, `my-new-post.mdx` will be available at `/articles/my-new-post`.
-3.  Add content to the file using Markdown and MDX.
+The content is located in `src/content/`. You may need to interact with these files for tasks like debugging frontmatter or fixing rendering issues, but you must not alter the substance of the content itself.
 
 ## Code Style & Linting
 
