@@ -1,6 +1,5 @@
 ---
 layout: ../layouts/BaseLayout.astro
-title: "Hello, World!"
 ---
 
 # About Me
