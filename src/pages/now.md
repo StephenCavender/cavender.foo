@@ -6,11 +6,32 @@ layout: ../layouts/BaseLayout.astro
 
 A [nownownow](https://nownownow.com) page
 
-Updated 2025-11-2
+**Updated November 17, 2025**
 
-* I'm converting my Astro pages to plain markdown pages
-* I'm learning AI tools (Claude, Zed)
-* A couple goals for the next 3 months:
-  * Write 6 articles for this site
-  * Read a book
-  * Fix bulleted lists styling...
+## Projects
+* **Digital Garden**:
+  * Converting the astro pages plain markdown
+  * Updating content
+
+See a full list of projects (past, present, and future) [here](/projects)
+
+## Fitness
+About 2 months ago I switched teams on Ladder. I'm now on Team Crews Control. I enjoy these workouts as well but see myself switching between this and Team Resilient every now and then.
+
+## Playing
+* **Halo Infinite**: I have a standing Halo night every week.
+* **Blasphemous II**: Nearing the endgame and finishing up as many side quests as I can.
+
+## Reading
+* **Million Dollar Weekend**: A friend lent me this book after we discussed what's holding me back from starting one of my side project ideas. I haven't started it yet but plan on reading it and more through the holidays.
+
+## Learning
+* Still focused on learning terminal based tools: vim, tmux, mutt, etc.
+* I've also been reading a lot about hosting my own LLM
+
+## Goals
+For the next 3 months:
+* Write 6 articles for the Garden
+* Read a book
+* Start a side project
+* Fix bulleted lists styling...
