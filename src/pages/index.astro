@@ -16,30 +16,23 @@ const recentArticles = (await getCollection("articles"))
     </p>
     <p>
       When I'm not coding I'm either with my family, lifting weights, or playing
-      guitar. I value faith, family, and freedom - in that order.
+      guitar. I value faith, family, and freedom - in that order. Learn more
+      about me <a href="/about">here</a>.
     </p>
-    <p>Learn more about me <a href="/about">here</a>.</p>
+    <p>
+      This site is my digital garden. A place for me to write notes or articles
+      about stuff I care about.
+    </p>
   </section>
 
   <section>
-    <h2>Currently</h2>
-    <p>
-      I'm a Senior Software Engineer at Otto, building veterinary software that
-      helps thousands of practices. I'm also a Tech Lead driving innovation and
-      mentoring junior engineers.
-    </p>
-    <p>Check out my <a href="/now">now</a> page for more.</p>
+    <p>Here's a <a href="/now">now</a> page to see what I'm currently up to.</p>
   </section>
 
   <!-- TODO: add projects section when apps are live again -->
 
   <section>
     <h2>Recent Writing</h2>
-    <p>
-      I haven't written much but I'm planning on changing that. I'll write about
-      projects I'm working on, tech I'm interested in, or something completely
-      different.
-    </p>
     <ul>
       {
         recentArticles.map((article) => (
