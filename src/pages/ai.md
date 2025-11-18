@@ -6,7 +6,7 @@ layout: ../layouts/BaseLayout.astro
 
 An [/ai](https://slashai.page/) page
 
-Updated November 3, 2025
+**Updated November 3, 2025**
 
 I use claude.ai as a research assistant, rubber duck, and personal coach.
 

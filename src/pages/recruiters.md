@@ -4,6 +4,8 @@ layout: ../layouts/BaseLayout.astro
 
 # Work With Me
 
+**Updated November 11, 2025**
+
 I'm a Senior Software Engineer at Otto, where I build mobile and web applications for the veterinary industry. I like building things to improve peoples' lives.
 
 I'm happy in my current role and selective about new opportunities, but open to conversations about exceptional positions - especially those involving React Native.

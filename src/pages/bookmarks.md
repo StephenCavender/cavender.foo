@@ -4,9 +4,9 @@ layout: ../layouts/BaseLayout.astro
 
 # Bookmarks
 
-Updated November 9, 2025
-
 Sites and tools I actually use. I keep this updated with new discoveries and remove anything I no longer find helpful.
+
+**Updated November 9, 2025**
 
 ---
 <br />

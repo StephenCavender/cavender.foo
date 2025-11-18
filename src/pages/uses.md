@@ -2,11 +2,10 @@
 layout: ../layouts/BaseLayout.astro
 ---
 
+
 # What I Use
 
-Tools and gear I use as a Senior Software Engineer and Tech Lead.
-
-Updated November 3, 2025
+**Updated November 3, 2025**
 
 ## Development
 
