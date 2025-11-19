@@ -77,14 +77,14 @@ a {
   color: var(--text-primary);
   text-decoration: underline;
   text-decoration-color: var(--text-primary);
-}
-a:hover {
-  color: var(--text-secondary);
-  text-decoration-color: var(--text-secondary);
-}
-a:focus {
-  outline: 2px solid var(--text-secondary);
-  outline-offset: 2px;
+  &:hover {
+    color: var(--text-secondary);
+    text-decoration-color: var(--text-secondary);
+  }
+  &:focus {
+    outline: 2px solid var(--text-secondary);
+    outline-offset: 2px;
+  }
 }
 img {
   max-width: 100%;
@@ -98,9 +98,9 @@ pre {
   padding: 1em;
   border-radius: 8px;
   border: 1px solid var(--line);
-}
-pre > code {
-  all: unset;
+  & > code {
+    all: unset;
+  }
 }
 blockquote {
   border-left: 4px solid var(--line);
