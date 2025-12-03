@@ -4,105 +4,128 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const isDev = import.meta.env.DEV;
-  const books = await getCollection("books");
-  return books
-    .filter((book) => {
+  const games = await getCollection("games");
+  return games
+    .filter((game) => {
       // In production, exclude templates and drafts
       // In development, include everything
-      return isDev || (!book.id.startsWith("_template") && !book.data.draft);
+      return isDev || (!game.id.startsWith("_template") && !game.data.draft);
     })
-    .map((book) => ({
-      params: { slug: book.slug },
-      props: book,
+    .map((game) => ({
+      params: { slug: game.slug },
+      props: game,
     }));
 }
-type Props = CollectionEntry<"books">;
+type Props = CollectionEntry<"games">;
 
-const book = Astro.props;
-const { Content } = await book.render();
+const game = Astro.props;
+const { Content } = await game.render();
 ---
 
 <BaseLayout>
-  <article class="book">
+  <article class="game">
     {
-      book.data.draft && (
+      game.data.draft && (
         <div class="draft-banner">
-          DRAFT - This book entry is not published in production
+          DRAFT - This game entry is not published in production
         </div>
       )
     }
     {
-      book.id.startsWith("_template") && (
+      game.id.startsWith("_template") && (
         <div class="template-banner">
           TEMPLATE - This is a template file for reference only
         </div>
       )
     }
     <header>
-      <div class="book-container">
-        <div class="book-meta">
-          <h1>{book.data.title}</h1>
-          <p class="book-author">by <strong>{book.data.author}</strong></p>
+      <div class="game-container">
+        <div class="game-meta">
+          <h1>{game.data.title}</h1>
 
-          <div class="book-status">
-            <span class="status-badge status-{book.data.status}"
-              >{book.data.status}</span
+          <div class="game-status">
+            <span class="status-badge status-{game.data.status}"
+              >{game.data.status}</span
             >
           </div>
 
           {
-            book.data.rating && (
-              <div class="book-rating">
+            game.data.rating && (
+              <div class="game-rating">
                 <span class="stars">
-                  {"★".repeat(book.data.rating)}
-                  {"☆".repeat(5 - book.data.rating)}
+                  {"★".repeat(game.data.rating)}
+                  {"☆".repeat(5 - game.data.rating)}
                 </span>
-                <span class="rating-text">{book.data.rating} / 5</span>
+                <span class="rating-text">{game.data.rating} / 5</span>
               </div>
             )
           }
 
-          <div class="book-dates">
+          <div class="game-info">
             {
-              book.data.readDate && (
-                <p class="read-date">
-                  <span class="meta-label">Read on:</span>{" "}
-                  {book.data.readDate.toLocaleDateString()}
+              game.data.developer && (
+                <p class="game-developer">
+                  <span class="meta-label">Developer:</span>{" "}
+                  {game.data.developer}
+                </p>
+              )
+            }
+            {
+              game.data.publisher && (
+                <p class="game-publisher">
+                  <span class="meta-label">Publisher:</span>{" "}
+                  {game.data.publisher}
+                </p>
+              )
+            }
+            {
+              game.data.platform && game.data.platform.length > 0 && (
+                <p class="game-platform">
+                  <span class="meta-label">Platform:</span>{" "}
+                  {game.data.platform.join(", ")}
+                </p>
+              )
+            }
+            {
+              game.data.releaseDate && (
+                <p class="release-date">
+                  <span class="meta-label">Released:</span>{" "}
+                  {game.data.releaseDate.toLocaleDateString()}
+                </p>
+              )
+            }
+            {
+              game.data.playDate && (
+                <p class="play-date">
+                  <span class="meta-label">Played:</span>{" "}
+                  {game.data.playDate.toLocaleDateString()}
                 </p>
               )
             }
           </div>
 
           {
-            book.data.isbn && (
-              <p class="book-isbn">
-                <span class="meta-label">ISBN:</span> {book.data.isbn}
-              </p>
-            )
-          }
-
-          {
-            book.data.amazonLink && (
-              <p class="book-amazon">
-                <span class="meta-label">Buy:</span>{" "}
+            game.data.steamLink && (
+              <p class="game-steam">
+                <span class="meta-label">Steam:</span>{" "}
                 <a
-                  href={book.data.amazonLink}
+                  href={game.data.steamLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="amazon-link"
+                  class="steam-link"
                 >
-                  Amazon <span class="external-link-icon">↗</span>
+                  View on Steam <span class="external-link-icon">↗</span>
                 </a>
               </p>
             )
           }
 
           {
-            book.data.tags && book.data.tags.length > 0 && (
-              <div class="book-tags">
+            game.data.tags && game.data.tags.length > 0 && (
+              <div class="game-tags">
                 <span class="meta-label">Tags:</span>
                 <div class="tag-list">
-                  {book.data.tags.map((tag) => (
+                  {game.data.tags.map((tag) => (
                     <span class="tag">#{tag}</span>
                   ))}
                 </div>
@@ -111,13 +134,13 @@ const { Content } = await book.render();
           }
         </div>
 
-        <div class="book-cover">
+        <div class="game-cover">
           {
-            book.data.coverImageUrl && (
+            game.data.coverImageUrl && (
               <div class="cover-image">
                 <img
-                  src={book.data.coverImageUrl}
-                  alt={`Cover for ${book.data.title}`}
+                  src={game.data.coverImageUrl}
+                  alt={`Cover for ${game.data.title}`}
                 />
               </div>
             )
@@ -126,15 +149,15 @@ const { Content } = await book.render();
       </div>
     </header>
 
-    <div class="book-content prose">
+    <div class="game-content prose">
       <Content />
     </div>
 
     {
-      book.data.tags && book.data.tags.length > 0 && (
+      game.data.tags && game.data.tags.length > 0 && (
         <div class="tags">
-          {book.data.tags.map((tag) => (
-            <a href={`/books/tags/${tag}/`}>#{tag}</a>
+          {game.data.tags.map((tag) => (
+            <a href={`/games/tags/${tag}/`}>#{tag}</a>
           ))}
         </div>
       )
@@ -143,7 +166,7 @@ const { Content } = await book.render();
 </BaseLayout>
 
 <style>
-  .book {
+  .game {
     max-width: 800px;
     margin: 0 auto;
   }
@@ -152,7 +175,7 @@ const { Content } = await book.render();
     margin-bottom: 2rem;
   }
 
-  .book-container {
+  .game-container {
     display: flex;
     gap: 1.5rem;
     background-color: var(--bg-secondary);
@@ -162,7 +185,7 @@ const { Content } = await book.render();
     margin-bottom: 2rem;
   }
 
-  .book-meta {
+  .game-meta {
     flex: 3;
     min-width: 280px;
     color: var(--text-secondary);
@@ -170,7 +193,7 @@ const { Content } = await book.render();
     padding-right: 1rem;
   }
 
-  .book-cover {
+  .game-cover {
     flex: 1;
     min-width: 160px;
     max-width: 180px;
@@ -185,13 +208,7 @@ const { Content } = await book.render();
     color: var(--text-primary);
   }
 
-  .book-author {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-  }
-
-  .book-status {
+  .game-status {
     margin-bottom: 1.25rem;
   }
 
@@ -203,22 +220,22 @@ const { Content } = await book.render();
     text-transform: uppercase;
   }
 
-  .status-reading {
+  .status-playing {
     background-color: #4caf50;
     color: white;
   }
 
-  .status-read {
+  .status-played {
     background-color: #2196f3;
     color: white;
   }
 
-  .status-unread {
+  .status-unplayed {
     background-color: #9e9e9e;
     color: white;
   }
 
-  .book-rating {
+  .game-rating {
     display: flex;
     align-items: center;
     margin-bottom: 1.25rem;
@@ -240,15 +257,15 @@ const { Content } = await book.render();
     color: var(--text-primary);
   }
 
-  .book-dates {
+  .game-info {
     margin-bottom: 1rem;
   }
 
-  .book-dates p {
+  .game-info p {
     margin: 0.5rem 0;
   }
 
-  .book-tags {
+  .game-tags {
     margin-top: 1.5rem;
     margin-bottom: 0;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -270,13 +287,12 @@ const { Content } = await book.render();
     display: inline-block;
   }
 
-  .book-isbn,
-  .book-amazon {
+  .game-steam {
     font-size: 0.9rem;
     margin-top: 0.75rem;
   }
 
-  .amazon-link {
+  .steam-link {
     color: var(--text-link);
     text-decoration: none;
     font-weight: 500;
@@ -284,7 +300,7 @@ const { Content } = await book.render();
     align-items: center;
   }
 
-  .amazon-link:hover {
+  .steam-link:hover {
     text-decoration: underline;
   }
 
@@ -312,18 +328,18 @@ const { Content } = await book.render();
   }
 
   @media (max-width: 768px) {
-    .book-container {
+    .game-container {
       flex-direction: column-reverse;
       gap: 2rem;
     }
 
-    .book-cover {
+    .game-cover {
       margin: 0 auto 1rem auto;
       max-width: 180px;
       justify-content: center;
     }
 
-    .book-meta {
+    .game-meta {
       padding-right: 0;
     }
 
@@ -338,7 +354,7 @@ const { Content } = await book.render();
     }
   }
 
-  .book-content {
+  .game-content {
     line-height: 1.6;
   }
 

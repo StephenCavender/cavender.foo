@@ -1,0 +1,263 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+// Get the environment to determine whether to show drafts
+const isDev = import.meta.env.DEV;
+
+// Filter projects based on environment and exclude template
+const allProjects = await getCollection("projects");
+const projects = allProjects
+  .filter((project) => {
+    // Exclude template file and respect draft status
+    return !project.id.startsWith("_template") && (isDev || !project.data.draft);
+  })
+  .sort((a, b) => {
+    // Sort by status first (active > in-development > archived), then by name
+    const statusOrder = { active: 0, "in-development": 1, archived: 2 };
+    const aStatus = statusOrder[a.data.status] || 3;
+    const bStatus = statusOrder[b.data.status] || 3;
+    
+    if (aStatus !== bStatus) {
+      return aStatus - bStatus;
+    }
+    
+    // Otherwise sort by name
+    return a.data.name.localeCompare(b.data.name);
+  });
+
+// Get template if in dev mode
+const template = isDev
+  ? (
+      await getCollection("projects", (project) =>
+        project.id.startsWith("_template")
+      )
+    ).at(0)
+  : null;
+---
+
+<BaseLayout>
+  <h2>Projects</h2>
+  <div
+    style="display: flex; justify-content: space-between; align-items: center;"
+  >
+    <div></div>
+    <a href="/projects/tags/">Browse by Tags</a>
+  </div>
+  <section>
+    {
+      isDev && template && (
+        <div class="template-container">
+          <h3>Project Template</h3>
+          <p>This template is only visible in development mode</p>
+          <a href={`/projects/${template.slug}/`} class="template-link">
+            View Template
+          </a>
+        </div>
+      )
+    }
+    <div class="projects-grid">
+      {
+        projects.map((project) => (
+          <div class="project-card">
+            {
+              project.data.logoUrl && (
+                <div class="project-logo">
+                  <img src={project.data.logoUrl} alt={`${project.data.name} logo`} />
+                </div>
+              )
+            }
+            <div class="project-content">
+              <h3>
+                {project.data.url ? (
+                  <a href={project.data.url} target="_blank" rel="noopener noreferrer">
+                    {project.data.name}
+                    <span class="external-link-icon">↗</span>
+                  </a>
+                ) : (
+                  project.data.name
+                )}
+              </h3>
+              <p class="project-description">{project.data.description}</p>
+              
+              <div class="project-meta">
+                <span class="status-badge status-{project.data.status}">{project.data.status}</span>
+                
+                {
+                  project.data.techStack && project.data.techStack.length > 0 && (
+                    <div class="tech-stack">
+                      {project.data.techStack.map((tech) => (
+                        <span class="tech-tag">{tech}</span>
+                      ))}
+                    </div>
+                  )
+                }
+              </div>
+              
+              {
+                project.data.githubUrl && (
+                  <div class="project-links">
+                    <a href={project.data.githubUrl} target="_blank" rel="noopener noreferrer" class="github-link">
+                      GitHub <span class="external-link-icon">↗</span>
+                    </a>
+                  </div>
+                )
+              }
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .project-card {
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .project-logo {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .project-logo img {
+    max-width: 80px;
+    max-height: 80px;
+    object-fit: contain;
+  }
+
+  .project-content h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+  }
+
+  .project-content h3 a {
+    color: var(--text-primary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .project-content h3 a:hover {
+    color: var(--text-link);
+  }
+
+  .external-link-icon {
+    font-size: 0.8em;
+    opacity: 0.7;
+  }
+
+  .project-description {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .project-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .status-badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    align-self: flex-start;
+  }
+
+  .status-active {
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  .status-in-development {
+    background-color: #FF9800;
+    color: white;
+  }
+
+  .status-archived {
+    background-color: #9E9E9E;
+    color: white;
+  }
+
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tech-tag {
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .project-links {
+    margin-top: 1rem;
+  }
+
+  .github-link {
+    color: var(--text-link);
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .github-link:hover {
+    text-decoration: underline;
+  }
+
+  .template-container {
+    background-color: #4a3f7d;
+    border: 2px dashed #8269ff;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+  }
+
+  .template-link {
+    display: inline-block;
+    background-color: #8269ff;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-top: 0.5rem;
+  }
+
+  .template-link:hover {
+    background-color: #6a4dff;
+  }
+
+  @media (max-width: 768px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

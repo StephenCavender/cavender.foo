@@ -2,7 +2,6 @@
 layout: ../layouts/BaseLayout.astro
 ---
 
-
 # What I Use
 
 **Updated November 3, 2025**

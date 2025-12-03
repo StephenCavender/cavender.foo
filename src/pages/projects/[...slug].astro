@@ -1,0 +1,404 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const isDev = import.meta.env.DEV;
+  const projects = await getCollection("projects");
+  return projects
+    .filter((project) => {
+      // In production, exclude templates and drafts
+      // In development, include everything
+      return (
+        isDev || (!project.id.startsWith("_template") && !project.data.draft)
+      );
+    })
+    .map((project) => ({
+      params: { slug: project.slug },
+      props: project,
+    }));
+}
+type Props = CollectionEntry<"projects">;
+
+const project = Astro.props;
+const { Content } = await project.render();
+---
+
+<BaseLayout>
+  <article class="project">
+    {
+      project.data.draft && (
+        <div class="draft-banner">
+          DRAFT - This project is not published in production
+        </div>
+      )
+    }
+    {
+      project.id.startsWith("_template") && (
+        <div class="template-banner">
+          TEMPLATE - This is a template file for reference only
+        </div>
+      )
+    }
+    <header>
+      <div class="project-container">
+        <div class="project-meta">
+          <h1>{project.data.name}</h1>
+
+          <div class="project-status">
+            <span class="status-badge status-{project.data.status}"
+              >{project.data.status}</span
+            >
+          </div>
+
+          <p class="project-description">{project.data.description}</p>
+
+          <div class="project-links">
+            {
+              project.data.url && (
+                <a
+                  href={project.data.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-link"
+                >
+                  Live Site <span class="external-link-icon">↗</span>
+                </a>
+              )
+            }
+            {
+              project.data.githubUrl && (
+                <a
+                  href={project.data.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="github-link"
+                >
+                  GitHub <span class="external-link-icon">↗</span>
+                </a>
+              )
+            }
+          </div>
+
+          <div class="project-info">
+            {
+              project.data.techStack && project.data.techStack.length > 0 && (
+                <div class="tech-stack">
+                  <span class="meta-label">Tech Stack:</span>
+                  <div class="tech-list">
+                    {project.data.techStack.map((tech) => (
+                      <span class="tech-tag">{tech}</span>
+                    ))}
+                  </div>
+                </div>
+              )
+            }
+
+            {
+              project.data.startDate && (
+                <p class="start-date">
+                  <span class="meta-label">Started:</span>{" "}
+                  {project.data.startDate.toLocaleDateString()}
+                </p>
+              )
+            }
+            {
+              project.data.endDate && (
+                <p class="end-date">
+                  <span class="meta-label">Ended:</span>{" "}
+                  {project.data.endDate.toLocaleDateString()}
+                </p>
+              )
+            }
+          </div>
+
+          {
+            project.data.tags && project.data.tags.length > 0 && (
+              <div class="project-tags">
+                <span class="meta-label">Tags:</span>
+                <div class="tag-list">
+                  {project.data.tags.map((tag) => (
+                    <span class="tag">#{tag}</span>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+        </div>
+
+        <div class="project-logo">
+          {
+            project.data.logoUrl && (
+              <div class="logo-image">
+                <img
+                  src={project.data.logoUrl}
+                  alt={`${project.data.name} logo`}
+                />
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </header>
+
+    <div class="project-content prose">
+      <Content />
+    </div>
+
+    {
+      project.data.tags && project.data.tags.length > 0 && (
+        <div class="tags">
+          {project.data.tags.map((tag) => (
+            <a href={`/projects/tags/${tag}/`}>#{tag}</a>
+          ))}
+        </div>
+      )
+    }
+  </article>
+</BaseLayout>
+
+<style>
+  .project {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  header {
+    margin-bottom: 2rem;
+  }
+
+  .project-container {
+    display: flex;
+    gap: 1.5rem;
+    background-color: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+
+  .project-meta {
+    flex: 3;
+    min-width: 280px;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    padding-right: 1rem;
+  }
+
+  .project-logo {
+    flex: 1;
+    min-width: 160px;
+    max-width: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  h1 {
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+    color: var(--text-primary);
+  }
+
+  .project-description {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+
+  .project-status {
+    margin-bottom: 1.25rem;
+  }
+
+  .status-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .status-active {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  .status-in-development {
+    background-color: #ff9800;
+    color: white;
+  }
+
+  .status-archived {
+    background-color: #9e9e9e;
+    color: white;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-link,
+  .github-link {
+    color: var(--text-link);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .project-link:hover,
+  .github-link:hover {
+    text-decoration: underline;
+  }
+
+  .external-link-icon {
+    font-size: 0.8em;
+  }
+
+  .meta-label {
+    font-weight: bold;
+    margin-right: 0.5rem;
+    color: var(--text-primary);
+  }
+
+  .project-info {
+    margin-bottom: 1rem;
+  }
+
+  .project-info p {
+    margin: 0.5rem 0;
+  }
+
+  .tech-stack {
+    margin-bottom: 1rem;
+  }
+
+  .tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .tech-tag {
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .project-tags {
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .tag {
+    background-color: var(--bg-primary);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    display: inline-block;
+  }
+
+  .logo-image {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 0;
+    padding-top: 0;
+    width: 100%;
+  }
+
+  .logo-image img,
+  .logo-image :global(img) {
+    max-width: 160px;
+    height: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    margin-top: 0;
+  }
+
+  @media (max-width: 768px) {
+    .project-container {
+      flex-direction: column-reverse;
+      gap: 2rem;
+    }
+
+    .project-logo {
+      margin: 0 auto 1rem auto;
+      max-width: 180px;
+      justify-content: center;
+    }
+
+    .project-meta {
+      padding-right: 0;
+    }
+
+    .logo-image {
+      justify-content: center;
+    }
+
+    .logo-image img,
+    .logo-image :global(img) {
+      max-width: 160px;
+      margin: 0 auto;
+    }
+  }
+
+  .project-content {
+    line-height: 1.6;
+  }
+
+  /* Tags styling to match article tags */
+  .tags {
+    display: flex;
+    justify-content: center;
+    column-gap: 0.75em;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .tags a {
+    font-weight: normal;
+    text-decoration: none;
+  }
+
+  .tags a:hover {
+    color: var(--text-secondary);
+  }
+
+  .draft-banner,
+  .template-banner {
+    text-align: center;
+    padding: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+    font-weight: bold;
+    color: white;
+  }
+
+  .draft-banner {
+    background-color: #ff6b6b;
+  }
+
+  .template-banner {
+    background-color: #8269ff;
+  }
+</style>

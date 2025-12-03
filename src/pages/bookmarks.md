@@ -9,8 +9,8 @@ Sites and tools I actually use. I keep this updated with new discoveries and rem
 **Updated November 9, 2025**
 
 ---
-<br />
 
+<br />
 
 ## Dev Tools
 
