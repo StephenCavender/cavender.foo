@@ -18,10 +18,14 @@
 - Import aliases: `@components/*`, `@assets/*`, `@layouts/*`
 - Astro components use `.astro` extension
 - Content in plain MD under `src/content/`
+- Package Manager: Use Bun (bun.lockb file present)
+
+## Framework Notes
+- Astro 5.x
 
 ## Important Rules
 
-- NEVER create/modify content (articles, reviews, etc.)
+- NEVER create/modify content (articles, books, etc.)
 - Use path aliases for imports
 - Follow existing component patterns
 - Run lint/format before committing
