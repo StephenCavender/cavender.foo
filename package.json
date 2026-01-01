@@ -16,7 +16,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "new:now": "bash scripts/create-now-entry.sh"
   },
   "type": "module",
   "devDependencies": {
