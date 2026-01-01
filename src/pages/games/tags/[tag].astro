@@ -1,0 +1,38 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const games = await getCollection("games");
+  const uniqueTags = [...new Set(games.map((game) => game.data.tags).flat())];
+
+  return uniqueTags.map((tag) => {
+    const filteredGames = games.filter((game) => game.data.tags.includes(tag));
+    return {
+      params: { tag },
+      props: { games: filteredGames },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { games } = Astro.props;
+---
+
+<BaseLayout title={`Games tagged with ${tag}`}>
+  <h2>Games tagged with <code>{tag}</code></h2>
+  <section>
+    <ul>
+      {
+        games.map((game) => (
+          <>
+            <li>
+              <a href={`/games/${game.slug}`}>{game.data.title}</a>
+            </li>
+          </>
+        ))
+      }
+    </ul>
+  </section>
+  <a href="/games/tags">All Game Tags</a>
+</BaseLayout>

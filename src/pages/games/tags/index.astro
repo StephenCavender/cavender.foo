@@ -1,0 +1,27 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+const games = await getCollection("games");
+const tags = [...new Set(games.map((game) => game.data.tags).flat())];
+---
+
+<BaseLayout title="Game Tags">
+  <h2>Game Tags</h2>
+  <section>
+    <ul>
+      {
+        tags.map((tag) => (
+          <li>
+            <a href={`/games/tags/${tag}/`}>{tag}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+  <a href="/games">Back to Games</a>
+</BaseLayout>
+<style>
+  ul {
+    columns: 3;
+  }
+</style>

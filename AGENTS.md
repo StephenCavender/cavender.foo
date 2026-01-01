@@ -21,6 +21,7 @@
 - Package Manager: Use Bun (bun.lockb file present)
 
 ## Framework Notes
+
 - Astro 5.x
 
 ## Important Rules

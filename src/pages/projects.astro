@@ -10,18 +10,20 @@ const allProjects = await getCollection("projects");
 const projects = allProjects
   .filter((project) => {
     // Exclude template file and respect draft status
-    return !project.id.startsWith("_template") && (isDev || !project.data.draft);
+    return (
+      !project.id.startsWith("_template") && (isDev || !project.data.draft)
+    );
   })
   .sort((a, b) => {
     // Sort by status first (active > in-development > archived), then by name
     const statusOrder = { active: 0, "in-development": 1, archived: 2 };
     const aStatus = statusOrder[a.data.status] || 3;
     const bStatus = statusOrder[b.data.status] || 3;
-    
+
     if (aStatus !== bStatus) {
       return aStatus - bStatus;
     }
-    
+
     // Otherwise sort by name
     return a.data.name.localeCompare(b.data.name);
   });
@@ -60,17 +62,22 @@ const template = isDev
       {
         projects.map((project) => (
           <div class="project-card">
-            {
-              project.data.logoUrl && (
-                <div class="project-logo">
-                  <img src={project.data.logoUrl} alt={`${project.data.name} logo`} />
-                </div>
-              )
-            }
+            {project.data.logoUrl && (
+              <div class="project-logo">
+                <img
+                  src={project.data.logoUrl}
+                  alt={`${project.data.name} logo`}
+                />
+              </div>
+            )}
             <div class="project-content">
               <h3>
                 {project.data.url ? (
-                  <a href={project.data.url} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={project.data.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {project.data.name}
                     <span class="external-link-icon">↗</span>
                   </a>
@@ -79,30 +86,34 @@ const template = isDev
                 )}
               </h3>
               <p class="project-description">{project.data.description}</p>
-              
+
               <div class="project-meta">
-                <span class="status-badge status-{project.data.status}">{project.data.status}</span>
-                
-                {
-                  project.data.techStack && project.data.techStack.length > 0 && (
+                <span class="status-badge status-{project.data.status}">
+                  {project.data.status}
+                </span>
+
+                {project.data.techStack &&
+                  project.data.techStack.length > 0 && (
                     <div class="tech-stack">
                       {project.data.techStack.map((tech) => (
                         <span class="tech-tag">{tech}</span>
                       ))}
                     </div>
-                  )
-                }
+                  )}
               </div>
-              
-              {
-                project.data.githubUrl && (
-                  <div class="project-links">
-                    <a href={project.data.githubUrl} target="_blank" rel="noopener noreferrer" class="github-link">
-                      GitHub <span class="external-link-icon">↗</span>
-                    </a>
-                  </div>
-                )
-              }
+
+              {project.data.githubUrl && (
+                <div class="project-links">
+                  <a
+                    href={project.data.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="github-link"
+                  >
+                    GitHub <span class="external-link-icon">↗</span>
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         ))
@@ -123,7 +134,9 @@ const template = isDev
     border-radius: 8px;
     padding: 1.5rem;
     border: 1px solid var(--line);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   .project-card:hover {
@@ -187,17 +200,17 @@ const template = isDev
   }
 
   .status-active {
-    background-color: #4CAF50;
+    background-color: #4caf50;
     color: white;
   }
 
   .status-in-development {
-    background-color: #FF9800;
+    background-color: #ff9800;
     color: white;
   }
 
   .status-archived {
-    background-color: #9E9E9E;
+    background-color: #9e9e9e;
     color: white;
   }
 
