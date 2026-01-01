@@ -1,0 +1,115 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
+
+export async function getStaticPaths() {
+  const nowEntries = await getCollection("now", (entry) => !entry.data.draft);
+
+  return nowEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const formattedDate = entry.data.pubDate.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<BaseLayout>
+  <article class="now-entry">
+    <h2><FormattedDate date={entry.data.pubDate} /></h2>
+
+    <div class="entry-content">
+      <Content />
+    </div>
+
+    <div class="entry-footer">
+      <a href="/now" class="back-link">← Back to Now</a>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .now-entry {
+    max-width: 65ch;
+    margin: 0 auto;
+  }
+
+  .entry-footer {
+    margin-top: 2rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+  }
+
+  .entry-meta {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+  }
+
+  .updated-date {
+    margin-left: 0.5rem;
+    font-style: italic;
+  }
+
+  .entry-content {
+    margin-bottom: 3rem;
+  }
+
+  .entry-footer {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+  }
+
+  /* Dark mode support */
+  :root {
+    --text-secondary: #666;
+    --border-color: #e0e0e0;
+    --accent-color: #0066cc;
+    --accent-hover: #0052a3;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --text-secondary: #999;
+      --border-color: #333;
+      --accent-color: #4da6ff;
+      --accent-hover: #66b3ff;
+    }
+  }
+</style>

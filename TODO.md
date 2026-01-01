@@ -1,11 +1,9 @@
 # TODO
 
 - [x] add games/tags page
-- [ ] convert now to md collection
-- [ ] /now should load the most recent now content with an expandable list at the bottom to view previous nows
-- [ ] look through git history updates to now pages and create dated files in the src/content/now directory
-- [ ] convert uses to md collection as well
-- [ ] /uses should load the most recent uses content with an expandable list at the bottom to view previous uses
+- [x] convert now to md collection, where /now loads the most recent now content with an expandable list at the bottom to view previous versions
+- [x] look through git history updates to now pages and create dated files in the src/content/now directory
+- [ ] convert uses to md collection, where /uses loads the most recent uses content with an expandable list at the bottom to view prevous versions
 - [ ] look through git history updates to uses page and create dated files in the src/content/uses directory
 - [ ] update readme with info about the project
 - [ ] update readme with an inspiration section listing sites that inspired this one

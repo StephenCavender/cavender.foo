@@ -1,0 +1,167 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+// @ts-ignore - TypeScript issue with content collections
+const nowEntries = await getCollection("now", (entry) => !entry.data.draft);
+
+// Sort by pubDate descending to get the most recent first
+const sortedEntries = nowEntries.sort(
+  (a, b) =>
+    new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+
+const latest = sortedEntries[0];
+const previous = sortedEntries.slice(1);
+
+const { Content: LatestContent } = (await latest?.render()) || {
+  Content: null,
+};
+
+const formattedDate =
+  latest?.data.pubDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }) || "";
+---
+
+<BaseLayout title="What I'm Up To">
+  <div class="now-content">
+    <p>A <a href="https://nownownow.com">nownownow</a> page</p>
+    <p><em>Updated {formattedDate}</em></p>
+
+    {
+      latest && LatestContent ? (
+        <div class="latest">
+          <div class="content">
+            <LatestContent />
+          </div>
+        </div>
+      ) : (
+        <div class="no-content">
+          <p>No now entries found.</p>
+        </div>
+      )
+    }
+
+    {
+      previous && previous.length > 0 && (
+        <div class="history-section">
+          <details>
+            <summary class="history-toggle">
+              View Previous Versions ({previous.length})
+            </summary>
+            <ul>
+              {previous.map(async (entry) => {
+                const entryDate = entry.data.pubDate.toLocaleDateString(
+                  "en-US",
+                  {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  }
+                );
+
+                return (
+                  <li>
+                    <a href={`/now/${entry.slug}/`}>{entryDate}</a>
+                  </li>
+                );
+              })}
+            </ul>
+          </details>
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .now-content {
+    max-width: 65ch;
+  }
+
+  .latest {
+    margin-bottom: 2rem;
+  }
+
+  .content {
+    margin-bottom: 1rem;
+  }
+
+  .date-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-top: 2rem;
+  }
+
+  .history-section {
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 2rem;
+  }
+
+  .history-toggle {
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0.5rem 0;
+    color: var(--accent-color);
+    transition: color 0.2s ease;
+  }
+
+  .history-toggle:hover {
+    color: var(--accent-hover);
+  }
+
+  .history-list {
+    margin-top: 1rem;
+  }
+
+  .history-item {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+  }
+
+  .history-date {
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .history-date-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+
+  .history-date-link:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+  }
+
+  /* Dark mode support */
+  :root {
+    --text-secondary: #666;
+    --border-color: #e0e0e0;
+    --bg-secondary: #f9f9f9;
+    --accent-color: #0066cc;
+    --accent-hover: #0052a3;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --text-secondary: #999;
+      --border-color: #333;
+      --bg-secondary: #1a1a1a;
+      --accent-color: #4da6ff;
+      --accent-hover: #66b3ff;
+    }
+  }
+</style>
