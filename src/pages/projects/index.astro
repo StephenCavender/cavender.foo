@@ -17,8 +17,8 @@ const projects = allProjects
   .sort((a, b) => {
     // Sort by status first (active > in-development > archived), then by name
     const statusOrder = { active: 0, "in-development": 1, archived: 2 };
-    const aStatus = statusOrder[a.data.status] || 3;
-    const bStatus = statusOrder[b.data.status] || 3;
+    const aStatus = a.data.status ? statusOrder[a.data.status] : 3;
+    const bStatus = b.data.status ? statusOrder[b.data.status] : 3;
 
     if (aStatus !== bStatus) {
       return aStatus - bStatus;
