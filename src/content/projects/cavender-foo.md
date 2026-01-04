@@ -6,8 +6,8 @@ logoUrl: "https://cavender.foo/favicon.svg"
 tags: ["blog", "portfolio", "personal"]
 techStack: ["Astro", "TypeScript", "Tailwind CSS"]
 status: "active"
-startDate: "2024-01-01"
-githubUrl: "https://github.com/stevecavender/cavender.foo"
+startDate: "2020-08-14"
+githubUrl: "https://github.com/stephencavender/cavender.foo"
 ---
 
 This is my personal blog and portfolio website. Built with Astro for performance and SEO, it features articles about software development, book reviews, and project showcases.
