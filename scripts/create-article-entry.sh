@@ -17,7 +17,7 @@ DATE=$(date +%Y-%m-%d)
 SLUG=$(echo "$1" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]\+/ /g' | tr ' ' '-' | sed 's/-$//')
 
 # Define file path
-FILE_PATH="src/content/articles/${SLUG}.mdx"
+FILE_PATH="src/content/articles/${SLUG}.md"
 
 # Check if file already exists
 if [ -f "$FILE_PATH" ]; then
@@ -26,7 +26,7 @@ if [ -f "$FILE_PATH" ]; then
 fi
 
 # Create the file from template
-cp "src/content/articles/_template.mdx" "$FILE_PATH"
+cp "src/content/articles/_template.md" "$FILE_PATH"
 
 # Replace placeholders with actual values
 sed -i '' "s/Article Title/$1/g" "$FILE_PATH"

@@ -56,7 +56,7 @@ const getFeed = ({
   }
 
   // Process articles
-  const articleFiles = await fg("src/content/articles/*.mdx");
+  const articleFiles = await fg("src/content/articles/*.md");
   const articles = (
     await Promise.all(
       articleFiles.map(async (file) => {
@@ -85,7 +85,7 @@ const getFeed = ({
   articles.sort((a, b) => +new Date(b.date) - +new Date(a.date));
 
   // Process book reviews
-  const bookFiles = await fg("src/content/bookReviews/*.mdx");
+  const bookFiles = await fg("src/content/bookReviews/*.md");
   const bookReviews = (
     await Promise.all(
       bookFiles.map(async (file) => {

@@ -74,7 +74,7 @@ src/
 │   ├── FormattedDate.astro
 │   └── StoreLinks.astro
 ├── content/             # Content collections
-│   ├── articles/         # Technical articles (.mdx)
+│   ├── articles/         # Technical articles (.md)
 │   ├── books/           # Book reviews (.md)
 │   ├── games/           # Game reviews (.md)
 │   ├── projects/         # Project showcases (.md)
@@ -188,7 +188,7 @@ bun run build          # Generate static site
 
 ### Articles
 
-- **Format**: MDX for rich content
+- **Format**: MD (MDX for rich content)
 - **Schema**: title, description, pubDate, updatedDate, tags, draft
 - **Features**: Syntax highlighting, code blocks, embedded components
 

@@ -78,7 +78,7 @@ Creates a new "uses" entry with:
 
 All templates are located in their respective content directories:
 
-- `src/content/articles/_template.mdx`
+- `src/content/articles/_template.md`
 - `src/content/books/_template.md`
 - `src/content/games/_template.md`
 - `src/content/projects/_template.md`
@@ -131,5 +131,5 @@ All scripts automatically:
 
 - Check for duplicate files
 - Provide clear error messages
-- Generate appropriate file extensions (.md for most, .mdx for articles)
+- Generate appropriate file extensions (.md)
 - Provide helpful next steps guidance

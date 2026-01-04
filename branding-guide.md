@@ -59,7 +59,7 @@ src/
 # Create new article with proper template
 bun run new:article "Article Title"
 
-# File structure: src/content/articles/article-title.mdx
+# File structure: src/content/articles/article-title.md
 ---
 title: "Article Title"
 description: "Brief description"
