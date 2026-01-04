@@ -2,17 +2,37 @@
 title: "Book Title"
 author: "Author Name"
 isbn: "978-0123456789"
-status: "read"
+status: "unread"
 coverImageUrl: "https://example.com/cover.jpg"
-tags: ["fiction", "sci-fi"]
-readDate: "2024-01-15"
-rating: 4
+tags: ["fiction", "science-fiction", "space-opera"]
+readDate: YYYY-MM-DD
+rating: 5
+goodreadsLink: "https://www.goodreads.com/book/show/123456"
+amazonLink: "https://amazon.com/dp/B123456789"
+draft: false
 ---
 
-## Notes
+# Book Title
 
-Your notes about the book go here.
+**Author**: Author Name
 
-## Review
+## My Review
 
-Your review of the book goes here.
+Write your book review here...
+
+## Key Takeaways
+
+- Point 1
+- Point 2
+- Point 3
+
+## Favorite Quotes
+
+> "Quote from the book..."
+> — Character, Chapter X
+
+## Recommendations
+
+I would recommend this book to people who enjoy...
+
+**Rating: ★★★★★**

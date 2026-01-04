@@ -17,12 +17,18 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "new:now": "bash scripts/create-now-entry.sh"
+    "new:article": "bash scripts/create-article-entry.sh",
+    "new:book": "bash scripts/create-book-entry.sh",
+    "new:game": "bash scripts/create-game-entry.sh",
+    "new:now": "bash scripts/create-now-entry.sh",
+    "new:project": "bash scripts/create-project-entry.sh",
+    "new:uses": "bash scripts/create-uses-entry.sh"
   },
   "type": "module",
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.20.0",
+    "@typescript-eslint/eslint-plugin": "^8.51.0",
     "@typescript-eslint/parser": "^8.24.0",
     "eslint": "^9.20.1",
     "eslint-config-prettier": "^9.1.0",

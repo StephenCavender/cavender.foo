@@ -4,9 +4,9 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 
 export async function getStaticPaths() {
-  const nowEntries = await getCollection("now", (entry) => !entry.data.draft);
+  const usesEntries = await getCollection("uses", (entry) => !entry.data.draft);
 
-  return nowEntries.map((entry) => ({
+  return usesEntries.map((entry) => ({
     params: { slug: entry.slug },
     props: { entry },
   }));
@@ -14,16 +14,10 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
-
-const formattedDate = entry.data.pubDate.toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
 ---
 
 <BaseLayout>
-  <article class="now-entry">
+  <article class="uses-entry">
     <h2><FormattedDate date={entry.data.pubDate} /></h2>
 
     <div class="entry-content">
@@ -31,13 +25,13 @@ const formattedDate = entry.data.pubDate.toLocaleDateString("en-US", {
     </div>
 
     <div class="entry-footer">
-      <a href="/now" class="back-link">← Back to Current Now</a>
+      <a href="/uses" class="back-link">← Back to Current Uses</a>
     </div>
   </article>
 </BaseLayout>
 
 <style>
-  .now-entry {
+  .uses-entry {
     max-width: 65ch;
     margin: 0 auto;
   }

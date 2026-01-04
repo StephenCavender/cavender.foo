@@ -69,4 +69,11 @@ const now = defineCollection({
   }),
 });
 
-export const collections = { articles, books, games, projects, now };
+const uses = defineCollection({
+  schema: z.object({
+    pubDate: z.coerce.date(),
+    draft: z.boolean().optional().default(false),
+  }),
+});
+
+export const collections = { articles, books, games, projects, now, uses };
