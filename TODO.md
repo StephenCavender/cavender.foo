@@ -14,3 +14,5 @@
   - [x] [Harper Reed](https://harper.blog/)
 - [x] Analyze assets served on the site and determine if a cdn should be used. Save the analysis in a md file at root.
 - [x] create a branding guide for humans and LLMs to reference when coding on this site. save it as an md file at root.
+- [ ] Update the scripts to create new 'now' and 'uses' entries to start with a copy of the latest version, rather than using a template. Remove the template files as well.
+- [ ] Simplify the project list ui to be a simple list.
