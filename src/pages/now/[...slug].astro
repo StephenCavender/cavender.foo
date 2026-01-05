@@ -24,7 +24,7 @@ const formattedDate = entry.data.pubDate.toLocaleDateString("en-US", {
 
 <BaseLayout>
   <article class="now-entry">
-    <h2><FormattedDate date={entry.data.pubDate} /></h2>
+    <h1>Now / <FormattedDate date={entry.data.pubDate} /></h1>
 
     <div class="entry-content">
       <Content />
