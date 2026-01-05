@@ -12,8 +12,9 @@ const { title, description, pubDate, updatedDate, tags } = Astro.props;
   <article>
     <div class="prose">
       <div class="title">
+        <h1>{title}</h1>
         <div class="date">
-          <FormattedDate date={pubDate} />
+          Published on <FormattedDate date={pubDate} />
           {
             updatedDate && (
               <div class="last-updated-on">
@@ -22,7 +23,6 @@ const { title, description, pubDate, updatedDate, tags } = Astro.props;
             )
           }
         </div>
-        <h1>{title}</h1>
         <hr />
       </div>
       <slot />
@@ -43,13 +43,13 @@ const { title, description, pubDate, updatedDate, tags } = Astro.props;
 <style>
   .title {
     margin-bottom: 1em;
-    text-align: center;
   }
   .title h1 {
     margin-bottom: 0.5em;
   }
   .date {
     color: var(--text-secondary);
+    text-align: left;
   }
   .last-updated-on {
     font-style: italic;
