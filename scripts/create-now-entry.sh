@@ -27,17 +27,26 @@ if [ -f "$FILE_PATH" ]; then
     exit 1
 fi
 
-# Create file from template
-cp "src/content/now/_template.md" "$FILE_PATH"
+# Find the latest now entry (excluding template)
+LATEST_ENTRY=$(find src/content/now -name "*.md" ! -name "_template.md" | sort -r | head -1)
 
-# Replace placeholder with actual date
-sed -i '' "s/YYYY-MM-DD/$DATE/g" "$FILE_PATH"
+# Check if there's a latest entry to copy from
+if [ -z "$LATEST_ENTRY" ]; then
+    echo "Error: No existing now entries found to copy from!"
+    echo "Please create an initial entry manually."
+    exit 1
+fi
+
+# Create file from latest entry
+cp "$LATEST_ENTRY" "$FILE_PATH"
+
+# Replace the date in frontmatter with the new date
+sed -i '' "s/^pubDate: .*/pubDate: $DATE/g" "$FILE_PATH"
 
 echo "Created new now entry: $FILE_PATH"
 echo "Date: $DATE"
+echo "Copied from: $LATEST_ENTRY"
 echo ""
 echo "Next steps:"
-echo "1. Update the sections with your current activities"
-echo "2. Add or remove sections as needed"
-echo "3. Remove this instruction text"
-echo "4. Run 'bun run dev' to preview"
+echo "1. Update the content with your current activities"
+echo "2. Run 'bun run dev' to preview"
