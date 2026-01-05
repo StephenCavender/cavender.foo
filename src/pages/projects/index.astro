@@ -58,145 +58,77 @@ const template = isDev
         </div>
       )
     }
-    <div class="projects-grid">
+    <ul class="projects-list">
       {
         projects.map((project) => (
-          <div class="project-card">
-            {project.data.logoUrl && (
-              <div class="project-logo">
-                <img
-                  src={project.data.logoUrl}
-                  alt={`${project.data.name} logo`}
-                />
-              </div>
-            )}
-            <div class="project-content">
-              <h3>
-                {project.data.url ? (
-                  <a
-                    href={project.data.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {project.data.name}
-                    <span class="external-link-icon">↗</span>
-                  </a>
-                ) : (
-                  project.data.name
-                )}
-              </h3>
-              <p class="project-description">{project.data.description}</p>
-
-              <div class="project-meta">
-                <span class="status-badge status-{project.data.status}">
-                  {project.data.status}
-                </span>
-
-                {project.data.techStack &&
-                  project.data.techStack.length > 0 && (
-                    <div class="tech-stack">
-                      {project.data.techStack.map((tech) => (
-                        <span class="tech-tag">{tech}</span>
-                      ))}
-                    </div>
-                  )}
-              </div>
-
-              {project.data.githubUrl && (
-                <div class="project-links">
-                  <a
-                    href={project.data.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="github-link"
-                  >
-                    GitHub <span class="external-link-icon">↗</span>
-                  </a>
-                </div>
+          <li class="project-item">
+            <div class="project-header">
+              {project.data.url ? (
+                <a
+                  href={project.data.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-name"
+                >
+                  {project.data.name} ↗
+                </a>
+              ) : (
+                <span class="project-name">{project.data.name}</span>
               )}
+              <span class="status-badge status-{project.data.status}">
+                {project.data.status}
+              </span>
             </div>
-          </div>
+            <p class="project-description">{project.data.description}</p>
+          </li>
         ))
       }
-    </div>
+    </ul>
   </section>
 </BaseLayout>
 <style>
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
+  .projects-list {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
   }
 
-  .project-card {
-    background-color: var(--bg-secondary);
-    border-radius: 8px;
-    padding: 1.5rem;
-    border: 1px solid var(--line);
-    transition:
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
+  .project-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
   }
 
-  .project-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  .project-item:last-child {
+    border-bottom: none;
   }
 
-  .project-logo {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-
-  .project-logo img {
-    max-width: 80px;
-    max-height: 80px;
-    object-fit: contain;
-  }
-
-  .project-content h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.2rem;
-  }
-
-  .project-content h3 a {
-    color: var(--text-primary);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  .project-content h3 a:hover {
-    color: var(--text-link);
-  }
-
-  .external-link-icon {
-    font-size: 0.8em;
-    opacity: 0.7;
-  }
-
-  .project-description {
-    color: var(--text-secondary);
-    margin-bottom: 1rem;
-    line-height: 1.5;
-  }
-
-  .project-meta {
+  .project-header {
     display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .project-header a.project-name {
+    text-decoration: none;
+  }
+
+  .project-header a.project-name:hover {
+    color: var(--text-link);
   }
 
   .status-badge {
     padding: 0.2rem 0.6rem;
     border-radius: 4px;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: bold;
     text-transform: uppercase;
-    align-self: flex-start;
   }
 
   .status-active {
@@ -214,36 +146,10 @@ const template = isDev
     color: white;
   }
 
-  .tech-stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-
-  .tech-tag {
-    background-color: var(--bg-primary);
+  .project-description {
     color: var(--text-secondary);
-    padding: 0.2rem 0.5rem;
-    border-radius: 3px;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-
-  .project-links {
-    margin-top: 1rem;
-  }
-
-  .github-link {
-    color: var(--text-link);
-    text-decoration: none;
-    font-size: 0.9rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.2rem;
-  }
-
-  .github-link:hover {
-    text-decoration: underline;
+    margin: 0;
+    line-height: 1.5;
   }
 
   .template-container {
@@ -266,11 +172,5 @@ const template = isDev
 
   .template-link:hover {
     background-color: #6a4dff;
-  }
-
-  @media (max-width: 768px) {
-    .projects-grid {
-      grid-template-columns: 1fr;
-    }
   }
 </style>
