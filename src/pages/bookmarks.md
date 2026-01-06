@@ -6,7 +6,7 @@ layout: ../layouts/BaseLayout.astro
 
 Sites and tools I actually use. I keep this updated with new discoveries and remove anything I no longer find helpful.
 
-**Updated November 9, 2025**
+**Updated January 5, 2026**
 
 ---
 
@@ -20,19 +20,15 @@ Sites and tools I actually use. I keep this updated with new discoveries and rem
 
 **[devhints.io](https://devhints.io/)**: Quick reference cheat sheets for various languages and tools.
 
-**[whatthecommit.com](https://whatthecommit.com/)**: Random commit message generator. Mostly for laughs.
-
 **[regex101](https://regex101.com/)**: Test and debug regex patterns with explanations.
 
 **[crontab.guru](https://crontab.guru/)**: Cron expression editor that explains when jobs will run.
 
 ## AI Tools
 
-**[Claude](https://claude.ai/)**: My go-to assistant for technical discussions and learning.
+**[Opencode](https://opencode.ai)**: My daily AI driver
 
-**[ChatGPT](https://chatgpt.com/)**: For random questions and D&D help.
-
-**[t3.chat](https://t3.chat/)**: For random questions.
+**[Claude](https://claude.ai/)**: My assistant for technical discussions and learning.
 
 ## Career & Job Search
 
