@@ -31,23 +31,30 @@ export async function GET(context: APIContext) {
   const { AtkinsonRegular, AtkinsonBold } = await getFonts();
 
   const markup = html`<div
-    tw="w-full h-full flex flex-col relative"
-    style="background-color: #282a36; font-family: Atkinson;"
+    style="background-color: #282a36; font-family: Atkinson; width: 100%; height: 100%; display: flex; flex-direction: column;"
   >
-    <div tw="flex-1 flex items-center justify-center p-16">
+    <div
+      style="display: flex; flex: 1; align-items: center; justify-content: center; padding: 64px;"
+    >
       <div
-        tw="text-6xl font-bold text-center leading-tight"
-        style="color: #f8f8ff;"
+        style="font-size: 48px; font-weight: 700; text-align: center; line-height: 1.2; color: #f8f8ff;"
       >
         ${title}
       </div>
     </div>
     <div
-      tw="w-full h-24 flex items-center justify-between px-12 border-t"
-      style="border-color: #44475a;"
+      style="height: 96px; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; border-top: 4px solid #ff79c6;"
     >
-      <div tw="flex items-center" style="color: #6272a4;">cavender.foo</div>
-      <img src="${FAVICON_URL}" tw="w-12 h-12" alt="favicon" />
+      <div
+        style="display: flex; align-items: center; color: #ff79c6; font-weight: 700; font-size: 24px;"
+      >
+        cavender.foo
+      </div>
+      <img
+        src="${FAVICON_URL}"
+        style="width: 48px; height: 48px; border: 3px solid #ff79c6; border-radius: 8px;"
+        alt="favicon"
+      />
     </div>
   </div>`;
 
