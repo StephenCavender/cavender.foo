@@ -1,11 +1,9 @@
 import satori from "satori";
-import { html } from "satori-html";
 import { Resvg } from "@resvg/resvg-js";
 import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
 
 const SITE_URL = "https://cavender.foo";
-const FAVICON_URL = `${SITE_URL}/favicon.png`;
 
 const dimensions = {
   width: 1200,
@@ -24,39 +22,103 @@ async function getFonts() {
 
 interface Props {
   title: string;
+  description: string;
 }
 
 export async function GET(context: APIContext) {
-  const { title } = context.props as Props;
+  const { title, description } = context.props as Props;
   const { AtkinsonRegular, AtkinsonBold } = await getFonts();
 
-  const markup = html`<div
-    style="background-color: #282a36; font-family: Atkinson; width: 100%; height: 100%; display: flex; flex-direction: column;"
-  >
-    <div
-      style="display: flex; flex: 1; align-items: center; justify-content: center; padding: 64px;"
-    >
-      <div
-        style="font-size: 48px; font-weight: 700; text-align: center; line-height: 1.2; color: #f8f8ff;"
-      >
-        ${title}
-      </div>
-    </div>
-    <div
-      style="height: 96px; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; border-top: 4px solid #ff79c6;"
-    >
-      <div
-        style="display: flex; align-items: center; color: #ff79c6; font-weight: 700; font-size: 24px;"
-      >
-        cavender.foo
-      </div>
-      <img
-        src="${FAVICON_URL}"
-        style="width: 48px; height: 48px; border: 3px solid #ff79c6; border-radius: 8px;"
-        alt="favicon"
-      />
-    </div>
-  </div>`;
+  const titleStr = String(title);
+  const descStr = String(description);
+
+  const markup = {
+    type: "div",
+    props: {
+      style: {
+        backgroundColor: "#282a36",
+        fontFamily: "Atkinson",
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      },
+      children: [
+        {
+          type: "div",
+          props: {
+            style: {
+              height: "12px",
+              background: "linear-gradient(to right, #9333ea, #c084fc)",
+            },
+          },
+        },
+        {
+          type: "div",
+          props: {
+            style: {
+              display: "flex",
+              flex: "1",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "64px",
+            },
+            children: [
+              {
+                type: "div",
+                props: {
+                  style: {
+                    fontSize: "52px",
+                    fontWeight: "700",
+                    lineHeight: "1.1",
+                    color: "#f8f8ff",
+                    textAlign: "center",
+                  },
+                  children: titleStr,
+                },
+              },
+              {
+                type: "div",
+                props: {
+                  style: {
+                    fontSize: "28px",
+                    color: "#c084fc",
+                    marginTop: "16px",
+                    textAlign: "center",
+                  },
+                  children: descStr,
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "div",
+          props: {
+            style: {
+              display: "flex",
+              height: "80px",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              padding: "0 48px",
+            },
+            children: {
+              type: "div",
+              props: {
+                style: {
+                  color: "#c084fc",
+                  fontWeight: "700",
+                  fontSize: "24px",
+                },
+                children: "cavender.foo",
+              },
+            },
+          },
+        },
+      ],
+    },
+  };
 
   const svg = await satori(markup, {
     fonts: [
@@ -104,6 +166,7 @@ export async function getStaticPaths() {
     },
     props: {
       title: article.data.title,
+      description: article.data.description,
     },
   }));
 }
