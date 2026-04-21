@@ -6,8 +6,6 @@ layout: ../layouts/BaseLayout.astro
 
 Sites and tools I actually use. I keep this updated with new discoveries and remove anything I no longer find helpful.
 
-**Updated January 5, 2026**
-
 ---
 
 <br />
@@ -23,12 +21,6 @@ Sites and tools I actually use. I keep this updated with new discoveries and rem
 **[regex101](https://regex101.com/)**: Test and debug regex patterns with explanations.
 
 **[crontab.guru](https://crontab.guru/)**: Cron expression editor that explains when jobs will run.
-
-## AI Tools
-
-**[Opencode](https://opencode.ai)**: My daily AI driver
-
-**[Claude](https://claude.ai/)**: My assistant for technical discussions and learning.
 
 ## Career & Job Search
 
