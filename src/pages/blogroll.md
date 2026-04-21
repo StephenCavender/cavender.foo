@@ -13,7 +13,3 @@ layout: ../layouts/BaseLayout.astro
 [**Eric Elliott**](https://medium.com/@_ericelliott): Eric writes phenomenal js articles/tutorials.
 
 [**James Sinclair**](https://jrsinclair.com/): Great web dev articles and thoughtful essays.
-
-[**Garrit**](https://garrit.xyz)
-
-[**Herman**](https://herman.bearblog.dev/blog/)
