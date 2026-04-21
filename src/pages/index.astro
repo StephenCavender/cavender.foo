@@ -8,20 +8,23 @@ const recentArticles = (await getCollection("articles"))
 
 <BaseLayout>
   <section>
-    <h1>Hey, I'm Steve</h1>
-    <img alt="Steve" src="/images/profile.jpg" />
+    <h1>Hi</h1>
     <p>
-      I'm a developer building mobile and web apps. I really enjoy React Native
-      and full-stack development.
+      My name is Steve. I'm a believer, husband, and father. If you want,
+      there's <a href="/about">more</a>.
     </p>
-    <p>
-      When I'm not coding I'm either with my family, lifting weights, or playing
-      guitar. I value faith, family, and freedom - in that order. Learn more
-      about me <a href="/about">here</a>.
-    </p>
+
     <p>
       This site is my digital garden. A place for me to write notes or articles
       about stuff I care about.
+    </p>
+  </section>
+
+  <section>
+    <h2>This Place</h2>
+    <p>
+      You've found my digital garden: a place for me to jot, write, or whatever
+      else.
     </p>
   </section>
 
@@ -42,11 +45,11 @@ const recentArticles = (await getCollection("articles"))
         ))
       }
     </ul>
-    <p><a href="/articles">See all articles</a></p>
+    <p><a href="/articles">See all</a></p>
   </section>
 
   <section>
-    <h2>More</h2>
+    <h2>Links</h2>
     <ul>
       <li>
         <a href="/uses">Uses</a>
