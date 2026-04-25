@@ -3,8 +3,6 @@ import { Resvg } from "@resvg/resvg-js";
 import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
 
-const SITE_URL = "https://cavender.foo";
-
 const dimensions = {
   width: 1200,
   height: 630,
