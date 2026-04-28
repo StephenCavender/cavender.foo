@@ -3,40 +3,40 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const bookReviews = await getCollection("bookReviews");
+  const books = await getCollection("books");
   const uniqueTags = [
-    ...new Set(bookReviews.map((review) => review.data.tags).flat()),
+    ...new Set(books.map((book) => book.data.tags).flat()),
   ];
 
   return uniqueTags.map((tag) => {
-    const filteredReviews = bookReviews.filter((review) =>
-      review.data.tags.includes(tag)
+    const filteredBooks = books.filter((book) =>
+      book.data.tags.includes(tag)
     );
     return {
       params: { tag },
-      props: { reviews: filteredReviews },
+      props: { books: filteredBooks },
     };
   });
 }
 
 const { tag } = Astro.params;
-const { reviews } = Astro.props;
+const { books } = Astro.props;
 ---
 
-<BaseLayout title={`Book Reviews tagged with ${tag}`}>
-  <h2>Book Reviews tagged with <code>{tag}</code></h2>
+<BaseLayout title={`Books tagged with ${tag}`}>
+  <h2>Books tagged with <code>{tag}</code></h2>
   <section>
     <ul>
       {
-        reviews.map((review) => (
+        books.map((book) => (
           <>
             <li>
-              <a href={`/books/${review.slug}`}>{review.data.title}</a>
+              <a href={`/books/${book.id}`}>{book.data.title}</a>
             </li>
           </>
         ))
       }
     </ul>
   </section>
-  <a href="/books/tags">All Book Review Tags</a>
+  <a href="/books/tags">All Book Tags</a>
 </BaseLayout>

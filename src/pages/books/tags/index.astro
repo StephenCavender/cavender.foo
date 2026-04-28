@@ -1,8 +1,8 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-const bookReviews = await getCollection("bookReviews");
-const tags = [...new Set(bookReviews.map((review) => review.data.tags).flat())];
+const books = await getCollection("books");
+const tags = [...new Set(books.map((book) => book.data.tags).flat())];
 ---
 
 <BaseLayout title="Book Review Tags">
@@ -18,7 +18,7 @@ const tags = [...new Set(bookReviews.map((review) => review.data.tags).flat())];
       }
     </ul>
   </section>
-  <a href="/books">Back to Book Reviews</a>
+    <a href="/books">Back to Books</a>
 </BaseLayout>
 <style>
   ul {

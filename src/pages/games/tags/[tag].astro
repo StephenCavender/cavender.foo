@@ -27,7 +27,7 @@ const { games } = Astro.props;
         games.map((game) => (
           <>
             <li>
-              <a href={`/games/${game.slug}`}>{game.data.title}</a>
+              <a href={`/games/${game.id}`}>{game.data.title}</a>
             </li>
           </>
         ))
