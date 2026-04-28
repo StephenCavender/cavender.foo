@@ -40,19 +40,13 @@ const template = isDev
 
 <BaseLayout>
   <h2>Projects</h2>
-  <div
-    style="display: flex; justify-content: space-between; align-items: center;"
-  >
-    <div></div>
-    <a href="/projects/tags/">Browse by Tags</a>
-  </div>
   <section>
     {
       isDev && template && (
         <div class="template-container">
           <h3>Project Template</h3>
           <p>This template is only visible in development mode</p>
-          <a href={`/projects/${template.slug}/`} class="template-link">
+          <a href={`/projects/${template.id}/`} class="template-link">
             View Template
           </a>
         </div>
