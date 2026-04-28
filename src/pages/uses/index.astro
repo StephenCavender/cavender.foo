@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 // @ts-ignore - TypeScript issue with content collections
@@ -14,9 +14,7 @@ const sortedEntries = usesEntries.sort(
 const latest = sortedEntries[0];
 const previous = sortedEntries.slice(1);
 
-const { Content: LatestContent } = (await latest?.render()) || {
-  Content: null,
-};
+const { Content: LatestContent } = latest ? await render(latest) : { Content: null };
 
 const formattedDate = latest?.data.pubDate
   ? new Date(latest.data.pubDate).toLocaleDateString("en-US", {
@@ -68,7 +66,7 @@ const formattedDate = latest?.data.pubDate
 
                 return (
                   <li>
-                    <a href={`/uses/${entry.slug}/`}>{entryDate}</a>
+                    <a href={`/uses/${entry.id}/`}>{entryDate}</a>
                   </li>
                 );
               })}
