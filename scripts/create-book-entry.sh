@@ -29,12 +29,37 @@ if [ -f "$FILE_PATH" ]; then
     exit 1
 fi
 
-# Create file from template
-cp "src/content/books/_template.md" "$FILE_PATH"
+# Generate frontmatter from schema
+FRONTMATTER=$(bun scripts/generate-frontmatter.ts books "$1")
 
-# Replace placeholders with actual values
-sed -i '' "s/Book Title/$1/g" "$FILE_PATH"
-sed -i '' "s/Author Name/$2/g" "$FILE_PATH"
+# Create the file with frontmatter and template body
+cat > "$FILE_PATH" << EOF
+$FRONTMATTER
+# $1
+
+**Author**: $2
+
+## My Review
+
+Write your book review here...
+
+## Key Takeaways
+
+- Point 1
+- Point 2
+- Point 3
+
+## Favorite Quotes
+
+> "Quote from the book..."
+> — Character, Chapter X
+
+## Recommendations
+
+I would recommend this book to people who enjoy...
+
+**Rating: ★★★★★**
+EOF
 
 echo "Created new book entry: $FILE_PATH"
 echo "Title: $1"

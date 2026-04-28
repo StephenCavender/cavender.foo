@@ -25,13 +25,43 @@ if [ -f "$FILE_PATH" ]; then
     exit 1
 fi
 
-# Create the file from template
-cp "src/content/articles/_template.md" "$FILE_PATH"
+# Generate frontmatter from schema
+FRONTMATTER=$(bun scripts/generate-frontmatter.ts articles "$1")
 
-# Replace placeholders with actual values
-sed -i '' "s/Article Title/$1/g" "$FILE_PATH"
-sed -i '' "s/YYYY-MM-DD/$DATE/g" "$FILE_PATH"
-sed -i '' "s/A brief description of what this article is about/TODO: Add description/g" "$FILE_PATH"
+# Create the file with frontmatter and template body
+cat > "$FILE_PATH" << EOF
+$FRONTMATTER
+# $1
+
+Write your article content here using Markdown syntax.
+
+## Subheading
+
+Your article content goes here...
+
+---
+
+**Example content:**
+
+- Bullet points
+- **Bold text** and _italic text_
+- \`inline code\`
+- [Links](https://example.com)
+
+## Code Examples
+
+\`\`\`javascript
+// Example code block
+function example() {
+  console.log("Hello, world!");
+}
+\`\`\`
+
+## Resources
+
+- [Resource 1](https://example.com)
+- [Resource 2](https://example.com)
+EOF
 
 echo "Created new article entry: $FILE_PATH"
 echo "Title: $1"

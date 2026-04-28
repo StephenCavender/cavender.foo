@@ -22,11 +22,56 @@ if [ -f "$FILE_PATH" ]; then
     exit 1
 fi
 
-# Create file from template
-cp "src/content/projects/_template.md" "$FILE_PATH"
+# Generate frontmatter from schema
+FRONTMATTER=$(bun scripts/generate-frontmatter.ts projects "$1")
 
-# Replace placeholders with actual values
-sed -i '' "s/Project Name/$1/g" "$FILE_PATH"
+# Create the file with frontmatter and template body
+cat > "$FILE_PATH" << EOF
+$FRONTMATTER
+# $1
+
+**Description**: TODO: A brief description of what this project does
+
+## Overview
+
+Write an overview of your project...
+
+## Features
+
+- Feature 1
+- Feature 2
+- Feature 3
+
+## Technology Stack
+
+- **Frontend**: TODO: React, TypeScript, Tailwind CSS
+- **Backend**: TODO: Node.js, Express, PostgreSQL
+- **DevOps**: TODO: Docker, GitHub Actions
+- **Testing**: TODO: Jest, Cypress
+
+## Challenges & Solutions
+
+### Challenge 1
+
+**Problem**: Describe the challenge...
+**Solution**: How you solved it...
+
+### Challenge 2
+
+**Problem**: Describe the challenge...
+**Solution**: How you solved it...
+
+## Future Plans
+
+- [ ] Feature to add
+- [ ] Improvement to make
+- [ ] Technology to upgrade
+
+## Links
+
+- **Live Site**: [Project URL](https://example.com)
+- **GitHub**: [Source Code](https://github.com/username/project-name)
+EOF
 
 echo "Created new project entry: $FILE_PATH"
 echo "Project: $1"

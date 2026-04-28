@@ -22,11 +22,51 @@ if [ -f "$FILE_PATH" ]; then
     exit 1
 fi
 
-# Create file from template
-cp "src/content/games/_template.md" "$FILE_PATH"
+# Generate frontmatter from schema
+FRONTMATTER=$(bun scripts/generate-frontmatter.ts games "$1")
 
-# Replace placeholders with actual values
-sed -i '' "s/Game Title/$1/g" "$FILE_PATH"
+# Create the file with frontmatter and template body
+cat > "$FILE_PATH" << EOF
+$FRONTMATTER
+# $1
+
+**Developer**: TODO: Game Developer
+**Publisher**: TODO: Game Publisher
+**Released**: TODO: YYYY-MM-DD
+**Platform**: TODO: PC, PlayStation 5, Nintendo Switch, Xbox Series X
+
+## My Experience
+
+Write about your experience with this game...
+
+## Gameplay
+
+Describe the gameplay mechanics...
+
+## Graphics & Sound
+
+Talk about the visual and audio experience...
+
+## Pros & Cons
+
+### Pros
+
+- Pro 1
+- Pro 2
+- Pro 3
+
+### Cons
+
+- Con 1
+- Con 2
+- Con 3
+
+## Recommendation
+
+**Rating: ★★★★★**
+
+I would recommend this game to players who enjoy...
+EOF
 
 echo "Created new game entry: $FILE_PATH"
 echo "Title: $1"
