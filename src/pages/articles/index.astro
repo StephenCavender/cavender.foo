@@ -40,7 +40,7 @@ const template = isDev
         <div class="template-container">
           <h3>Article Template</h3>
           <p>This template is only visible in development mode</p>
-          <a href={`/articles/${template.slug}/`} class="template-link">
+          <a href={`/articles/${template.id}/`} class="template-link">
             View Template
           </a>
         </div>
@@ -51,7 +51,7 @@ const template = isDev
         articles.map((article) => (
           <li>
             <span>{article.data.pubDate.toLocaleDateString()}</span>
-            <a href={`/articles/${article.slug}/`}>
+             <a href={`/articles/${article.id}/`}>
               {article.data.title}
               {article.data.draft && (
                 <span class="draft-indicator">[DRAFT]</span>

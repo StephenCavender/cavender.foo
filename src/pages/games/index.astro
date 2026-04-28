@@ -48,7 +48,7 @@ const template = isDev
         <div class="template-container">
           <h3>Game Template</h3>
           <p>This template is only visible in development mode</p>
-          <a href={`/games/${template.slug}/`} class="template-link">
+          <a href={`/games/${template.id}/`} class="template-link">
             View Template
           </a>
         </div>
@@ -61,7 +61,7 @@ const template = isDev
             <span class="status-badge status-{game.data.status}">
               {game.data.status}
             </span>
-            <a href={`/games/${game.slug}/`}>
+            <a href={`/games/${game.id}/`}>
               {game.data.title}
               {game.data.draft && <span class="draft-indicator">[DRAFT]</span>}
             </a>

@@ -35,7 +35,7 @@ const recentArticles = (await getCollection("articles"))
       {
         recentArticles.map((article) => (
           <li>
-            <a href={`/articles/${article.slug}/`}>{article.data.title}</a>
+            <a href={`/articles/${article.id}/`}>{article.data.title}</a>
           </li>
         ))
       }

@@ -55,7 +55,7 @@ const template = isDev
         <div class="template-container">
           <h3>Book Template</h3>
           <p>This template is only visible in development mode</p>
-          <a href={`/books/${template.slug}/`} class="template-link">
+          <a href={`/books/${template.id}/`} class="template-link">
             View Template
           </a>
         </div>
@@ -68,7 +68,7 @@ const template = isDev
             <span class="status-badge status-{book.data.status}">
               {book.data.status}
             </span>
-            <a href={`/books/${book.slug}/`}>
+            <a href={`/books/${book.id}/`}>
               {book.data.title} by {book.data.author}
               {book.data.draft && <span class="draft-indicator">[DRAFT]</span>}
             </a>
