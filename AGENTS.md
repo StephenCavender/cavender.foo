@@ -1,32 +1,19 @@
 # AGENTS.md
 
+**Stack**: Astro 5.x · TypeScript · Bun
+
 ## Commands
 
-- `bun run dev` - Start development server
-- `bun run build` - Build for production (runs feed generation post-build)
-- `bun run preview` - Preview production build
-- `bun run lint` - Run ESLint
-- `bun run lint:fix` - Auto-fix linting issues
-- `bun run format` - Format with Prettier
-- `bun run format:check` - Check formatting
+- `bun run dev` / `build` / `preview`
+- `bun run lint` / `lint:fix`
+- `bun run format` / `format:check`
 
-## Code Style
+## Conventions
 
-- Use Prettier with trailing comma: es5
-- ESLint with Astro recommended config
-- TypeScript with strict null checks
-- Import aliases: `@components/*`, `@assets/*`, `@layouts/*`
-- Astro components use `.astro` extension
-- Content in plain MD under `src/content/`
-- Package Manager: Use Bun (bun.lockb file present)
-
-## Framework Notes
-
-- Astro 5.x
-
-## Important Rules
-
+- Prettier (trailing comma: es5), ESLint (Astro recommended)
+- TypeScript strict null checks, import aliases: `@components/*`, `@assets/*`, `@layouts/*`
+- Astro components: `.astro`, content: `src/content/*.md`
+- Write code for human understanding and maintainability
+- Prefer functional programming patterns over imperative styles
 - NEVER create/modify content (articles, books, etc.)
-- Use path aliases for imports
-- Follow existing component patterns
 - Run lint/format before committing
