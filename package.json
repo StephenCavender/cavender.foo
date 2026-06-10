@@ -2,10 +2,10 @@
   "name": "cavender.foo",
   "version": "0.0.1",
   "dependencies": {
-    "@astrojs/mdx": "5.0.4",
-    "@astrojs/sitemap": "^3.7.2",
+    "@astrojs/mdx": "6.0.3",
+    "@astrojs/sitemap": "3.7.3",
     "@resvg/resvg-js": "^2.6.2",
-    "astro": "6.1.10",
+    "astro": "6.4.6",
     "satori": "^0.26.0",
     "satori-html": "^0.3.2"
   },
