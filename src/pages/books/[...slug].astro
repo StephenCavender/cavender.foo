@@ -3,18 +3,11 @@ import { type CollectionEntry, getCollection, render } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const isDev = import.meta.env.DEV;
   const books = await getCollection("books");
-  return books
-    .filter((book) => {
-      // In production, exclude templates and drafts
-      // In development, include everything
-      return isDev || (!book.id.startsWith("_template") && !book.data.draft);
-    })
-    .map((book) => ({
-      params: { slug: book.id },
-      props: book,
-    }));
+  return books.map((book) => ({
+    params: { slug: book.id },
+    props: book,
+  }));
 }
 type Props = CollectionEntry<"books">;
 
@@ -24,106 +17,30 @@ const { Content } = await render(book);
 
 <BaseLayout>
   <article class="book">
-    {
-      book.data.draft && (
-        <div class="draft-banner">
-          DRAFT - This book entry is not published in production
-        </div>
-      )
-    }
-    {
-      book.id.startsWith("_template") && (
-        <div class="template-banner">
-          TEMPLATE - This is a template file for reference only
-        </div>
-      )
-    }
     <header>
-      <div class="book-container">
-        <div class="book-meta">
-          <h1>{book.data.title}</h1>
-          <p class="book-author">by <strong>{book.data.author}</strong></p>
-
-          <div class="book-status">
-            <span class="status-badge status-{book.data.status}"
-              >{book.data.status}</span
-            >
+      {
+        book.data.cover && (
+          <div class="book-cover">
+            <img
+              src={book.data.cover.src}
+              alt={`Cover for ${book.data.title}`}
+            />
           </div>
+        )
+      }
 
-          {
-            book.data.rating && (
-              <div class="book-rating">
-                <span class="stars">
-                  {"★".repeat(book.data.rating)}
-                  {"☆".repeat(5 - book.data.rating)}
-                </span>
-                <span class="rating-text">{book.data.rating} / 5</span>
-              </div>
-            )
-          }
+      <h1>{book.data.title}</h1>
+      <p class="book-author">by <strong>{book.data.author}</strong></p>
 
-          <div class="book-dates">
-            {
-              book.data.readDate && (
-                <p class="read-date">
-                  <span class="meta-label">Read on:</span>{" "}
-                  {book.data.readDate.toLocaleDateString()}
-                </p>
-              )
-            }
-          </div>
+      {
+        book.data.readDate && (
+          <p class="read-date">
+            Read {book.data.readDate.toLocaleDateString()}
+          </p>
+        )
+      }
 
-          {
-            book.data.isbn && (
-              <p class="book-isbn">
-                <span class="meta-label">ISBN:</span> {book.data.isbn}
-              </p>
-            )
-          }
-
-          {
-            book.data.amazonLink && (
-              <p class="book-amazon">
-                <span class="meta-label">Buy:</span>{" "}
-                <a
-                  href={book.data.amazonLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="amazon-link"
-                >
-                  Amazon <span class="external-link-icon">↗</span>
-                </a>
-              </p>
-            )
-          }
-
-          {
-            book.data.tags && book.data.tags.length > 0 && (
-              <div class="book-tags">
-                <span class="meta-label">Tags:</span>
-                <div class="tag-list">
-                  {book.data.tags.map((tag) => (
-                    <span class="tag">#{tag}</span>
-                  ))}
-                </div>
-              </div>
-            )
-          }
-        </div>
-
-        <div class="book-cover">
-          {
-            book.data.coverImageUrl && (
-              <div class="cover-image">
-                <img
-                  src={book.data.coverImageUrl}
-                  alt={`Cover for ${book.data.title}`}
-                />
-              </div>
-            )
-          }
-        </div>
-      </div>
+      {book.data.isbn && <p class="book-isbn">ISBN: {book.data.isbn}</p>}
     </header>
 
     <div class="book-content prose">
@@ -139,6 +56,8 @@ const { Content } = await render(book);
         </div>
       )
     }
+
+    <a href="/books">Back to Books</a>
   </article>
 </BaseLayout>
 
@@ -152,197 +71,41 @@ const { Content } = await render(book);
     margin-bottom: 2rem;
   }
 
-  .book-container {
-    display: flex;
-    gap: 1.5rem;
-    background-color: var(--bg-secondary);
-    padding: 1.5rem;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 2rem;
-  }
-
-  .book-meta {
-    flex: 3;
-    min-width: 280px;
-    color: var(--text-secondary);
-    font-size: 1rem;
-    padding-right: 1rem;
-  }
-
   .book-cover {
-    flex: 1;
-    min-width: 160px;
-    max-width: 180px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    float: right;
+    margin: 0 0 1.5rem 2rem;
   }
 
-  h1 {
-    margin-bottom: 0.75rem;
-    line-height: 1.2;
-    color: var(--text-primary);
-  }
-
-  .book-author {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-  }
-
-  .book-status {
-    margin-bottom: 1.25rem;
-  }
-
-  .status-badge {
-    padding: 0.3rem 0.8rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-
-  .status-reading {
-    background-color: #4caf50;
-    color: white;
-  }
-
-  .status-read {
-    background-color: #2196f3;
-    color: white;
-  }
-
-  .status-unread {
-    background-color: #9e9e9e;
-    color: white;
-  }
-
-  .book-rating {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1.25rem;
-  }
-
-  .stars {
-    color: #f5a623;
-    margin-right: 0.5rem;
-    font-size: 1.2rem;
-  }
-
-  .rating-text {
-    font-weight: bold;
-  }
-
-  .meta-label {
-    font-weight: bold;
-    margin-right: 0.5rem;
-    color: var(--text-primary);
-  }
-
-  .book-dates {
-    margin-bottom: 1rem;
-  }
-
-  .book-dates p {
-    margin: 0.5rem 0;
-  }
-
-  .book-tags {
-    margin-top: 1.5rem;
-    margin-bottom: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 1rem;
-  }
-
-  .tag-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-  }
-
-  .tag {
-    background-color: var(--bg-primary);
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    display: inline-block;
-  }
-
-  .book-isbn,
-  .book-amazon {
-    font-size: 0.9rem;
-    margin-top: 0.75rem;
-  }
-
-  .amazon-link {
-    color: var(--text-link);
-    text-decoration: none;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .amazon-link:hover {
-    text-decoration: underline;
-  }
-
-  .external-link-icon {
-    font-size: 0.8em;
-    margin-left: 0.2em;
-  }
-
-  .cover-image {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 0;
-    padding-top: 0;
-    width: 100%;
-  }
-
-  .cover-image img,
-  .cover-image :global(img) {
+  .book-cover img {
     max-width: 160px;
     height: auto;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
-    margin-top: 0;
+    display: block;
   }
 
-  @media (max-width: 768px) {
-    .book-container {
-      flex-direction: column-reverse;
-      gap: 2rem;
-    }
+  h1 {
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
 
-    .book-cover {
-      margin: 0 auto 1rem auto;
-      max-width: 180px;
-      justify-content: center;
-    }
+  .book-author {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+  }
 
-    .book-meta {
-      padding-right: 0;
-    }
-
-    .cover-image {
-      justify-content: center;
-    }
-
-    .cover-image img,
-    .cover-image :global(img) {
-      max-width: 160px;
-      margin: 0 auto;
-    }
+  .read-date,
+  .book-isbn {
+    font-size: 0.95rem;
+    margin: 0.35rem 0;
+    color: var(--text-secondary);
   }
 
   .book-content {
+    clear: both;
     line-height: 1.6;
   }
 
-  /* Tags styling to match article tags */
   .tags {
     display: flex;
     justify-content: center;
@@ -362,21 +125,11 @@ const { Content } = await render(book);
     color: var(--text-secondary);
   }
 
-  .draft-banner,
-  .template-banner {
-    text-align: center;
-    padding: 0.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 4px;
-    font-weight: bold;
-    color: white;
-  }
-
-  .draft-banner {
-    background-color: #ff6b6b;
-  }
-
-  .template-banner {
-    background-color: #8269ff;
+  @media (max-width: 600px) {
+    .book-cover {
+      float: none;
+      margin: 0 auto 1.5rem auto;
+      text-align: center;
+    }
   }
 </style>

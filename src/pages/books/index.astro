@@ -1,134 +1,181 @@
 ---
 import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
 import BaseLayout from "@layouts/BaseLayout.astro";
 
-// Get the environment to determine whether to show drafts
-const isDev = import.meta.env.DEV;
+const bookCollection = await getCollection("books");
+const books = bookCollection.sort((a, b) => {
+  const statusOrder = { reading: 0, read: 1, unread: 2 };
+  const aStatus = statusOrder[a.data.status] ?? 3;
+  const bStatus = statusOrder[b.data.status] ?? 3;
 
-// Filter books based on environment and exclude template
-const allBooks = await getCollection("books");
-const books = allBooks
-  .filter((book) => {
-    // Exclude template file and respect draft status
-    return !book.id.startsWith("_template") && (isDev || !book.data.draft);
-  })
-  .sort((a, b) => {
-    // Sort by status first (reading > read > unread), then by readDate/title
-    const statusOrder = { reading: 0, read: 1, unread: 2 };
-    const aStatus = statusOrder[a.data.status] || 3;
-    const bStatus = statusOrder[b.data.status] || 3;
+  if (aStatus !== bStatus) {
+    return aStatus - bStatus;
+  }
 
-    if (aStatus !== bStatus) {
-      return aStatus - bStatus;
-    }
+  if (a.data.status === "read" && b.data.status === "read") {
+    const aDate = a.data.readDate || new Date(0);
+    const bDate = b.data.readDate || new Date(0);
+    return bDate.valueOf() - aDate.valueOf();
+  }
 
-    // For read books, sort by readDate (newest first)
-    if (a.data.status === "read" && b.data.status === "read") {
-      const aDate = a.data.readDate || new Date(0);
-      const bDate = b.data.readDate || new Date(0);
-      return bDate.valueOf() - aDate.valueOf();
-    }
-
-    // Otherwise sort by title
-    return a.data.title.localeCompare(b.data.title);
-  });
-
-// Get template if in dev mode
-const template = isDev
-  ? (
-      await getCollection("books", (book) => book.id.startsWith("_template"))
-    ).at(0)
-  : null;
+  return a.data.title.localeCompare(b.data.title);
+});
 ---
 
 <BaseLayout>
-  <h2>My Bookshelf</h2>
-  <div
-    style="display: flex; justify-content: space-between; align-items: center;"
-  >
-    <div></div>
+  <div class="page-header">
+    <h2>My Bookshelf</h2>
     <a href="/books/tags/">Browse by Tags</a>
   </div>
   <section>
-    {
-      isDev && template && (
-        <div class="template-container">
-          <h3>Book Template</h3>
-          <p>This template is only visible in development mode</p>
-          <a href={`/books/${template.id}/`} class="template-link">
-            View Template
-          </a>
-        </div>
-      )
-    }
-    <ul>
+    <div class="book-grid">
       {
         books.map((book) => (
-          <li>
-            <span class="status-badge status-{book.data.status}">
-              {book.data.status}
-            </span>
-            <a href={`/books/${book.id}/`}>
-              {book.data.title} by {book.data.author}
-              {book.data.draft && <span class="draft-indicator">[DRAFT]</span>}
-            </a>
-          </li>
+          <a href={`/books/${book.id}/`} class="book-card">
+            <div class="cover-wrap">
+              {book.data.cover ? (
+                <Image
+                  src={book.data.cover}
+                  alt={`Cover of ${book.data.title}`}
+                  class="cover-img"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="cover-placeholder">
+                  <span class="placeholder-title">{book.data.title}</span>
+                  <span class="placeholder-author">{book.data.author}</span>
+                </div>
+              )}
+              <span class={`status-badge status-${book.data.status}`}>
+                {book.data.status}
+              </span>
+            </div>
+            <div class="book-meta">
+              <span class="book-title">{book.data.title}</span>
+              <span class="book-author">{book.data.author}</span>
+            </div>
+          </a>
         ))
       }
-    </ul>
+    </div>
   </section>
 </BaseLayout>
 <style>
-  li {
+  .page-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 0.5rem;
+    margin-bottom: 1.5rem;
   }
-  .status-badge {
-    flex: 0 0 80px;
-    min-width: 80px;
-    padding: 0.2rem 0.5rem;
+
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .book-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  .book-card:hover .cover-wrap {
+    transform: scale(1.03);
+  }
+
+  .book-card:hover .book-title {
+    color: var(--text-secondary);
+  }
+
+  .cover-wrap {
+    position: relative;
+    aspect-ratio: 2 / 3;
     border-radius: 4px;
+    overflow: hidden;
+    background: var(--bg-secondary);
+    transition: transform 0.2s ease;
+  }
+
+  .cover-wrap .cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+  }
+
+  .cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    gap: 0.5rem;
+    background: var(--bg-secondary);
+  }
+
+  .placeholder-title {
     font-size: 0.8rem;
     font-weight: bold;
     text-align: center;
-    text-transform: uppercase;
+    line-height: 1.3;
+    color: var(--text-primary);
   }
+
+  .placeholder-author {
+    font-size: 0.7rem;
+    text-align: center;
+    color: var(--text-secondary);
+  }
+
+  .status-badge {
+    position: absolute;
+    top: 0.4rem;
+    left: 0.4rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.65rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
   .status-reading {
     background-color: #4caf50;
     color: white;
   }
+
   .status-read {
     background-color: #2196f3;
     color: white;
   }
+
   .status-unread {
     background-color: #9e9e9e;
     color: white;
   }
-  .draft-indicator {
-    margin-left: 0.5rem;
-    color: #ff6b6b;
-    font-size: 0.85em;
+
+  .book-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .book-title {
+    font-size: 1.2rem;
     font-weight: bold;
+    line-height: 1.3;
+    transition: color 0.15s ease;
   }
-  .template-container {
-    background-color: #4a3f7d;
-    border: 2px dashed #8269ff;
-    padding: 1rem;
-    margin-bottom: 2rem;
-    border-radius: 8px;
-  }
-  .template-link {
-    display: inline-block;
-    background-color: #8269ff;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    text-decoration: none;
-    margin-top: 0.5rem;
-  }
-  .template-link:hover {
-    background-color: #6a4dff;
+
+  .book-author {
+    font-size: 1rem;
+    color: var(--text-secondary);
   }
 </style>
