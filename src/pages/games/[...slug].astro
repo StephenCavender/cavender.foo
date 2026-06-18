@@ -3,18 +3,11 @@ import { type CollectionEntry, getCollection, render } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const isDev = import.meta.env.DEV;
   const games = await getCollection("games");
-  return games
-    .filter((game) => {
-      // In production, exclude templates and drafts
-      // In development, include everything
-      return isDev || (!game.id.startsWith("_template") && !game.data.draft);
-    })
-    .map((game) => ({
-      params: { slug: game.id },
-      props: game,
-    }));
+  return games.map((game) => ({
+    params: { slug: game.id },
+    props: game,
+  }));
 }
 type Props = CollectionEntry<"games">;
 
@@ -24,20 +17,6 @@ const { Content } = await render(game);
 
 <BaseLayout>
   <article class="game">
-    {
-      game.data.draft && (
-        <div class="draft-banner">
-          DRAFT - This game entry is not published in production
-        </div>
-      )
-    }
-    {
-      game.id.startsWith("_template") && (
-        <div class="template-banner">
-          TEMPLATE - This is a template file for reference only
-        </div>
-      )
-    }
     <header>
       <div class="game-container">
         <div class="game-meta">
@@ -376,23 +355,5 @@ const { Content } = await render(game);
 
   .tags a:hover {
     color: var(--text-secondary);
-  }
-
-  .draft-banner,
-  .template-banner {
-    text-align: center;
-    padding: 0.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 4px;
-    font-weight: bold;
-    color: white;
-  }
-
-  .draft-banner {
-    background-color: #ff6b6b;
-  }
-
-  .template-banner {
-    background-color: #8269ff;
   }
 </style>

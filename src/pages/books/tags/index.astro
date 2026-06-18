@@ -1,27 +1,60 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+
 const books = await getCollection("books");
-const tags = [...new Set(books.map((book) => book.data.tags).flat())];
+const allTags = [...new Set(books.map((book) => book.data.tags).flat())].sort();
+
+// Count books per tag
+const tagCounts = allTags.map((tag) => ({
+  tag,
+  count: books.filter((b) => b.data.tags.includes(tag)).length,
+}));
 ---
 
-<BaseLayout title="Book Review Tags">
-  <h2>Book Review Tags</h2>
+<BaseLayout title="Book Tags">
+  <h2>Book Tags</h2>
   <section>
-    <ul>
+    <ul class="tag-list">
       {
-        tags.map((tag) => (
+        tagCounts.map(({ tag, count }) => (
           <li>
-            <a href={`/books/tags/${tag}/`}>{tag}</a>
+            <a href={`/books/tags/${tag}/`}>
+              {tag} <span class="count">({count})</span>
+            </a>
           </li>
         ))
       }
     </ul>
   </section>
-    <a href="/books">Back to Books</a>
+  <a href="/books">Back to Books</a>
 </BaseLayout>
+
 <style>
-  ul {
+  .tag-list {
     columns: 3;
+    column-gap: 2rem;
+  }
+
+  .tag-list li {
+    break-inside: avoid;
+    margin-bottom: 0.5rem;
+  }
+
+  .count {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+  }
+
+  @media (max-width: 768px) {
+    .tag-list {
+      columns: 2;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .tag-list {
+      columns: 1;
+    }
   }
 </style>

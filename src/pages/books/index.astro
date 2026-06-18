@@ -21,12 +21,33 @@ const books = bookCollection.sort((a, b) => {
 
   return a.data.title.localeCompare(b.data.title);
 });
+
+// Count by status
+const statusCounts = {
+  reading: books.filter((b) => b.data.status === "reading").length,
+  read: books.filter((b) => b.data.status === "read").length,
+  unread: books.filter((b) => b.data.status === "unread").length,
+};
 ---
 
 <BaseLayout>
   <div class="page-header">
     <h2>My Bookshelf</h2>
     <a href="/books/tags/">Browse by Tags</a>
+  </div>
+  <div class="status-summary">
+    <span class="status-count">
+      <span class="status-badge status-reading">Reading</span>
+      ({statusCounts.reading})
+    </span>
+    <span class="status-count">
+      <span class="status-badge status-read">Read</span>
+      ({statusCounts.read})
+    </span>
+    <span class="status-count">
+      <span class="status-badge status-unread">Unread</span>
+      ({statusCounts.unread})
+    </span>
   </div>
   <section>
     <div class="book-grid">
@@ -177,5 +198,25 @@ const books = bookCollection.sort((a, b) => {
   .book-author {
     font-size: 1rem;
     color: var(--text-secondary);
+  }
+
+  .status-summary {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .status-count {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 600px) {
+    .status-summary {
+      justify-content: center;
+    }
   }
 </style>

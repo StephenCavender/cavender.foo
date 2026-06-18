@@ -7,7 +7,9 @@ export async function getStaticPaths() {
   const uniqueTags = [...new Set(games.map((game) => game.data.tags).flat())];
 
   return uniqueTags.map((tag) => {
-    const filteredGames = games.filter((game) => game.data.tags.includes(tag));
+    const filteredGames = games
+      .filter((game) => game.data.tags.includes(tag))
+      .sort((a, b) => a.data.title.localeCompare(b.data.title));
     return {
       params: { tag },
       props: { games: filteredGames },
@@ -20,19 +22,140 @@ const { games } = Astro.props;
 ---
 
 <BaseLayout title={`Games tagged with ${tag}`}>
-  <h2>Games tagged with <code>{tag}</code></h2>
-  <section>
-    <ul>
-      {
-        games.map((game) => (
-          <>
-            <li>
-              <a href={`/games/${game.id}`}>{game.data.title}</a>
-            </li>
-          </>
-        ))
-      }
-    </ul>
-  </section>
-  <a href="/games/tags">All Game Tags</a>
+  <h2>
+    Games tagged with <code>{tag}</code>
+    <span class="count">({games.length})</span>
+  </h2>
+
+  <div class="game-grid">
+    {
+      games.map((game) => (
+        <a href={`/games/${game.id}/`} class="game-card">
+          {game.data.coverImageUrl ? (
+            <img
+              src={game.data.coverImageUrl}
+              alt={game.data.title}
+              class="game-cover"
+            />
+          ) : (
+            <div class="game-cover-placeholder">
+              <span class="game-title-fallback">{game.data.title}</span>
+            </div>
+          )}
+          <div class="game-info">
+            <h4 class="game-title">{game.data.title}</h4>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+
+  <div class="nav-links">
+    <a href="/games/tags">All Game Tags</a>
+    <a href="/games">Back to Games</a>
+  </div>
 </BaseLayout>
+
+<style>
+  h2 {
+    margin-bottom: 2rem;
+  }
+
+  .count {
+    color: var(--text-secondary);
+    font-size: 0.8em;
+    font-weight: normal;
+  }
+
+  .game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .game-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+
+  .game-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .game-cover {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .game-card:hover .game-cover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .game-cover-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .game-card:hover .game-cover-placeholder {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .game-title-fallback {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.3;
+    word-wrap: break-word;
+  }
+
+  .game-info {
+    margin-top: 0.75rem;
+  }
+
+  .game-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0;
+    color: var(--text-primary);
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    .game-grid {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+
+    .game-title {
+      font-size: 0.85rem;
+    }
+  }
+</style>

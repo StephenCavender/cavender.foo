@@ -1,17 +1,16 @@
 ---
 import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const books = await getCollection("books");
-  const uniqueTags = [
-    ...new Set(books.map((book) => book.data.tags).flat()),
-  ];
+  const uniqueTags = [...new Set(books.map((book) => book.data.tags).flat())];
 
   return uniqueTags.map((tag) => {
-    const filteredBooks = books.filter((book) =>
-      book.data.tags.includes(tag)
-    );
+    const filteredBooks = books
+      .filter((book) => book.data.tags.includes(tag))
+      .sort((a, b) => a.data.title.localeCompare(b.data.title));
     return {
       params: { tag },
       props: { books: filteredBooks },
@@ -24,19 +23,174 @@ const { books } = Astro.props;
 ---
 
 <BaseLayout title={`Books tagged with ${tag}`}>
-  <h2>Books tagged with <code>{tag}</code></h2>
-  <section>
-    <ul>
-      {
-        books.map((book) => (
-          <>
-            <li>
-              <a href={`/books/${book.id}`}>{book.data.title}</a>
-            </li>
-          </>
-        ))
-      }
-    </ul>
-  </section>
-  <a href="/books/tags">All Book Tags</a>
+  <h2>
+    Books tagged with <code>{tag}</code>
+    <span class="count">({books.length})</span>
+  </h2>
+
+  <div class="book-grid">
+    {
+      books.map((book) => (
+        <a href={`/books/${book.id}/`} class="book-card">
+          <div class="cover-wrap">
+            {book.data.cover ? (
+              <Image
+                src={book.data.cover}
+                alt={`Cover of ${book.data.title}`}
+                class="cover-img"
+                loading="lazy"
+              />
+            ) : (
+              <div class="cover-placeholder">
+                <span class="placeholder-title">{book.data.title}</span>
+                <span class="placeholder-author">{book.data.author}</span>
+              </div>
+            )}
+            <span class={`status-badge status-${book.data.status}`}>
+              {book.data.status}
+            </span>
+          </div>
+          <div class="book-meta">
+            <span class="book-title">{book.data.title}</span>
+            <span class="book-author">{book.data.author}</span>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+
+  <div class="nav-links">
+    <a href="/books/tags">All Book Tags</a>
+    <a href="/books">Back to Books</a>
+  </div>
 </BaseLayout>
+
+<style>
+  h2 {
+    margin-bottom: 2rem;
+  }
+
+  .count {
+    color: var(--text-secondary);
+    font-size: 0.8em;
+    font-weight: normal;
+  }
+
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .book-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  .book-card:hover .cover-wrap {
+    transform: scale(1.03);
+  }
+
+  .book-card:hover .book-title {
+    color: var(--text-secondary);
+  }
+
+  .cover-wrap {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--bg-secondary);
+    transition: transform 0.2s ease;
+  }
+
+  .cover-wrap .cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+  }
+
+  .cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    gap: 0.5rem;
+    background: var(--bg-secondary);
+  }
+
+  .placeholder-title {
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.3;
+    color: var(--text-primary);
+  }
+
+  .placeholder-author {
+    font-size: 0.7rem;
+    text-align: center;
+    color: var(--text-secondary);
+  }
+
+  .status-badge {
+    position: absolute;
+    top: 0.4rem;
+    left: 0.4rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.65rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .status-reading {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  .status-read {
+    background-color: #2196f3;
+    color: white;
+  }
+
+  .status-unread {
+    background-color: #9e9e9e;
+    color: white;
+  }
+
+  .book-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .book-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    line-height: 1.3;
+    transition: color 0.15s ease;
+  }
+
+  .book-author {
+    font-size: 1rem;
+    color: var(--text-secondary);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 3rem;
+  }
+</style>

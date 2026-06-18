@@ -2,126 +2,299 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 
-// Get the environment to determine whether to show drafts
-const isDev = import.meta.env.DEV;
-
-// Filter games based on environment and exclude template
 const allGames = await getCollection("games");
-const games = allGames
-  .filter((game) => {
-    // Exclude template file and respect draft status
-    return !game.id.startsWith("_template") && (isDev || !game.data.draft);
-  })
-  .sort((a, b) => {
-    // Sort by status first (playing > played > unplayed), then by title
-    const statusOrder = { playing: 0, played: 1, unplayed: 2 };
-    const aStatus = statusOrder[a.data.status] || 3;
-    const bStatus = statusOrder[b.data.status] || 3;
 
-    if (aStatus !== bStatus) {
-      return aStatus - bStatus;
-    }
+// Group games by status
+const gamesByStatus = {
+  playing: allGames.filter((g) => g.data.status === "playing"),
+  played: allGames.filter((g) => g.data.status === "played"),
+  unplayed: allGames.filter((g) => g.data.status === "unplayed"),
+};
 
-    // Otherwise sort by title
-    return a.data.title.localeCompare(b.data.title);
-  });
+// Sort each group by title
+Object.values(gamesByStatus).forEach((games) => {
+  games.sort((a, b) => a.data.title.localeCompare(b.data.title));
+});
 
-// Get template if in dev mode
-const template = isDev
-  ? (
-      await getCollection("games", (game) => game.id.startsWith("_template"))
-    ).at(0)
-  : null;
+// Count totals
+const totalGames = allGames.length;
 ---
 
 <BaseLayout>
-  <h2>Video Games</h2>
-  <div
-    style="display: flex; justify-content: space-between; align-items: center;"
-  >
-    <div></div>
+  <div class="header">
+    <h2>Video Games</h2>
     <a href="/games/tags/">Browse by Tags</a>
   </div>
-  <section>
-    {
-      isDev && template && (
-        <div class="template-container">
-          <h3>Game Template</h3>
-          <p>This template is only visible in development mode</p>
-          <a href={`/games/${template.id}/`} class="template-link">
-            View Template
-          </a>
-        </div>
-      )
-    }
-    <ul>
-      {
-        games.map((game) => (
-          <li>
-            <span class="status-badge status-{game.data.status}">
-              {game.data.status}
-            </span>
-            <a href={`/games/${game.id}/`}>
-              {game.data.title}
-              {game.data.draft && <span class="draft-indicator">[DRAFT]</span>}
+
+  <div class="status-summary">
+    <span class="total-count">Total: {totalGames}</span>
+    <span class="status-count">
+      <span class="status-badge status-playing">Playing</span>
+      ({gamesByStatus.playing.length})
+    </span>
+    <span class="status-count">
+      <span class="status-badge status-played">Played</span>
+      ({gamesByStatus.played.length})
+    </span>
+    <span class="status-count">
+      <span class="status-badge status-unplayed">Backlog</span>
+      ({gamesByStatus.unplayed.length})
+    </span>
+  </div>
+
+  {
+    gamesByStatus.playing.length > 0 && (
+      <section class="status-section">
+        <h3 class="status-heading">
+          <span class="status-badge status-playing">Playing</span>
+          <span class="count">({gamesByStatus.playing.length})</span>
+        </h3>
+        <div class="game-grid">
+          {gamesByStatus.playing.map((game) => (
+            <a href={`/games/${game.id}/`} class="game-card">
+              {game.data.coverImageUrl ? (
+                <img
+                  src={game.data.coverImageUrl}
+                  alt={game.data.title}
+                  class="game-cover"
+                />
+              ) : (
+                <div class="game-cover-placeholder">
+                  <span class="game-title-fallback">{game.data.title}</span>
+                </div>
+              )}
+              <div class="game-info">
+                <h4 class="game-title">{game.data.title}</h4>
+              </div>
             </a>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    gamesByStatus.played.length > 0 && (
+      <section class="status-section">
+        <h3 class="status-heading">
+          <span class="status-badge status-played">Played</span>
+          <span class="count">({gamesByStatus.played.length})</span>
+        </h3>
+        <div class="game-grid">
+          {gamesByStatus.played.map((game) => (
+            <a href={`/games/${game.id}/`} class="game-card">
+              {game.data.coverImageUrl ? (
+                <img
+                  src={game.data.coverImageUrl}
+                  alt={game.data.title}
+                  class="game-cover"
+                />
+              ) : (
+                <div class="game-cover-placeholder">
+                  <span class="game-title-fallback">{game.data.title}</span>
+                </div>
+              )}
+              <div class="game-info">
+                <h4 class="game-title">{game.data.title}</h4>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    gamesByStatus.unplayed.length > 0 && (
+      <section class="status-section">
+        <h3 class="status-heading">
+          <span class="status-badge status-unplayed">Backlog</span>
+          <span class="count">({gamesByStatus.unplayed.length})</span>
+        </h3>
+        <div class="game-grid">
+          {gamesByStatus.unplayed.map((game) => (
+            <a href={`/games/${game.id}/`} class="game-card">
+              {game.data.coverImageUrl ? (
+                <img
+                  src={game.data.coverImageUrl}
+                  alt={game.data.title}
+                  class="game-cover"
+                />
+              ) : (
+                <div class="game-cover-placeholder">
+                  <span class="game-title-fallback">{game.data.title}</span>
+                </div>
+              )}
+              <div class="game-info">
+                <h4 class="game-title">{game.data.title}</h4>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  }
 </BaseLayout>
+
 <style>
-  li {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .header h2 {
+    margin: 0;
+  }
+
+  .status-section {
+    margin-bottom: 3rem;
+  }
+
+  .status-heading {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
   }
+
   .status-badge {
-    flex: 0 0 80px;
-    min-width: 80px;
-    padding: 0.2rem 0.5rem;
+    padding: 0.4rem 0.8rem;
     border-radius: 4px;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: bold;
-    text-align: center;
     text-transform: uppercase;
   }
+
   .status-playing {
     background-color: #4caf50;
     color: white;
   }
+
   .status-played {
     background-color: #2196f3;
     color: white;
   }
+
   .status-unplayed {
     background-color: #9e9e9e;
     color: white;
   }
-  .draft-indicator {
-    margin-left: 0.5rem;
-    color: #ff6b6b;
-    font-size: 0.85em;
-    font-weight: bold;
+
+  .count {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    font-weight: normal;
   }
-  .template-container {
-    background-color: #4a3f7d;
-    border: 2px dashed #8269ff;
-    padding: 1rem;
-    margin-bottom: 2rem;
-    border-radius: 8px;
+
+  .game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1.5rem;
   }
-  .template-link {
-    display: inline-block;
-    background-color: #8269ff;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
+
+  .game-card {
+    display: flex;
+    flex-direction: column;
     text-decoration: none;
-    margin-top: 0.5rem;
+    transition: transform 0.2s ease;
   }
-  .template-link:hover {
-    background-color: #6a4dff;
+
+  .game-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .game-cover {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .game-card:hover .game-cover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .game-cover-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .game-card:hover .game-cover-placeholder {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .game-title-fallback {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.3;
+    word-wrap: break-word;
+  }
+
+  .game-info {
+    margin-top: 0.75rem;
+  }
+
+  .game-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0;
+    color: var(--text-primary);
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .status-summary {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .total-count {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--text-primary);
+  }
+
+  .status-count {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .game-grid {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+
+    .game-title {
+      font-size: 0.85rem;
+    }
+
+    .status-summary {
+      justify-content: center;
+    }
   }
 </style>
