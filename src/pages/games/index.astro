@@ -1,171 +1,166 @@
 ---
 import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
 import BaseLayout from "@layouts/BaseLayout.astro";
 
-const allGames = await getCollection("games");
+const gameCollection = await getCollection("games");
+const games = gameCollection.sort((a, b) => {
+  const statusOrder = { playing: 0, unplayed: 1, played: 2 };
+  const aStatus = statusOrder[a.data.status] ?? 3;
+  const bStatus = statusOrder[b.data.status] ?? 3;
 
-// Group games by status
-const gamesByStatus = {
-  playing: allGames.filter((g) => g.data.status === "playing"),
-  played: allGames.filter((g) => g.data.status === "played"),
-  unplayed: allGames.filter((g) => g.data.status === "unplayed"),
-};
+  if (aStatus !== bStatus) {
+    return aStatus - bStatus;
+  }
 
-// Sort each group by title
-Object.values(gamesByStatus).forEach((games) => {
-  games.sort((a, b) => a.data.title.localeCompare(b.data.title));
+  return a.data.title.localeCompare(b.data.title);
 });
 
-// Count totals
-const totalGames = allGames.length;
+// Count by status
+const statusCounts = {
+  playing: games.filter((g) => g.data.status === "playing").length,
+  played: games.filter((g) => g.data.status === "played").length,
+  unplayed: games.filter((g) => g.data.status === "unplayed").length,
+};
 ---
 
 <BaseLayout>
-  <div class="header">
+  <div class="page-header">
     <h2>Video Games</h2>
     <a href="/games/tags/">Browse by Tags</a>
   </div>
-
   <div class="status-summary">
-    <span class="total-count">Total: {totalGames}</span>
     <span class="status-count">
       <span class="status-badge status-playing">Playing</span>
-      ({gamesByStatus.playing.length})
+      ({statusCounts.playing})
     </span>
     <span class="status-count">
       <span class="status-badge status-played">Played</span>
-      ({gamesByStatus.played.length})
+      ({statusCounts.played})
     </span>
     <span class="status-count">
       <span class="status-badge status-unplayed">Backlog</span>
-      ({gamesByStatus.unplayed.length})
+      ({statusCounts.unplayed})
     </span>
   </div>
-
-  {
-    gamesByStatus.playing.length > 0 && (
-      <section class="status-section">
-        <h3 class="status-heading">
-          <span class="status-badge status-playing">Playing</span>
-          <span class="count">({gamesByStatus.playing.length})</span>
-        </h3>
-        <div class="game-grid">
-          {gamesByStatus.playing.map((game) => (
-            <a href={`/games/${game.id}/`} class="game-card">
-              {game.data.coverImageUrl ? (
-                <img
-                  src={game.data.coverImageUrl}
+  <section>
+    <div class="game-grid">
+      {
+        games.map((game) => (
+          <a href={`/games/${game.id}/`} class="game-card">
+            <div class="cover-wrap">
+              {game.data.cover ? (
+                <Image
+                  src={game.data.cover}
                   alt={game.data.title}
-                  class="game-cover"
+                  class="cover-img"
+                  loading="lazy"
                 />
               ) : (
-                <div class="game-cover-placeholder">
-                  <span class="game-title-fallback">{game.data.title}</span>
+                <div class="cover-placeholder">
+                  <span class="placeholder-title">{game.data.title}</span>
                 </div>
               )}
-              <div class="game-info">
-                <h4 class="game-title">{game.data.title}</h4>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
-    )
-  }
-
-  {
-    gamesByStatus.played.length > 0 && (
-      <section class="status-section">
-        <h3 class="status-heading">
-          <span class="status-badge status-played">Played</span>
-          <span class="count">({gamesByStatus.played.length})</span>
-        </h3>
-        <div class="game-grid">
-          {gamesByStatus.played.map((game) => (
-            <a href={`/games/${game.id}/`} class="game-card">
-              {game.data.coverImageUrl ? (
-                <img
-                  src={game.data.coverImageUrl}
-                  alt={game.data.title}
-                  class="game-cover"
-                />
-              ) : (
-                <div class="game-cover-placeholder">
-                  <span class="game-title-fallback">{game.data.title}</span>
-                </div>
-              )}
-              <div class="game-info">
-                <h4 class="game-title">{game.data.title}</h4>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
-    )
-  }
-
-  {
-    gamesByStatus.unplayed.length > 0 && (
-      <section class="status-section">
-        <h3 class="status-heading">
-          <span class="status-badge status-unplayed">Backlog</span>
-          <span class="count">({gamesByStatus.unplayed.length})</span>
-        </h3>
-        <div class="game-grid">
-          {gamesByStatus.unplayed.map((game) => (
-            <a href={`/games/${game.id}/`} class="game-card">
-              {game.data.coverImageUrl ? (
-                <img
-                  src={game.data.coverImageUrl}
-                  alt={game.data.title}
-                  class="game-cover"
-                />
-              ) : (
-                <div class="game-cover-placeholder">
-                  <span class="game-title-fallback">{game.data.title}</span>
-                </div>
-              )}
-              <div class="game-info">
-                <h4 class="game-title">{game.data.title}</h4>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
-    )
-  }
+              <span class={`status-badge status-${game.data.status}`}>
+                {game.data.status === "unplayed" ? "backlog" : game.data.status}
+              </span>
+            </div>
+            <div class="game-meta">
+              <span class="game-title">{game.data.title}</span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
-  .header {
+  .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
-  }
-
-  .header h2 {
-    margin: 0;
-  }
-
-  .status-section {
-    margin-bottom: 3rem;
-  }
-
-  .status-heading {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
     margin-bottom: 1.5rem;
-    font-size: 1.5rem;
   }
 
-  .status-badge {
-    padding: 0.4rem 0.8rem;
+  .game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .game-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  .game-card:hover .cover-wrap {
+    transform: scale(1.03);
+  }
+
+  .game-card:hover .game-title {
+    color: var(--text-secondary);
+  }
+
+  .cover-wrap {
+    position: relative;
+    aspect-ratio: 2 / 3;
     border-radius: 4px;
-    font-size: 0.9rem;
+    overflow: hidden;
+    background: var(--bg-secondary);
+    transition: transform 0.2s ease;
+  }
+
+  .cover-wrap .cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+  }
+
+  .cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    gap: 0.5rem;
+    background: var(--bg-secondary);
+  }
+
+  .placeholder-title {
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.3;
+    color: var(--text-primary);
+  }
+
+  .cover-wrap .status-badge {
+    position: absolute;
+    top: 0.4rem;
+    left: 0.4rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.65rem;
     font-weight: bold;
     text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .status-summary .status-badge {
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.65rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1;
   }
 
   .status-playing {
@@ -183,83 +178,17 @@ const totalGames = allGames.length;
     color: white;
   }
 
-  .count {
-    color: var(--text-secondary);
-    font-size: 1.2rem;
-    font-weight: normal;
-  }
-
-  .game-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .game-card {
+  .game-meta {
     display: flex;
     flex-direction: column;
-    text-decoration: none;
-    transition: transform 0.2s ease;
-  }
-
-  .game-card:hover {
-    transform: translateY(-4px);
-  }
-
-  .game-cover {
-    width: 100%;
-    aspect-ratio: 3/4;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    transition: box-shadow 0.2s ease;
-  }
-
-  .game-card:hover .game-cover {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-  }
-
-  .game-cover-placeholder {
-    width: 100%;
-    aspect-ratio: 3/4;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    transition: box-shadow 0.2s ease;
-  }
-
-  .game-card:hover .game-cover-placeholder {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-  }
-
-  .game-title-fallback {
-    color: white;
-    font-size: 0.9rem;
-    font-weight: bold;
-    text-align: center;
-    line-height: 1.3;
-    word-wrap: break-word;
-  }
-
-  .game-info {
-    margin-top: 0.75rem;
+    gap: 0.15rem;
   }
 
   .game-title {
-    font-size: 0.95rem;
-    font-weight: 500;
-    margin: 0;
-    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: bold;
     line-height: 1.3;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    transition: color 0.15s ease;
   }
 
   .status-summary {
@@ -267,13 +196,6 @@ const totalGames = allGames.length;
     gap: 1.5rem;
     margin-bottom: 2rem;
     flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .total-count {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: var(--text-primary);
   }
 
   .status-count {
@@ -283,16 +205,7 @@ const totalGames = allGames.length;
     color: var(--text-secondary);
   }
 
-  @media (max-width: 768px) {
-    .game-grid {
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 1rem;
-    }
-
-    .game-title {
-      font-size: 0.85rem;
-    }
-
+  @media (max-width: 600px) {
     .status-summary {
       justify-content: center;
     }

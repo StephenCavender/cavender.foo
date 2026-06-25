@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
 import BaseLayout from "@layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
@@ -18,114 +19,90 @@ const { Content } = await render(game);
 <BaseLayout>
   <article class="game">
     <header>
-      <div class="game-container">
-        <div class="game-meta">
-          <h1>{game.data.title}</h1>
+      {
+        game.data.cover && (
+          <div class="game-cover">
+            <Image
+              src={game.data.cover}
+              alt={`Cover for ${game.data.title}`}
+            />
+          </div>
+        )
+      }
 
-          <div class="game-status">
-            <span class="status-badge status-{game.data.status}"
-              >{game.data.status}</span
+      <h1>{game.data.title}</h1>
+
+      <p class="game-status">
+        <span class="status-badge status-{game.data.status}"
+          >{game.data.status}</span
+        >
+      </p>
+
+      {
+        game.data.rating && (
+          <div class="game-rating">
+            <span class="stars">
+              {"★".repeat(game.data.rating)}
+              {"☆".repeat(5 - game.data.rating)}
+            </span>
+            <span class="rating-text">{game.data.rating} / 5</span>
+          </div>
+        )
+      }
+
+      {
+        game.data.developer && (
+          <p class="meta-line">
+            <span class="meta-label">Developer:</span> {game.data.developer}
+          </p>
+        )
+      }
+      {
+        game.data.publisher && (
+          <p class="meta-line">
+            <span class="meta-label">Publisher:</span> {game.data.publisher}
+          </p>
+        )
+      }
+      {
+        game.data.platform && game.data.platform.length > 0 && (
+          <p class="meta-line">
+            <span class="meta-label">Platform:</span>{" "}
+            {game.data.platform.join(", ")}
+          </p>
+        )
+      }
+      {
+        game.data.releaseDate && (
+          <p class="meta-line">
+            <span class="meta-label">Released:</span>{" "}
+            {game.data.releaseDate.toLocaleDateString()}
+          </p>
+        )
+      }
+      {
+        game.data.playDate && (
+          <p class="meta-line">
+            <span class="meta-label">Played:</span>{" "}
+            {game.data.playDate.toLocaleDateString()}
+          </p>
+        )
+      }
+
+      {
+        game.data.steamLink && (
+          <p class="meta-line">
+            <span class="meta-label">Steam:</span>{" "}
+            <a
+              href={game.data.steamLink}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-          </div>
-
-          {
-            game.data.rating && (
-              <div class="game-rating">
-                <span class="stars">
-                  {"★".repeat(game.data.rating)}
-                  {"☆".repeat(5 - game.data.rating)}
-                </span>
-                <span class="rating-text">{game.data.rating} / 5</span>
-              </div>
-            )
-          }
-
-          <div class="game-info">
-            {
-              game.data.developer && (
-                <p class="game-developer">
-                  <span class="meta-label">Developer:</span>{" "}
-                  {game.data.developer}
-                </p>
-              )
-            }
-            {
-              game.data.publisher && (
-                <p class="game-publisher">
-                  <span class="meta-label">Publisher:</span>{" "}
-                  {game.data.publisher}
-                </p>
-              )
-            }
-            {
-              game.data.platform && game.data.platform.length > 0 && (
-                <p class="game-platform">
-                  <span class="meta-label">Platform:</span>{" "}
-                  {game.data.platform.join(", ")}
-                </p>
-              )
-            }
-            {
-              game.data.releaseDate && (
-                <p class="release-date">
-                  <span class="meta-label">Released:</span>{" "}
-                  {game.data.releaseDate.toLocaleDateString()}
-                </p>
-              )
-            }
-            {
-              game.data.playDate && (
-                <p class="play-date">
-                  <span class="meta-label">Played:</span>{" "}
-                  {game.data.playDate.toLocaleDateString()}
-                </p>
-              )
-            }
-          </div>
-
-          {
-            game.data.steamLink && (
-              <p class="game-steam">
-                <span class="meta-label">Steam:</span>{" "}
-                <a
-                  href={game.data.steamLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="steam-link"
-                >
-                  View on Steam <span class="external-link-icon">↗</span>
-                </a>
-              </p>
-            )
-          }
-
-          {
-            game.data.tags && game.data.tags.length > 0 && (
-              <div class="game-tags">
-                <span class="meta-label">Tags:</span>
-                <div class="tag-list">
-                  {game.data.tags.map((tag) => (
-                    <span class="tag">#{tag}</span>
-                  ))}
-                </div>
-              </div>
-            )
-          }
-        </div>
-
-        <div class="game-cover">
-          {
-            game.data.coverImageUrl && (
-              <div class="cover-image">
-                <img
-                  src={game.data.coverImageUrl}
-                  alt={`Cover for ${game.data.title}`}
-                />
-              </div>
-            )
-          }
-        </div>
-      </div>
+              View on Steam ↗
+            </a>
+          </p>
+        )
+      }
     </header>
 
     <div class="game-content prose">
@@ -141,6 +118,8 @@ const { Content } = await render(game);
         </div>
       )
     }
+
+    <a href="/games">Back to Games</a>
   </article>
 </BaseLayout>
 
@@ -154,49 +133,36 @@ const { Content } = await render(game);
     margin-bottom: 2rem;
   }
 
-  .game-container {
-    display: flex;
-    gap: 1.5rem;
-    background-color: var(--bg-secondary);
-    padding: 1.5rem;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 2rem;
-  }
-
-  .game-meta {
-    flex: 3;
-    min-width: 280px;
-    color: var(--text-secondary);
-    font-size: 1rem;
-    padding-right: 1rem;
-  }
-
   .game-cover {
-    flex: 1;
-    min-width: 160px;
-    max-width: 180px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    float: right;
+    margin: 0 0 1.5rem 2rem;
+  }
+
+  .game-cover img {
+    max-width: 160px;
+    height: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    display: block;
   }
 
   h1 {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     line-height: 1.2;
-    color: var(--text-primary);
   }
 
   .game-status {
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.75rem;
   }
 
   .status-badge {
-    padding: 0.3rem 0.8rem;
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
     border-radius: 4px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: bold;
     text-transform: uppercase;
+    line-height: 1;
   }
 
   .status-playing {
@@ -217,127 +183,45 @@ const { Content } = await render(game);
   .game-rating {
     display: flex;
     align-items: center;
-    margin-bottom: 1.25rem;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
   }
 
   .stars {
     color: #f5a623;
-    margin-right: 0.5rem;
     font-size: 1.2rem;
   }
 
   .rating-text {
-    font-weight: bold;
+    color: var(--text-secondary);
+  }
+
+  .meta-line {
+    margin: 0.35rem 0;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
   }
 
   .meta-label {
     font-weight: bold;
-    margin-right: 0.5rem;
     color: var(--text-primary);
   }
 
-  .game-info {
-    margin-bottom: 1rem;
-  }
-
-  .game-info p {
-    margin: 0.5rem 0;
-  }
-
-  .game-tags {
-    margin-top: 1.5rem;
-    margin-bottom: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 1rem;
-  }
-
-  .tag-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-  }
-
-  .tag {
-    background-color: var(--bg-primary);
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    display: inline-block;
-  }
-
-  .game-steam {
-    font-size: 0.9rem;
-    margin-top: 0.75rem;
-  }
-
-  .steam-link {
+  .meta-line a {
     color: var(--text-link);
     text-decoration: none;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
   }
 
-  .steam-link:hover {
+  .meta-line a:hover {
     text-decoration: underline;
   }
 
-  .external-link-icon {
-    font-size: 0.8em;
-    margin-left: 0.2em;
-  }
-
-  .cover-image {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 0;
-    padding-top: 0;
-    width: 100%;
-  }
-
-  .cover-image img,
-  .cover-image :global(img) {
-    max-width: 160px;
-    height: auto;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    margin-top: 0;
-  }
-
-  @media (max-width: 768px) {
-    .game-container {
-      flex-direction: column-reverse;
-      gap: 2rem;
-    }
-
-    .game-cover {
-      margin: 0 auto 1rem auto;
-      max-width: 180px;
-      justify-content: center;
-    }
-
-    .game-meta {
-      padding-right: 0;
-    }
-
-    .cover-image {
-      justify-content: center;
-    }
-
-    .cover-image img,
-    .cover-image :global(img) {
-      max-width: 160px;
-      margin: 0 auto;
-    }
-  }
-
   .game-content {
+    clear: both;
     line-height: 1.6;
   }
 
-  /* Tags styling to match article tags */
   .tags {
     display: flex;
     justify-content: center;
@@ -355,5 +239,13 @@ const { Content } = await render(game);
 
   .tags a:hover {
     color: var(--text-secondary);
+  }
+
+  @media (max-width: 600px) {
+    .game-cover {
+      float: none;
+      margin: 0 auto 1.5rem auto;
+      text-align: center;
+    }
   }
 </style>
