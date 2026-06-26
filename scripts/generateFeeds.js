@@ -64,11 +64,6 @@ const getFeed = ({
         const { data } = matter(source);
         const filename = path.basename(file);
 
-        // Skip template files and drafts
-        if (filename.startsWith("_template") || data.draft) {
-          return null;
-        }
-
         const slug = filename.split(".")[0].trim().toLowerCase();
 
         return {
@@ -80,7 +75,7 @@ const getFeed = ({
         };
       })
     )
-  ).filter(Boolean); // Remove null items (templates/drafts)
+  ).filter(Boolean);
 
   articles.sort((a, b) => +new Date(b.date) - +new Date(a.date));
 
@@ -93,11 +88,6 @@ const getFeed = ({
         const { data } = matter(source);
         const filename = path.basename(file);
 
-        // Skip template files and drafts
-        if (filename.startsWith("_template") || data.draft) {
-          return null;
-        }
-
         const slug = filename.split(".")[0].trim().toLowerCase();
 
         return {
@@ -109,7 +99,7 @@ const getFeed = ({
         };
       })
     )
-  ).filter(Boolean); // Remove null items (templates/drafts)
+  ).filter(Boolean);
 
   bookReviews.sort((a, b) => +new Date(b.date) - +new Date(a.date));
 

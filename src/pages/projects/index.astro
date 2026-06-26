@@ -2,56 +2,25 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 
-// Get the environment to determine whether to show drafts
-const isDev = import.meta.env.DEV;
-
-// Filter projects based on environment and exclude template
 const allProjects = await getCollection("projects");
-const projects = allProjects
-  .filter((project) => {
-    // Exclude template file and respect draft status
-    return (
-      !project.id.startsWith("_template") && (isDev || !project.data.draft)
-    );
-  })
-  .sort((a, b) => {
-    // Sort by status first (active > in-development > archived), then by name
-    const statusOrder = { active: 0, "in-development": 1, archived: 2 };
-    const aStatus = a.data.status ? statusOrder[a.data.status] : 3;
-    const bStatus = b.data.status ? statusOrder[b.data.status] : 3;
+const projects = allProjects.sort((a, b) => {
+  // Sort by status first (active > in-development > archived), then by name
+  const statusOrder = { active: 0, "in-development": 1, archived: 2 };
+  const aStatus = a.data.status ? statusOrder[a.data.status] : 3;
+  const bStatus = b.data.status ? statusOrder[b.data.status] : 3;
 
-    if (aStatus !== bStatus) {
-      return aStatus - bStatus;
-    }
+  if (aStatus !== bStatus) {
+    return aStatus - bStatus;
+  }
 
-    // Otherwise sort by name
-    return a.data.name.localeCompare(b.data.name);
-  });
-
-// Get template if in dev mode
-const template = isDev
-  ? (
-      await getCollection("projects", (project) =>
-        project.id.startsWith("_template")
-      )
-    ).at(0)
-  : null;
+  // Otherwise sort by name
+  return a.data.name.localeCompare(b.data.name);
+});
 ---
 
 <BaseLayout>
   <h2>Projects</h2>
   <section>
-    {
-      isDev && template && (
-        <div class="template-container">
-          <h3>Project Template</h3>
-          <p>This template is only visible in development mode</p>
-          <a href={`/projects/${template.id}/`} class="template-link">
-            View Template
-          </a>
-        </div>
-      )
-    }
     <ul class="projects-list">
       {
         projects.map((project) => (
@@ -126,17 +95,17 @@ const template = isDev
   }
 
   .status-active {
-    background-color: #4caf50;
+    background-color: var(--status-active);
     color: white;
   }
 
   .status-in-development {
-    background-color: #ff9800;
+    background-color: var(--status-in-progress);
     color: white;
   }
 
   .status-archived {
-    background-color: #9e9e9e;
+    background-color: var(--status-neutral);
     color: white;
   }
 
@@ -144,27 +113,5 @@ const template = isDev
     color: var(--text-secondary);
     margin: 0;
     line-height: 1.5;
-  }
-
-  .template-container {
-    background-color: #4a3f7d;
-    border: 2px dashed #8269ff;
-    padding: 1rem;
-    margin-bottom: 2rem;
-    border-radius: 8px;
-  }
-
-  .template-link {
-    display: inline-block;
-    background-color: #8269ff;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    text-decoration: none;
-    margin-top: 0.5rem;
-  }
-
-  .template-link:hover {
-    background-color: #6a4dff;
   }
 </style>

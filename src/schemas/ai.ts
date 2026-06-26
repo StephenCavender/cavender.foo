@@ -1,5 +1,5 @@
 import { z } from "astro/zod";
 
-export const nowSchema = z.object({
+export const aiSchema = z.object({
   pubDate: z.coerce.date(),
 });

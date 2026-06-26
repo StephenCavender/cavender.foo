@@ -3,11 +3,9 @@ import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { formatDate, sortByPubDate } from "../../utils/date";
 
-// @ts-ignore - TypeScript issue with content collections
-const nowEntries = await getCollection("now");
+const aiEntries = await getCollection("ai");
 
-// Sort by pubDate descending to get the most recent first
-const sortedEntries = sortByPubDate(nowEntries);
+const sortedEntries = sortByPubDate(aiEntries);
 
 const latest = sortedEntries[0];
 const previous = sortedEntries.slice(1);
@@ -15,14 +13,14 @@ const previous = sortedEntries.slice(1);
 const { Content: LatestContent } = latest ? await render(latest) : { Content: null };
 
 const formattedDate = latest?.data.pubDate
-  ? formatDate(latest.data.pubDate)
+  ? formatDate(new Date(latest.data.pubDate))
   : "";
 ---
 
-<BaseLayout title="What I'm Up To">
-  <div class="now-content">
-    <h1>Now</h1>
-    <p>A <a href="https://nownownow.com">nownownow</a> page</p>
+<BaseLayout title="How I Use AI">
+  <div class="ai-content">
+    <h1>AI</h1>
+    <p>An <a href="https://slashai.page/">/ai</a> page — how I use AI tools.</p>
     <p><em>Updated {formattedDate}</em></p>
 
     {
@@ -34,7 +32,7 @@ const formattedDate = latest?.data.pubDate
         </div>
       ) : (
         <div class="no-content">
-          <p>No now entries found.</p>
+          <p>No entries found.</p>
         </div>
       )
     }
@@ -52,7 +50,7 @@ const formattedDate = latest?.data.pubDate
 
                 return (
                   <li>
-                    <a href={`/now/${entry.id}/`}>{entryDate}</a>
+                    <a href={`/ai/${entry.id}/`}>{entryDate}</a>
                   </li>
                 );
               })}
@@ -65,7 +63,7 @@ const formattedDate = latest?.data.pubDate
 </BaseLayout>
 
 <style>
-  .now-content {
+  .ai-content {
     max-width: 65ch;
   }
 
@@ -75,13 +73,6 @@ const formattedDate = latest?.data.pubDate
 
   .content {
     margin-bottom: 1rem;
-  }
-
-  .date-text {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    font-style: italic;
-    margin-top: 2rem;
   }
 
   .history-section {
@@ -100,36 +91,5 @@ const formattedDate = latest?.data.pubDate
 
   .history-toggle:hover {
     color: var(--accent-hover);
-  }
-
-  .history-list {
-    margin-top: 1rem;
-  }
-
-  .history-item {
-    margin-bottom: 2rem;
-    padding: 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    background: var(--bg-secondary);
-  }
-
-  .history-date {
-    font-weight: 600;
-    color: var(--accent-color);
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-  }
-
-  .history-date-link {
-    color: var(--accent-color);
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.2s ease;
-  }
-
-  .history-date-link:hover {
-    color: var(--accent-hover);
-    text-decoration: underline;
   }
 </style>

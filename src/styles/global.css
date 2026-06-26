@@ -9,6 +9,18 @@
   --bg-inline-code: light-dark(#f8f8ff, #44475a);
   --text-inline-code: light-dark(#bd93f9, #f8f8ff);
   --line: light-dark(#d3d3d3, #44475a);
+  --border-color: light-dark(#e0e0e0, #333);
+  --accent-color: light-dark(#0066cc, #4da6ff);
+  --accent-hover: light-dark(#0052a3, #66b3ff);
+
+  /* Status badge colors */
+  --status-active: #4caf50;
+  --status-done: #2196f3;
+  --status-neutral: #9e9e9e;
+  --status-in-progress: #ff9800;
+
+  /* Cover placeholder */
+  --cover-placeholder-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 @font-face {
@@ -155,4 +167,62 @@ ul:not(article ul) {
   clip-path: inset(50%);
   /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
   white-space: nowrap;
+}
+
+/* Page header row: title + action link side by side */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Bottom nav links: centered row with gap */
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+/* Tag cloud list */
+.tag-list {
+  columns: 3;
+  column-gap: 2rem;
+}
+.tag-list li {
+  break-inside: avoid;
+  margin-bottom: 0.5rem;
+}
+.tag-list .count {
+  color: var(--text-secondary);
+  font-size: 0.9em;
+}
+@media (max-width: 768px) {
+  .tag-list {
+    columns: 2;
+  }
+}
+@media (max-width: 480px) {
+  .tag-list {
+    columns: 1;
+  }
+}
+
+/* Content tag row (used on article/book/game/project detail pages) */
+.tags {
+  display: flex;
+  justify-content: center;
+  column-gap: 0.75em;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+.tags a {
+  font-weight: normal;
+  text-decoration: none;
+}
+.tags a:hover {
+  color: var(--text-secondary);
 }

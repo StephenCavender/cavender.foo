@@ -14,5 +14,4 @@ export const gameSchema = ({ image }: SchemaContext) =>
     playDate: z.coerce.date().optional(),
     rating: z.number().min(1).max(5).optional(),
     steamLink: z.string().url().optional(),
-    draft: z.boolean().optional().default(false),
-  });
+    });

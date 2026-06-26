@@ -3,16 +3,8 @@ import { type CollectionEntry, getCollection, render } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const isDev = import.meta.env.DEV;
   const projects = await getCollection("projects");
   return projects
-    .filter((project) => {
-      // In production, exclude templates and drafts
-      // In development, include everything
-      return (
-        isDev || (!project.id.startsWith("_template") && !project.data.draft)
-      );
-    })
     .map((project) => ({
       params: { slug: project.id },
       props: project,
@@ -26,20 +18,6 @@ const { Content } = await render(project);
 
 <BaseLayout>
   <article class="project">
-    {
-      project.data.draft && (
-        <div class="draft-banner">
-          DRAFT - This project is not published in production
-        </div>
-      )
-    }
-    {
-      project.id.startsWith("_template") && (
-        <div class="template-banner">
-          TEMPLATE - This is a template file for reference only
-        </div>
-      )
-    }
     <header>
       <div class="project-container">
         <div class="project-meta">
@@ -220,17 +198,17 @@ const { Content } = await render(project);
   }
 
   .status-active {
-    background-color: #4caf50;
+    background-color: var(--status-active);
     color: white;
   }
 
   .status-in-development {
-    background-color: #ff9800;
+    background-color: var(--status-in-progress);
     color: white;
   }
 
   .status-archived {
-    background-color: #9e9e9e;
+    background-color: var(--status-neutral);
     color: white;
   }
 
@@ -296,7 +274,7 @@ const { Content } = await render(project);
   .project-tags {
     margin-top: 1.5rem;
     margin-bottom: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--line);
     padding-top: 1rem;
   }
 
@@ -362,43 +340,5 @@ const { Content } = await render(project);
 
   .project-content {
     line-height: 1.6;
-  }
-
-  /* Tags styling to match article tags */
-  .tags {
-    display: flex;
-    justify-content: center;
-    column-gap: 0.75em;
-    flex-wrap: wrap;
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--line);
-  }
-
-  .tags a {
-    font-weight: normal;
-    text-decoration: none;
-  }
-
-  .tags a:hover {
-    color: var(--text-secondary);
-  }
-
-  .draft-banner,
-  .template-banner {
-    text-align: center;
-    padding: 0.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 4px;
-    font-weight: bold;
-    color: white;
-  }
-
-  .draft-banner {
-    background-color: #ff6b6b;
-  }
-
-  .template-banner {
-    background-color: #8269ff;
   }
 </style>

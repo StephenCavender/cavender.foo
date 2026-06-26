@@ -11,5 +11,4 @@ export const projectSchema = z.object({
   startDate: z.coerce.date().optional(),
   endDate: z.coerce.date().optional(),
   githubUrl: z.string().url().optional(),
-  draft: z.boolean().optional().default(false),
 });

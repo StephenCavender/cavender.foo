@@ -31,30 +31,8 @@ const tagCounts = allTags.map((tag) => ({
 </BaseLayout>
 
 <style>
-  .tag-list {
-    columns: 3;
-    column-gap: 2rem;
-  }
-
-  .tag-list li {
-    break-inside: avoid;
-    margin-bottom: 0.5rem;
-  }
-
   .count {
     color: var(--text-secondary);
     font-size: 0.9em;
-  }
-
-  @media (max-width: 768px) {
-    .tag-list {
-      columns: 2;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .tag-list {
-      columns: 1;
-    }
   }
 </style>

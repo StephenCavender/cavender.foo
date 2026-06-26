@@ -4,7 +4,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 
 export async function getStaticPaths() {
-  const usesEntries = await getCollection("uses", (entry) => !entry.data.draft);
+  const usesEntries = await getCollection("uses");
 
   return usesEntries.map((entry) => ({
     params: { slug: entry.id },
@@ -74,36 +74,5 @@ const { Content } = await render(entry);
   .entry-footer {
     border-top: 1px solid var(--border-color);
     padding-top: 1rem;
-  }
-
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    color: var(--accent-color);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s ease;
-  }
-
-  .back-link:hover {
-    color: var(--accent-hover);
-    text-decoration: underline;
-  }
-
-  /* Dark mode support */
-  :root {
-    --text-secondary: #666;
-    --border-color: #e0e0e0;
-    --accent-color: #0066cc;
-    --accent-hover: #0052a3;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --text-secondary: #999;
-      --border-color: #333;
-      --accent-color: #4da6ff;
-      --accent-hover: #66b3ff;
-    }
   }
 </style>

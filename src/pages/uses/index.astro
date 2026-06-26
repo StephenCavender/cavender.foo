@@ -1,15 +1,13 @@
 ---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatDate, sortByPubDate } from "../../utils/date";
 
 // @ts-ignore - TypeScript issue with content collections
-const usesEntries = await getCollection("uses", (entry) => !entry.data.draft);
+const usesEntries = await getCollection("uses");
 
 // Sort by pubDate descending to get the most recent first
-const sortedEntries = usesEntries.sort(
-  (a, b) =>
-    new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
-);
+const sortedEntries = sortByPubDate(usesEntries);
 
 const latest = sortedEntries[0];
 const previous = sortedEntries.slice(1);
@@ -17,12 +15,7 @@ const previous = sortedEntries.slice(1);
 const { Content: LatestContent } = latest ? await render(latest) : { Content: null };
 
 const formattedDate = latest?.data.pubDate
-  ? new Date(latest.data.pubDate).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      timeZone: "UTC",
-    })
+  ? formatDate(new Date(latest.data.pubDate))
   : "";
 ---
 
@@ -55,14 +48,7 @@ const formattedDate = latest?.data.pubDate
             </summary>
             <ul>
               {previous.map(async (entry) => {
-                const entryDate = entry.data.pubDate.toLocaleDateString(
-                  "en-US",
-                  {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  }
-                );
+                const entryDate = formatDate(entry.data.pubDate);
 
                 return (
                   <li>
@@ -145,24 +131,5 @@ const formattedDate = latest?.data.pubDate
   .history-date-link:hover {
     color: var(--accent-hover);
     text-decoration: underline;
-  }
-
-  /* Dark mode support */
-  :root {
-    --text-secondary: #666;
-    --border-color: #e0e0e0;
-    --bg-secondary: #f9f9f9;
-    --accent-color: #0066cc;
-    --accent-hover: #0052a3;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --text-secondary: #999;
-      --border-color: #333;
-      --bg-secondary: #1a1a1a;
-      --accent-color: #4da6ff;
-      --accent-hover: #66b3ff;
-    }
   }
 </style>

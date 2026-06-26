@@ -6,6 +6,7 @@ import { gameSchema } from "./schemas/game";
 import { projectSchema } from "./schemas/project";
 import { nowSchema } from "./schemas/now";
 import { usesSchema } from "./schemas/uses";
+import { aiSchema } from "./schemas/ai";
 
 const articles = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/articles" }),
@@ -37,4 +38,9 @@ const uses = defineCollection({
   schema: usesSchema,
 });
 
-export const collections = { articles, books, games, projects, now, uses };
+const ai = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/ai" }),
+  schema: aiSchema,
+});
+
+export const collections = { articles, books, games, projects, now, uses, ai };

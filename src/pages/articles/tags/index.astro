@@ -8,7 +8,7 @@ const tags = [...new Set(articles.map((article) => article.data.tags).flat())];
 <BaseLayout title="Article Tags">
   <h2>Article Tags</h2>
   <section>
-    <ul>
+    <ul class="tag-list">
       {
         tags.map((tag) => (
           <li>
@@ -20,8 +20,3 @@ const tags = [...new Set(articles.map((article) => article.data.tags).flat())];
   </section>
   <a href="/articles">Back to Articles</a>
 </BaseLayout>
-<style>
-  ul {
-    columns: 3;
-  }
-</style>

@@ -6,5 +6,4 @@ export const articleSchema = z.object({
   pubDate: z.coerce.date(),
   updatedDate: z.coerce.date().optional(),
   tags: z.array(z.string()),
-  draft: z.boolean().optional().default(false),
 });

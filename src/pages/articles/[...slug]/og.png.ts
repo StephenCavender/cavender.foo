@@ -154,9 +154,7 @@ export async function GET(context: APIContext) {
 }
 
 export async function getStaticPaths() {
-  const articles = await getCollection("articles", ({ data }) => {
-    return data.draft !== true || import.meta.env.DEV;
-  });
+  const articles = await getCollection("articles");
 
   return articles.map((article) => ({
     params: {

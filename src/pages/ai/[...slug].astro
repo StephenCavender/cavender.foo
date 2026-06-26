@@ -4,9 +4,9 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 
 export async function getStaticPaths() {
-  const nowEntries = await getCollection("now");
+  const aiEntries = await getCollection("ai");
 
-  return nowEntries.map((entry) => ({
+  return aiEntries.map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
   }));
@@ -17,27 +17,32 @@ const { Content } = await render(entry);
 ---
 
 <BaseLayout>
-  <article class="now-entry">
-    <h1>Now / <FormattedDate date={entry.data.pubDate} /></h1>
+  <article class="ai-entry">
+    <h1>AI / <FormattedDate date={entry.data.pubDate} /></h1>
 
     <div class="entry-content">
       <Content />
     </div>
 
     <div class="entry-footer">
-      <a href="/now" class="back-link">← Back to Current Now</a>
+      <a href="/ai" class="back-link">← Back to Current AI</a>
     </div>
   </article>
 </BaseLayout>
 
 <style>
-  .now-entry {
+  .ai-entry {
     max-width: 65ch;
     margin: 0 auto;
   }
 
+  .entry-content {
+    margin-bottom: 3rem;
+  }
+
   .entry-footer {
-    margin-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
   }
 
   .back-link {
@@ -52,27 +57,5 @@ const { Content } = await render(entry);
   .back-link:hover {
     color: var(--accent-hover);
     text-decoration: underline;
-  }
-
-  .entry-meta {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 1rem;
-  }
-
-  .updated-date {
-    margin-left: 0.5rem;
-    font-style: italic;
-  }
-
-  .entry-content {
-    margin-bottom: 3rem;
-  }
-
-  .entry-footer {
-    border-top: 1px solid var(--border-color);
-    padding-top: 1rem;
   }
 </style>

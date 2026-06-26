@@ -83,13 +83,6 @@ const statusCounts = {
   </section>
 </BaseLayout>
 <style>
-  .page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-  }
-
   .book-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -177,17 +170,17 @@ const statusCounts = {
   }
 
   .status-reading {
-    background-color: #4caf50;
+    background-color: var(--status-active);
     color: white;
   }
 
   .status-read {
-    background-color: #2196f3;
+    background-color: var(--status-done);
     color: white;
   }
 
   .status-unread {
-    background-color: #9e9e9e;
+    background-color: var(--status-neutral);
     color: white;
   }
 

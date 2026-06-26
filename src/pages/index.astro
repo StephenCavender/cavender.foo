@@ -1,9 +1,8 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
-const recentArticles = (await getCollection("articles"))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+import { sortByPubDate } from "../utils/date";
+const recentArticles = sortByPubDate(await getCollection("articles")).slice(0, 3);
 ---
 
 <BaseLayout>
