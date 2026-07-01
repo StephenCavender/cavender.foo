@@ -6,6 +6,7 @@ export const gameSchema = ({ image }: SchemaContext) =>
     title: z.string(),
     status: z.enum(["played", "playing", "unplayed"]),
     cover: image().optional(),
+    coverUrl: z.string().url().optional(),
     tags: z.array(z.string()),
     platform: z.array(z.string()).optional(),
     developer: z.string().optional(),

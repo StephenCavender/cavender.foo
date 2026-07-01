@@ -3,6 +3,6 @@ title: "Anything You Want"
 author: "Derek Sivers"
 isbn: "978-1-93-671911-2"
 status: "unread"
-cover: "./cover.jpg"
+cover: "./cover.webp"
 tags: ["business", "entrepreneurship", "nonfiction", "derek-sivers"]
 ---
