@@ -4,5 +4,5 @@ author: "Derek Sivers"
 isbn: "978-1-98-857511-7"
 status: "unread"
 cover: "./cover.jpg"
-tags: ["philosophy", "productivity", "nonfiction", "derek-sivers"]
+tags: ["philosophy", "productivity", "nonfiction", "Derek Sivers"]
 ---
