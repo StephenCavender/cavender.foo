@@ -12,7 +12,9 @@ const sortedEntries = sortByPubDate(nowEntries);
 const latest = sortedEntries[0];
 const previous = sortedEntries.slice(1);
 
-const { Content: LatestContent } = latest ? await render(latest) : { Content: null };
+const { Content: LatestContent } = latest
+  ? await render(latest)
+  : { Content: null };
 
 const formattedDate = latest?.data.pubDate
   ? formatDate(latest.data.pubDate)

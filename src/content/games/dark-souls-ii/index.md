@@ -1,8 +1,8 @@
 ---
-title: "Dark Souls III"
+title: "Dark Souls II"
 status: "played"
 cover: "./cover.webp"
-coverUrl: "https://cdn2.steamgriddb.com/grid/9085f5ef67f2f7f0f38e869ffb5016a1.png"
+coverUrl: "https://cdn2.steamgriddb.com/grid/221fec1d54a07a65c1ff500bcf1bc062.png"
 tags:
   [
     "action",

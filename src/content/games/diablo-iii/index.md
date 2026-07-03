@@ -1,8 +1,8 @@
 ---
-title: "Diablo"
+title: "Diablo III"
 status: "played"
 cover: "./cover.webp"
-coverUrl: "https://cdn2.steamgriddb.com/grid/cced2922f69c1c789ba9d1c9c4210b1c.png"
+coverUrl: "https://cdn2.steamgriddb.com/grid/83aa658c240d1badb5185b3d6fc8c808.png"
 tags:
   [
     "action",
@@ -12,6 +12,5 @@ tags:
     "dev:Blizzard",
     "pub:Blizzard",
   ]
-platform: ["PC"]
-rating: 5
+platform: ["xbox"]
 ---

@@ -20,7 +20,11 @@
   --status-in-progress: #ff9800;
 
   /* Cover placeholder */
-  --cover-placeholder-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --cover-placeholder-gradient: linear-gradient(
+    135deg,
+    #667eea 0%,
+    #764ba2 100%
+  );
 }
 
 @font-face {

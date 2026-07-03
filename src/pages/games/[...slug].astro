@@ -22,10 +22,7 @@ const { Content } = await render(game);
       {
         game.data.cover && (
           <div class="game-cover">
-            <Image
-              src={game.data.cover}
-              alt={`Cover for ${game.data.title}`}
-            />
+            <Image src={game.data.cover} alt={`Cover for ${game.data.title}`} />
           </div>
         )
       }
@@ -51,20 +48,6 @@ const { Content } = await render(game);
       }
 
       {
-        game.data.developer && (
-          <p class="meta-line">
-            <span class="meta-label">Developer:</span> {game.data.developer}
-          </p>
-        )
-      }
-      {
-        game.data.publisher && (
-          <p class="meta-line">
-            <span class="meta-label">Publisher:</span> {game.data.publisher}
-          </p>
-        )
-      }
-      {
         game.data.platform && game.data.platform.length > 0 && (
           <p class="meta-line">
             <span class="meta-label">Platform:</span>{" "}
@@ -73,33 +56,10 @@ const { Content } = await render(game);
         )
       }
       {
-        game.data.releaseDate && (
-          <p class="meta-line">
-            <span class="meta-label">Released:</span>{" "}
-            {game.data.releaseDate.toLocaleDateString()}
-          </p>
-        )
-      }
-      {
         game.data.playDate && (
           <p class="meta-line">
             <span class="meta-label">Played:</span>{" "}
             {game.data.playDate.toLocaleDateString()}
-          </p>
-        )
-      }
-
-      {
-        game.data.steamLink && (
-          <p class="meta-line">
-            <span class="meta-label">Steam:</span>{" "}
-            <a
-              href={game.data.steamLink}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View on Steam ↗
-            </a>
           </p>
         )
       }
