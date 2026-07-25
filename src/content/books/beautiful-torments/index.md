@@ -5,7 +5,7 @@ isbn: "978-1-95-554695-9"
 status: "read"
 cover: "./cover.webp"
 tags:
-  ["fiction", "supernatural", "recommended", "D. T. Pierce", "Torments Series"]
+  ["fiction", "supernatural", "recommended", "d-t-pierce", "torments-series"]
 readDate: 2025-05-24
 ---
 
