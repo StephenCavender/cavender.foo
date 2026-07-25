@@ -31,9 +31,9 @@ const { games } = Astro.props;
     {
       games.map((game) => (
         <a href={`/games/${game.id}/`} class="game-card">
-          {game.data.coverImageUrl ? (
+          {game.data.cover ? (
             <img
-              src={game.data.coverImageUrl}
+              src={game.data.cover.src}
               alt={game.data.title}
               class="game-cover"
             />

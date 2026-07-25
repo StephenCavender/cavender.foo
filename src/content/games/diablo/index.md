@@ -1,10 +1,17 @@
 ---
 title: "Diablo"
 status: "played"
-tags: ["action", "rpg", "hack-and-slash", "series:diablo"]
+cover: "./cover.webp"
+coverUrl: "https://cdn2.steamgriddb.com/grid/cced2922f69c1c789ba9d1c9c4210b1c.png"
+tags:
+  [
+    "action",
+    "rpg",
+    "hack-and-slash",
+    "series:diablo",
+    "dev:Blizzard",
+    "pub:Blizzard",
+  ]
 platform: ["PC"]
-developer: "Blizzard North"
-publisher: "Blizzard Entertainment"
-releaseDate: "1997-01-03"
 rating: 5
 ---

@@ -5,13 +5,10 @@ export const gameSchema = ({ image }: SchemaContext) =>
   z.object({
     title: z.string(),
     status: z.enum(["played", "playing", "unplayed"]),
-    cover: image().optional(),
-    tags: z.array(z.string()),
-    platform: z.array(z.string()).optional(),
-    developer: z.string().optional(),
-    publisher: z.string().optional(),
-    releaseDate: z.coerce.date().optional(),
-    playDate: z.coerce.date().optional(),
+    platform: z.array(z.string()),
     rating: z.number().min(1).max(5).optional(),
-    steamLink: z.string().url().optional(),
-    });
+    cover: image().optional(),
+    coverUrl: z.string().url().optional(),
+    tags: z.array(z.string()),
+    playDate: z.coerce.date().optional(),
+  });
