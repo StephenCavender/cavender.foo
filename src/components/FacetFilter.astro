@@ -1,0 +1,469 @@
+---
+/**
+ * Generic faceted filter. Renders controls; the caller supplies the results grid via
+ * <slot>. Cards opt in with `data-facet-item`, one `data-facet-<group>` attribute per
+ * facet (pipe-separated for multi-value), and `data-search` for the text query.
+ *
+ * Semantics: OR within a group, AND across groups.
+ *
+ * Progressive enhancement: the caller server-renders every card visible. This script
+ * only hides non-matching cards, so with JS off the full list stays browsable.
+ */
+export interface FacetOption {
+  value: string;
+  label: string;
+}
+
+export interface FacetGroup {
+  key: string;
+  legend: string;
+  options: FacetOption[];
+}
+
+interface Props {
+  groups: FacetGroup[];
+  total: number;
+  noun: string;
+  searchPlaceholder: string;
+}
+
+const { groups, total, noun, searchPlaceholder } = Astro.props;
+const populated = groups.filter((group) => group.options.length > 0);
+---
+
+<div class="facets" data-facet-root data-noun={noun}>
+  <div class="facet-search">
+    <label class="visually-hidden" for="facet-query">Search {noun}</label>
+    <input
+      id="facet-query"
+      type="search"
+      autocomplete="off"
+      placeholder={searchPlaceholder}
+      data-facet-query
+    />
+  </div>
+
+  <div class="facet-groups">
+    {
+      populated.map((group) => (
+        <details class="facet-group" data-group-legend={group.legend}>
+          <summary>
+            {group.legend}
+            <span class="facet-group-badge" data-group-badge={group.key} />
+          </summary>
+          <div class="facet-options" role="group" aria-label={group.legend}>
+            {group.options.map((option) => (
+              <label class="facet-option">
+                <input
+                  type="checkbox"
+                  value={option.value}
+                  data-facet-group={group.key}
+                />
+                <span class="facet-option-label">{option.label}</span>
+                <span
+                  class="facet-count"
+                  data-count-for={`${group.key}:${option.value}`}
+                />
+              </label>
+            ))}
+          </div>
+        </details>
+      ))
+    }
+  </div>
+
+  <div class="facet-active" data-facet-chips hidden></div>
+
+  <p class="facet-summary">
+    <span data-facet-summary>Showing all {total} {noun}</span>
+    <button type="button" class="facet-clear" data-facet-clear hidden>
+      Clear all
+    </button>
+  </p>
+</div>
+
+<slot />
+
+<script>
+  type Item = {
+    el: HTMLElement;
+    facets: Map<string, Set<string>>;
+    search: string;
+  };
+
+  const root = document.querySelector<HTMLElement>("[data-facet-root]");
+  const summaryEl = document.querySelector<HTMLElement>("[data-facet-summary]");
+  const chipsEl = document.querySelector<HTMLElement>("[data-facet-chips]");
+  const clearEl =
+    document.querySelector<HTMLButtonElement>("[data-facet-clear]");
+  const queryEl =
+    document.querySelector<HTMLInputElement>("[data-facet-query]");
+  const boxes = Array.from(
+    document.querySelectorAll<HTMLInputElement>("[data-facet-group]")
+  );
+
+  if (root && summaryEl && chipsEl && clearEl && queryEl) {
+    const noun = root.dataset.noun ?? "items";
+
+    const items: Item[] = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-facet-item]")
+    ).map((el) => {
+      const facets = new Map<string, Set<string>>();
+      for (const attr of Array.from(el.attributes)) {
+        if (!attr.name.startsWith("data-facet-")) continue;
+        const key = attr.name.slice("data-facet-".length);
+        if (key === "item") continue;
+        const values = attr.value.split("|").filter(Boolean);
+        if (values.length > 0) facets.set(key, new Set(values));
+      }
+      return {
+        el,
+        facets,
+        search: (el.dataset.search ?? "").toLowerCase(),
+      };
+    });
+
+    const groupKeys = Array.from(
+      new Set(boxes.map((box) => box.dataset.facetGroup ?? ""))
+    ).filter(Boolean);
+
+    const optionLabels = new Map<string, string>();
+    const groupLegends = new Map<string, string>();
+    for (const box of boxes) {
+      const group = box.dataset.facetGroup;
+      if (!group) continue;
+      const label = box.parentElement?.querySelector(".facet-option-label");
+      optionLabels.set(
+        `${group}:${box.value}`,
+        label?.textContent?.trim() ?? box.value
+      );
+      const details = box.closest<HTMLElement>("[data-group-legend]");
+      if (details?.dataset.groupLegend)
+        groupLegends.set(group, details.dataset.groupLegend);
+    }
+
+    const state = new Map<string, Set<string>>(
+      groupKeys.map((key) => [key, new Set<string>()])
+    );
+    let query = "";
+
+    /** AND across groups, OR within. `skip` excludes a group so it can self-count. */
+    const matches = (item: Item, skip?: string): boolean => {
+      if (query && !item.search.includes(query)) return false;
+      for (const [group, selected] of state) {
+        if (selected.size === 0 || group === skip) continue;
+        const values = item.facets.get(group);
+        if (!values) return false;
+        let hit = false;
+        for (const value of selected) {
+          if (values.has(value)) {
+            hit = true;
+            break;
+          }
+        }
+        if (!hit) return false;
+      }
+      return true;
+    };
+
+    const syncUrl = () => {
+      const params = new URLSearchParams();
+      for (const [group, selected] of state)
+        if (selected.size > 0)
+          params.set(group, Array.from(selected).join(","));
+      if (query) params.set("q", query);
+      const search = params.toString();
+      history.replaceState(
+        null,
+        "",
+        search ? `${location.pathname}?${search}` : location.pathname
+      );
+    };
+
+    const render = () => {
+      let visible = 0;
+      for (const item of items) {
+        const show = matches(item);
+        item.el.hidden = !show;
+        if (show) visible++;
+      }
+
+      for (const box of boxes) {
+        const group = box.dataset.facetGroup;
+        if (!group) continue;
+        let count = 0;
+        for (const item of items)
+          if (item.facets.get(group)?.has(box.value) && matches(item, group))
+            count++;
+        const countEl = document.querySelector<HTMLElement>(
+          `[data-count-for="${group}:${CSS.escape(box.value)}"]`
+        );
+        if (countEl) countEl.textContent = String(count);
+        // Never disable a checked box, or the user cannot undo their own filter.
+        box.disabled = count === 0 && !box.checked;
+        box.parentElement?.classList.toggle("is-empty", box.disabled);
+      }
+
+      for (const group of groupKeys) {
+        const badge = document.querySelector<HTMLElement>(
+          `[data-group-badge="${group}"]`
+        );
+        const active = state.get(group)?.size ?? 0;
+        if (badge) badge.textContent = active > 0 ? String(active) : "";
+      }
+
+      chipsEl.textContent = "";
+      let activeTotal = 0;
+      for (const [group, selected] of state) {
+        for (const value of selected) {
+          activeTotal++;
+          const chip = document.createElement("button");
+          chip.type = "button";
+          chip.className = "facet-chip";
+          chip.textContent = `${groupLegends.get(group) ?? group}: ${optionLabels.get(`${group}:${value}`) ?? value}`;
+          chip.setAttribute(
+            "aria-label",
+            `Remove filter ${groupLegends.get(group) ?? group} ${optionLabels.get(`${group}:${value}`) ?? value}`
+          );
+          chip.addEventListener("click", () => {
+            selected.delete(value);
+            const box = boxes.find(
+              (candidate) =>
+                candidate.dataset.facetGroup === group &&
+                candidate.value === value
+            );
+            if (box) box.checked = false;
+            render();
+          });
+          chipsEl.append(chip);
+        }
+      }
+      chipsEl.hidden = activeTotal === 0;
+      clearEl.hidden = activeTotal === 0 && !query;
+
+      summaryEl.textContent =
+        activeTotal === 0 && !query
+          ? `Showing all ${items.length} ${noun}`
+          : `Showing ${visible} of ${items.length} ${noun}`;
+
+      syncUrl();
+    };
+
+    // Hydrate from the URL so filtered links are shareable and survive reload.
+    const params = new URLSearchParams(location.search);
+    for (const group of groupKeys) {
+      const raw = params.get(group);
+      if (!raw) continue;
+      const selected = state.get(group);
+      if (!selected) continue;
+      for (const value of raw.split(",").filter(Boolean)) selected.add(value);
+    }
+    query = (params.get("q") ?? "").toLowerCase();
+    queryEl.value = params.get("q") ?? "";
+    for (const box of boxes) {
+      const group = box.dataset.facetGroup;
+      if (group) box.checked = state.get(group)?.has(box.value) ?? false;
+    }
+    // Open any group that arrived with an active filter.
+    for (const box of boxes)
+      if (box.checked) box.closest("details")?.setAttribute("open", "");
+
+    for (const box of boxes)
+      box.addEventListener("change", () => {
+        const group = box.dataset.facetGroup;
+        if (!group) return;
+        const selected = state.get(group);
+        if (!selected) return;
+        if (box.checked) selected.add(box.value);
+        else selected.delete(box.value);
+        render();
+      });
+
+    queryEl.addEventListener("input", () => {
+      query = queryEl.value.trim().toLowerCase();
+      render();
+    });
+
+    clearEl.addEventListener("click", () => {
+      for (const selected of state.values()) selected.clear();
+      for (const box of boxes) box.checked = false;
+      query = "";
+      queryEl.value = "";
+      render();
+    });
+
+    render();
+  }
+</script>
+
+<style>
+  /**
+   * Slotted cards use `display: flex`, which overrides the `hidden` attribute, so the
+   * rule has to be global (scoped styles never reach slot content) and !important.
+   */
+  :global([data-facet-item][hidden]) {
+    display: none !important;
+  }
+
+  .facets {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .facet-search input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font: inherit;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+  }
+
+  .facet-search input:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 1px;
+  }
+
+  .facet-groups {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    /* Without this, a collapsed group stretches to match the tallest open one. */
+    align-items: flex-start;
+  }
+
+  .facet-group {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-secondary);
+    flex: 1 1 auto;
+  }
+
+  .facet-group summary {
+    cursor: pointer;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+  }
+
+  .facet-group[open] summary {
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .facet-group-badge:not(:empty) {
+    background: var(--accent-color);
+    color: var(--bg-primary);
+    border-radius: 999px;
+    padding: 0 0.35rem;
+    font-size: 0.7rem;
+  }
+
+  .facet-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.5rem 0.6rem;
+    max-height: 15rem;
+    overflow-y: auto;
+  }
+
+  .facet-option {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    line-height: 1.6;
+  }
+
+  .facet-option.is-empty {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .facet-count {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    margin-left: auto;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .facet-active {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  /**
+   * Chips are created in JS, so they never receive Astro's scoping attribute.
+   * Scoped selectors would not match them - these rules must be global.
+   */
+  :global(.facet-chip) {
+    font: inherit;
+    font-size: 0.75rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    border: 1px solid var(--accent-color);
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  :global(.facet-chip)::after {
+    content: " ×";
+    color: var(--text-secondary);
+  }
+
+  :global(.facet-chip):hover {
+    background: var(--bg-secondary);
+    border-color: var(--accent-hover);
+  }
+
+  .facet-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+  }
+
+  .facet-clear {
+    font: inherit;
+    font-size: 0.8rem;
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--text-link);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  @media (max-width: 600px) {
+    .facet-group {
+      flex-basis: 100%;
+    }
+  }
+</style>
