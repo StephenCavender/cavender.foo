@@ -4,5 +4,5 @@ author: "J.R.R. Tolkien"
 isbn: "978-0-00-866914-5"
 status: "unread"
 cover: "./cover.webp"
-tags: ["fiction", "fantasy", "tolkien", "classic"]
+tags: ["fiction", "fantasy", "classic"]
 ---

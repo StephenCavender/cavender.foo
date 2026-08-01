@@ -1,11 +1,12 @@
 ---
 title: "Beautiful Torments"
 author: "D.T. Pierce"
+series: "torments"
 isbn: "978-1-95-554695-9"
 status: "read"
+favorite: true
 cover: "./cover.webp"
-tags:
-  ["fiction", "supernatural", "recommended", "D. T. Pierce", "Torments Series"]
+tags: ["fiction", "supernatural"]
 readDate: 2025-05-24
 ---
 
