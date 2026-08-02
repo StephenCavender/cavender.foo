@@ -2,6 +2,8 @@
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import BaseLayout from "@layouts/BaseLayout.astro";
+import FacetFilter, { type FacetGroup } from "@components/FacetFilter.astro";
+import { titleCaseSlug } from "../../utils/labels";
 
 const gameCollection = await getCollection("games");
 const games = gameCollection.sort((a, b) => {
@@ -22,6 +24,80 @@ const statusCounts = {
   played: games.filter((g) => g.data.status === "played").length,
   unplayed: games.filter((g) => g.data.status === "unplayed").length,
 };
+
+const uniqueSorted = (values: (string | undefined)[]) =>
+  [...new Set(values.filter((value): value is string => Boolean(value)))].sort(
+    (a, b) => a.localeCompare(b)
+  );
+
+const statusLabels = {
+  playing: "Playing",
+  played: "Played",
+  unplayed: "Backlog",
+};
+
+const groups: FacetGroup[] = [
+  {
+    key: "status",
+    legend: "Status",
+    options: (["playing", "played", "unplayed"] as const).map((status) => ({
+      value: status,
+      label: statusLabels[status],
+    })),
+  },
+  {
+    key: "genre",
+    legend: "Genre",
+    options: uniqueSorted(games.flatMap((game) => game.data.tags)).map(
+      (tag) => ({ value: tag, label: titleCaseSlug(tag) })
+    ),
+  },
+  {
+    key: "series",
+    legend: "Series",
+    options: uniqueSorted(games.map((game) => game.data.series)).map(
+      (series) => ({ value: series, label: titleCaseSlug(series) })
+    ),
+  },
+  {
+    key: "platform",
+    legend: "Platform",
+    options: uniqueSorted(games.flatMap((game) => game.data.platform)).map(
+      (platform) => ({ value: platform, label: platform })
+    ),
+  },
+  {
+    key: "developer",
+    legend: "Developer",
+    options: uniqueSorted(games.map((game) => game.data.developer)).map(
+      (developer) => ({ value: developer, label: developer })
+    ),
+  },
+  {
+    key: "publisher",
+    legend: "Publisher",
+    options: uniqueSorted(games.map((game) => game.data.publisher)).map(
+      (publisher) => ({ value: publisher, label: publisher })
+    ),
+  },
+  {
+    key: "rating",
+    legend: "Rating",
+    options: uniqueSorted(
+      games.map((game) => game.data.rating?.toString())
+    ).map((rating) => ({
+      value: rating,
+      label: `${"\u2605".repeat(Number(rating))} ${rating}`,
+    })),
+  },
+  {
+    key: "favorite",
+    legend: "Favorite",
+    options: games.some((game) => game.data.favorite)
+      ? [{ value: "true", label: "Favorites only" }]
+      : [],
+  },
+];
 ---
 
 <BaseLayout>
@@ -43,36 +119,65 @@ const statusCounts = {
       ({statusCounts.unplayed})
     </span>
   </div>
-  <section>
-    <div class="game-grid">
-      {
-        games.map((game) => (
-          <a href={`/games/${game.id}/`} class="game-card">
-            <div class="cover-wrap">
-              {game.data.cover ? (
-                <Image
-                  src={game.data.cover}
-                  alt={game.data.title}
-                  class="cover-img"
-                  loading="lazy"
-                />
-              ) : (
-                <div class="cover-placeholder">
-                  <span class="placeholder-title">{game.data.title}</span>
-                </div>
-              )}
-              <span class={`status-badge status-${game.data.status}`}>
-                {game.data.status === "unplayed" ? "backlog" : game.data.status}
-              </span>
-            </div>
-            <div class="game-meta">
-              <span class="game-title">{game.data.title}</span>
-            </div>
-          </a>
-        ))
-      }
-    </div>
-  </section>
+  <FacetFilter
+    groups={groups}
+    total={games.length}
+    noun="games"
+    searchPlaceholder="Search by title, developer, publisher, or series"
+  >
+    <section>
+      <div class="game-grid">
+        {
+          games.map((game) => (
+            <a
+              href={`/games/${game.id}/`}
+              class="game-card"
+              data-facet-item
+              data-facet-status={game.data.status}
+              data-facet-genre={game.data.tags.join("|")}
+              data-facet-series={game.data.series ?? ""}
+              data-facet-platform={game.data.platform.join("|")}
+              data-facet-developer={game.data.developer ?? ""}
+              data-facet-publisher={game.data.publisher ?? ""}
+              data-facet-rating={game.data.rating?.toString() ?? ""}
+              data-facet-favorite={game.data.favorite ? "true" : ""}
+              data-search={[
+                game.data.title,
+                game.data.developer ?? "",
+                game.data.publisher ?? "",
+                game.data.series ?? "",
+              ]
+                .join(" ")
+                .toLowerCase()}
+            >
+              <div class="cover-wrap">
+                {game.data.cover ? (
+                  <Image
+                    src={game.data.cover}
+                    alt={game.data.title}
+                    class="cover-img"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div class="cover-placeholder">
+                    <span class="placeholder-title">{game.data.title}</span>
+                  </div>
+                )}
+                <span class={`status-badge status-${game.data.status}`}>
+                  {game.data.status === "unplayed"
+                    ? "backlog"
+                    : game.data.status}
+                </span>
+              </div>
+              <div class="game-meta">
+                <span class="game-title">{game.data.title}</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </FacetFilter>
 </BaseLayout>
 
 <style>
