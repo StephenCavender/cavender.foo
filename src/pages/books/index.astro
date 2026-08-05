@@ -83,20 +83,6 @@ const groups: FacetGroup[] = [
     <h2>My Bookshelf</h2>
     <a href="/books/tags/">Browse by Tags</a>
   </div>
-  <div class="status-summary">
-    <span class="status-count">
-      <span class="status-badge status-reading">Reading</span>
-      ({statusCounts.reading})
-    </span>
-    <span class="status-count">
-      <span class="status-badge status-read">Read</span>
-      ({statusCounts.read})
-    </span>
-    <span class="status-count">
-      <span class="status-badge status-unread">Unread</span>
-      ({statusCounts.unread})
-    </span>
-  </div>
   <FacetFilter
     groups={groups}
     total={books.length}
@@ -231,15 +217,6 @@ const groups: FacetGroup[] = [
     line-height: 1;
   }
 
-  .status-summary .status-badge {
-    padding: 0.15rem 0.4rem;
-    border-radius: 3px;
-    font-size: 0.65rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    line-height: 1;
-  }
-
   .status-reading {
     background-color: var(--status-active);
     color: white;
@@ -273,13 +250,6 @@ const groups: FacetGroup[] = [
     color: var(--text-secondary);
   }
 
-  .status-summary {
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-  }
-
   .status-count {
     display: flex;
     align-items: center;
@@ -287,9 +257,4 @@ const groups: FacetGroup[] = [
     color: var(--text-secondary);
   }
 
-  @media (max-width: 600px) {
-    .status-summary {
-      justify-content: center;
-    }
-  }
 </style>
