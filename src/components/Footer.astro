@@ -3,6 +3,20 @@ const today = new Date();
 ---
 
 <footer>
+  <hr class="footer-divider" />
+
+  <nav class="footer-nav">
+    <a href="/">Home</a>
+    <a href="/articles">Articles</a>
+    <a href="/projects">Projects</a>
+    <a href="/books">Books</a>
+    <a href="/games">Games</a>
+    <a href="/uses">Uses</a>
+    <a href="/ai">AI</a>
+    <a href="/now">Now</a>
+    <a href="/about">About</a>
+  </nav>
+
   <div>
     <svg
       viewBox="0 0 24 24"
@@ -128,5 +142,20 @@ const today = new Date();
   }
   a:hover {
     color: var(--text-secondary);
+  }
+  .footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+    margin-bottom: 1.5em;
+  }
+  .footer-nav a {
+    font-size: 0.8rem;
+  }
+  .footer-divider {
+    border: none;
+    border-top: 1px solid var(--border-color, #e5e7eb);
+    margin: 0 0 1.5em 0;
   }
 </style>
