@@ -46,28 +46,40 @@ const populated = groups.filter((group) => group.options.length > 0);
   <div class="facet-groups">
     {
       populated.map((group) => (
-        <details class="facet-group" data-group-legend={group.legend}>
-          <summary>
+        <div class="facet-group" data-group-legend={group.legend}>
+          <button
+            type="button"
+            class="facet-trigger"
+            popovertarget={`facet-${group.key}`}
+            data-facet-trigger={group.key}
+          >
             {group.legend}
             <span class="facet-group-badge" data-group-badge={group.key} />
-          </summary>
-          <div class="facet-options" role="group" aria-label={group.legend}>
-            {group.options.map((option) => (
-              <label class="facet-option">
-                <input
-                  type="checkbox"
-                  value={option.value}
-                  data-facet-group={group.key}
-                />
-                <span class="facet-option-label">{option.label}</span>
-                <span
-                  class="facet-count"
-                  data-count-for={`${group.key}:${option.value}`}
-                />
-              </label>
-            ))}
+          </button>
+          <div
+            id={`facet-${group.key}`}
+            class="facet-popover"
+            popover="auto"
+            data-facet-popover={group.key}
+          >
+            <div class="facet-options" role="group" aria-label={group.legend}>
+              {group.options.map((option) => (
+                <label class="facet-option">
+                  <input
+                    type="checkbox"
+                    value={option.value}
+                    data-facet-group={group.key}
+                  />
+                  <span class="facet-option-label">{option.label}</span>
+                  <span
+                    class="facet-count"
+                    data-count-for={`${group.key}:${option.value}`}
+                  />
+                </label>
+              ))}
+            </div>
           </div>
-        </details>
+        </div>
       ))
     }
   </div>
@@ -137,9 +149,9 @@ const populated = groups.filter((group) => group.options.length > 0);
         `${group}:${box.value}`,
         label?.textContent?.trim() ?? box.value
       );
-      const details = box.closest<HTMLElement>("[data-group-legend]");
-      if (details?.dataset.groupLegend)
-        groupLegends.set(group, details.dataset.groupLegend);
+      const groupEl = box.closest<HTMLElement>("[data-group-legend]");
+      if (groupEl?.dataset.groupLegend)
+        groupLegends.set(group, groupEl.dataset.groupLegend);
     }
 
     const state = new Map<string, Set<string>>(
@@ -264,9 +276,40 @@ const populated = groups.filter((group) => group.options.length > 0);
       const group = box.dataset.facetGroup;
       if (group) box.checked = state.get(group)?.has(box.value) ?? false;
     }
-    // Open any group that arrived with an active filter.
-    for (const box of boxes)
-      if (box.checked) box.closest("details")?.setAttribute("open", "");
+    // Open any popover that arrived with an active filter.
+    for (const box of boxes) {
+      if (box.checked) {
+        const group = box.dataset.facetGroup;
+        if (group) {
+          const popover = document.querySelector<HTMLElement>(
+            `[data-facet-popover="${group}"]`
+          );
+          popover?.showPopover();
+        }
+      }
+    }
+
+    // Position popovers near their trigger buttons
+    const triggers = Array.from(
+      document.querySelectorAll<HTMLButtonElement>("[data-facet-trigger]")
+    );
+    for (const trigger of triggers) {
+      const group = trigger.dataset.facetTrigger;
+      if (!group) continue;
+      const popover = document.querySelector<HTMLElement>(
+        `[data-facet-popover="${group}"]`
+      );
+      if (!popover) continue;
+
+      trigger.addEventListener("click", () => {
+        // Position the popover below the trigger
+        requestAnimationFrame(() => {
+          const triggerRect = trigger.getBoundingClientRect();
+          popover.style.top = `${triggerRect.bottom + window.scrollY + 4}px`;
+          popover.style.left = `${triggerRect.left + window.scrollX}px`;
+        });
+      });
+    }
 
     for (const box of boxes)
       box.addEventListener("change", () => {
@@ -348,13 +391,10 @@ const populated = groups.filter((group) => group.options.length > 0);
   }
 
   .facet-group {
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background: var(--bg-secondary);
-    flex: 1 1 auto;
+    position: relative;
   }
 
-  .facet-group summary {
+  .facet-trigger {
     cursor: pointer;
     padding: 0.35rem 0.6rem;
     font-size: 0.8rem;
@@ -366,10 +406,30 @@ const populated = groups.filter((group) => group.options.length > 0);
     align-items: center;
     gap: 0.35rem;
     white-space: nowrap;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-secondary);
+    font-family: inherit;
   }
 
-  .facet-group[open] summary {
-    border-bottom: 1px solid var(--border-color);
+  .facet-trigger:hover {
+    background: var(--bg-primary);
+  }
+
+  .facet-popover {
+    position: fixed;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-secondary);
+    padding: 0;
+    margin: 0;
+    min-width: 200px;
+    max-width: 300px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .facet-popover::backdrop {
+    background: transparent;
   }
 
   .facet-group-badge:not(:empty) {
@@ -387,6 +447,7 @@ const populated = groups.filter((group) => group.options.length > 0);
     padding: 0.5rem 0.6rem;
     max-height: 15rem;
     overflow-y: auto;
+    width: 100%;
   }
 
   .facet-option {
@@ -462,8 +523,9 @@ const populated = groups.filter((group) => group.options.length > 0);
   }
 
   @media (max-width: 600px) {
-    .facet-group {
-      flex-basis: 100%;
+    .facet-popover {
+      min-width: min(300px, 90vw);
+      max-width: 90vw;
     }
   }
 </style>
