@@ -2,18 +2,14 @@
 
 **Stack**: Astro 5.x · TypeScript · Bun
 
-## Commands
+## Rules
 
-- `bun run dev` / `build` / `preview`
-- `bun run lint` / `lint:fix`
-- `bun run format` / `format:check`
+- NEVER create/modify content (articles, books, etc.) — this is a personal site, not agent-generated content farm
+- Import aliases: `@components/*`, `@assets/*`, `@layouts/*` — enforce in tsconfig.json
+- Astro components: `.astro` extension required
+- Content lives in `src/content/*.md` — never touch without explicit instruction
 
-## Conventions
+## Workflow
 
-- Prettier (trailing comma: es5), ESLint (Astro recommended)
-- TypeScript strict null checks, import aliases: `@components/*`, `@assets/*`, `@layouts/*`
-- Astro components: `.astro`, content: `src/content/*.md`
-- Write code for human understanding and maintainability
-- Prefer functional programming patterns over imperative styles
-- NEVER create/modify content (articles, books, etc.)
-- Run lint/format before committing
+- Commands: `bun run dev|build|preview|lint|format`
+- Run `bun run lint` + `bun run format:check` before declaring work complete
