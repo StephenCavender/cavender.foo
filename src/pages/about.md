@@ -4,21 +4,36 @@ layout: ../layouts/BaseLayout.astro
 
 # About Me
 
-I'm a Senior Software Engineer at Otto, where I build mobile and web applications that make veterinary staff's lives easier. I specialize in React Native and full-stack development. When I'm not at a keyboard, I'm chasing my two kids around, spending time with my wife, or lifting heavy things in my garage gym.
-
-## My Journey
-
-I started teaching myself web development in high school to make my MySpace profile stand out. I learned I could write a simple html file in notepad and load it in a browser - I was hooked. That led to building a site for a local nonprofit, which caught the eye of a computer store owner who hired me to build sites for local businesses.
-
-After graduating from Anderson University with a CS degree, I joined Interactive Intelligence as a Software Engineer in Test. After two years and an accquisition by Genesys, I transitioned to dceveloping the same application I'd been testing. It was a welcome change - I missed building.
-
-A few years later, my role was outsourced, and I took a contract position at Pawru. During this time, I decided to learn React Native bu building something I wanted to use: Simpledex. I loved playing Pokémon games but hated wading through walls of wiki text just to find out how to evolve a specific Pokémon. So I built an app that surfaced exactly that information - nothing more. When I got Simpledex into the app stores, I felt that same rush I'd felt in high school opening my first HTML file in a browser. People could find my app, install it, and use it on their phones!
-
-When Pawru and Otto (then TeleVet) merged, Otto offered me a role building their React Native mobile app. After shipping that app, I transitioned into a full-stack development and began leveling up my backend skills. Today, I'm a Tech Lead working toward Staff Engineer, mentoring junior developers, and building products that serve thousands of veterinary practices across North America.
-
 ## Faith
 
-I believe in God. I believe that God sent Jesus Christ to die for our sins. I believe that Christ defeated death and that through Him we can have eternal life. My faith shapes everything I do - from how I lead my family to how I serve my teammates. I believe work is worship, and I approach every line of code and every code review with that in mind.
+Faith is a cornerstone of who I am and how I behave. I'm a Christian and strive to live like Jesus.
+
+## Family
+
+I'm a husband and father of two. We enjoy playing games (card, board, or anything we can think up), playing at parks, playing outside, playing on the lake... I believe play is extremely important for a family and we priorize it.
+
+## Work
+
+I'm a developer. Check out my [work](/work) page for more details on my profession.
+
+## Fitness
+
+I work out several times a week for several reasons:
+
+- To be strong to be useful (see [Strenuous Life](https://strenuouslife.co/tsl-landing/))
+- To be able to play with my kids and their future kids for decades.
+- To stay healthy
+- To look good
+
+## Fun
+
+### Gaming
+
+For fun I like to play video games. You can check out my [games](/games) page to see what I'm playing, have played, and want to play.
+
+### Guitar
+
+I also enjoy playing guitar. I play electric and acoustic; mostly Christian and country but some rock thrown in. I occasionally play for church as well.
 
 ## Life Outside Code
 
