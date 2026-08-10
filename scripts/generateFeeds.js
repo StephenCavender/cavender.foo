@@ -63,7 +63,7 @@ const getFeed = ({
   }
 
   // Process articles
-  const articleFiles = await fg("src/content/articles/*.md");
+  const articleFiles = await fg("src/content/articles/*.{md,mdx}");
   const articles = (
     await Promise.all(
       articleFiles.map(async (file) => {
