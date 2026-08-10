@@ -3,7 +3,7 @@ title: React Native Environment Setup
 description: A primer on setting up an environment for react native projects
 pubDate: 2023-04-24
 dateModified:
-tags: [react native, setup, env, config]
+tags: [react-native, setup, env, config]
 ---
 
 I enjoy building apps in react native. Yet, configuring my system to run them is a pain. In this article I'll outline how I've tried to make it less painful.
