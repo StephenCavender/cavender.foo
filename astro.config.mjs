@@ -13,7 +13,6 @@ export default defineConfig({
   redirects: {
     "/feed": "/rss.xml",
     "/rss": "/rss.xml",
-    "/cv": "/resume",
     "/blog": "/articles",
     "/blog/[...slug]": "/articles/[...slug]",
     "/posts": "/articles",
