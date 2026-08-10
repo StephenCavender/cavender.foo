@@ -8,7 +8,5 @@ export const projectSchema = z.object({
   tags: z.array(z.string()),
   techStack: z.array(z.string()),
   status: z.enum(["active", "archived", "in-development"]).optional(),
-  startDate: z.coerce.date().optional(),
-  endDate: z.coerce.date().optional(),
   githubUrl: z.string().url().optional(),
 });

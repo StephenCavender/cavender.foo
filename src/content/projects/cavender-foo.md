@@ -6,7 +6,6 @@ logoUrl: "https://cavender.foo/favicon.svg"
 tags: ["blog", "portfolio", "personal"]
 techStack: ["Astro", "TypeScript", "Tailwind CSS"]
 status: "active"
-startDate: "2020-08-14"
 githubUrl: "https://github.com/stephencavender/cavender.foo"
 ---
 
