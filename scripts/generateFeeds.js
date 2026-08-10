@@ -1,4 +1,11 @@
-import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "../src/consts.js";
+import {
+  AUTHOR_EMAIL,
+  AUTHOR_NAME,
+  AUTHOR_URL,
+  SITE_DESCRIPTION,
+  SITE_TITLE,
+  SITE_URL,
+} from "../src/consts.js";
 import { Feed } from "feed";
 import fs from "fs/promises";
 import fg from "fast-glob";
@@ -19,16 +26,16 @@ const getFeed = ({
     link: SITE_URL,
     image: `${SITE_URL}/favicon.svg`,
     favicon: `${SITE_URL}/favicon.svg`,
-    copyright: `copyright ${year} Stephen Cavender all rights reserved`,
+    copyright: `copyright ${year} ${AUTHOR_NAME} all rights reserved`,
     feedLinks: {
       json: `${feedLink}/feed.json`,
       atom: `${feedLink}/atom.xml`,
       rss: `${feedLink}/rss.xml`,
     },
     author: {
-      name: "Stephen Cavender",
-      email: "s@cavender.foo",
-      link: SITE_URL,
+      name: AUTHOR_NAME,
+      email: AUTHOR_EMAIL,
+      link: AUTHOR_URL,
     },
   });
 
@@ -119,7 +126,7 @@ const getFeed = ({
   const articleFeed = getFeed({
     year,
     items: articles,
-    desc: "Articles by Stephen Cavender",
+    desc: `Articles by ${AUTHOR_NAME}`,
     title: `${SITE_TITLE} - Articles`,
     feedLink: `${SITE_URL}/articles`,
   });
@@ -134,7 +141,7 @@ const getFeed = ({
   const bookFeed = getFeed({
     year,
     items: bookReviews,
-    desc: "Book Reviews by Stephen Cavender",
+    desc: `Book Reviews by ${AUTHOR_NAME}`,
     title: `${SITE_TITLE} - Book Reviews`,
     feedLink: `${SITE_URL}/books`,
   });
@@ -159,7 +166,7 @@ const getFeed = ({
       );
 
       const tagFeed = getFeed({
-        desc: `Articles tagged with "${tag}" by Stephen Cavender`,
+        desc: `Articles tagged with "${tag}" by ${AUTHOR_NAME}`,
         items: filteredArticles,
         feedLink: `${SITE_URL}/articles/tags/${tag}`,
         title: `${SITE_TITLE} - Articles tagged "${tag}"`,
@@ -202,7 +209,7 @@ const getFeed = ({
       );
 
       const tagFeed = getFeed({
-        desc: `Book reviews tagged with "${tag}" by Stephen Cavender`,
+        desc: `Book reviews tagged with "${tag}" by ${AUTHOR_NAME}`,
         items: filteredBooks,
         feedLink: `${SITE_URL}/books/tags/${tag}`,
         title: `${SITE_TITLE} - Book reviews tagged "${tag}"`,
