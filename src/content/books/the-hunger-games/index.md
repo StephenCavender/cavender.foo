@@ -1,6 +1,7 @@
 ---
 title: "The Hunger Games"
-author: "Suzanne Collins"
+authors: ["Suzanne Collins"]
+url: "https://openlibrary.org/isbn/9780439023481"
 isbn: "978-0-439-02348-1"
 status: "unread"
 cover: "./cover.webp"

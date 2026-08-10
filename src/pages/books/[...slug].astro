@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
+import { bylineHtml } from "../../utils/books";
 
 export async function getStaticPaths() {
   const books = await getCollection("books");
@@ -30,7 +31,9 @@ const { Content } = await render(book);
       }
 
       <h1>{book.data.title}</h1>
-      <p class="book-author">by <strong>{book.data.author}</strong></p>
+      <p class="book-author">
+        by <Fragment set:html={bylineHtml(book.data.authors)} />
+      </p>
 
       {
         book.data.readDate && (
@@ -41,6 +44,16 @@ const { Content } = await render(book);
       }
 
       {book.data.isbn && <p class="book-isbn">ISBN: {book.data.isbn}</p>}
+
+      {
+        book.data.url && (
+          <p class="book-link">
+            <a href={book.data.url} target="_blank" rel="noopener noreferrer">
+              View this book <span class="external-link-icon">↗</span>
+            </a>
+          </p>
+        )
+      }
     </header>
 
     <div class="book-content prose">
@@ -94,11 +107,38 @@ const { Content } = await render(book);
     margin-bottom: 0.75rem;
   }
 
+  .book-author a {
+    color: var(--text-link);
+    text-decoration: none;
+  }
+
+  .book-author a:hover {
+    text-decoration: underline;
+  }
+
   .read-date,
   .book-isbn {
     font-size: 0.95rem;
     margin: 0.35rem 0;
     color: var(--text-secondary);
+  }
+
+  .book-link {
+    font-size: 0.95rem;
+    margin: 0.35rem 0;
+  }
+
+  .book-link a {
+    color: var(--text-link);
+    text-decoration: none;
+  }
+
+  .book-link a:hover {
+    text-decoration: underline;
+  }
+
+  .external-link-icon {
+    font-size: 0.8em;
   }
 
   .book-content {

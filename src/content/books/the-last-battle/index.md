@@ -1,6 +1,7 @@
 ---
 title: "The Last Battle"
-author: "C.S. Lewis"
+authors: ["C.S. Lewis"]
+url: "https://openlibrary.org/works/OL71124W"
 status: "unread"
 cover: "./cover.webp"
 tags: ["fiction", "fantasy", "classic"]

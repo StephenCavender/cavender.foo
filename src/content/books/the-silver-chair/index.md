@@ -1,6 +1,7 @@
 ---
 title: "The Silver Chair"
-author: "C.S. Lewis"
+authors: ["C.S. Lewis"]
+url: "https://openlibrary.org/works/OL71078W"
 status: "unread"
 cover: "./cover.webp"
 tags: ["fiction", "fantasy", "classic"]

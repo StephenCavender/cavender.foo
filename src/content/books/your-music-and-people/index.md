@@ -1,6 +1,7 @@
 ---
 title: "Your Music and People"
-author: "Derek Sivers"
+authors: ["Derek Sivers"]
+url: "https://openlibrary.org/works/OL36892494W"
 status: "unread"
 cover: "./cover.webp"
 tags: ["music", "creativity", "nonfiction"]

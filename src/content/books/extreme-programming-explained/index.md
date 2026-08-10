@@ -1,6 +1,7 @@
 ---
 title: "Extreme Programming Explained"
-author: "Kent Beck and Cynthia Andres"
+authors: ["Kent Beck", "Cynthia Andres"]
+url: "https://openlibrary.org/isbn/9780321278654"
 isbn: "978-0-321-27865-4"
 status: "unread"
 cover: "./cover.webp"

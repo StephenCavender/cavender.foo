@@ -43,7 +43,9 @@ const { books } = Astro.props;
             ) : (
               <div class="cover-placeholder">
                 <span class="placeholder-title">{book.data.title}</span>
-                <span class="placeholder-author">{book.data.author}</span>
+                <span class="placeholder-author">
+                  {book.data.authors.join(", ")}
+                </span>
               </div>
             )}
             <span class={`status-badge status-${book.data.status}`}>
@@ -52,7 +54,7 @@ const { books } = Astro.props;
           </div>
           <div class="book-meta">
             <span class="book-title">{book.data.title}</span>
-            <span class="book-author">{book.data.author}</span>
+            <span class="book-author">{book.data.authors.join(", ")}</span>
           </div>
         </a>
       ))

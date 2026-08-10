@@ -1,6 +1,7 @@
 ---
 title: "The Pragmatic Programmer"
-author: "David Thomas and Andrew Hunt"
+authors: ["David Thomas", "Andrew Hunt"]
+url: "https://openlibrary.org/isbn/9780135957059"
 isbn: "978-0-13-595705-9"
 status: "unread"
 cover: "./cover.webp"

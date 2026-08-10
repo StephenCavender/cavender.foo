@@ -1,6 +1,7 @@
 ---
 title: "The Return of the King"
-author: "J.R.R. Tolkien"
+authors: ["J.R.R. Tolkien"]
+url: "https://openlibrary.org/isbn/9780261102378"
 isbn: "978-0-26-110237-8"
 status: "read"
 cover: "./cover.webp"

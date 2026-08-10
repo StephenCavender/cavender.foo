@@ -1,6 +1,7 @@
 ---
 title: "Eragon"
-author: "Christopher Paolini"
+authors: ["Christopher Paolini"]
+url: "https://openlibrary.org/works/OL5819895W"
 isbn: "978-0-375-82668-5"
 status: "read"
 cover: "./cover.webp"

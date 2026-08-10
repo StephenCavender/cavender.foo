@@ -1,6 +1,7 @@
 ---
 title: "The Voyage of the Dawn Treader"
-author: "C.S. Lewis"
+authors: ["C.S. Lewis"]
+url: "https://openlibrary.org/works/OL71132W"
 status: "unread"
 cover: "./cover.webp"
 tags: ["fiction", "fantasy", "classic"]

@@ -1,6 +1,6 @@
 ---
 title: "Beautiful Torments"
-author: "D.T. Pierce"
+authors: ["D.T. Pierce"]
 series: "torments"
 isbn: "978-1-95-554695-9"
 status: "read"

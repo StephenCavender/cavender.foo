@@ -57,7 +57,7 @@ const groups: FacetGroup[] = [
   {
     key: "author",
     legend: "Author",
-    options: uniqueSorted(books.map((book) => book.data.author)).map(
+    options: uniqueSorted(books.flatMap((book) => book.data.authors)).map(
       (author) => ({ value: author, label: author })
     ),
   },
@@ -99,12 +99,12 @@ const groups: FacetGroup[] = [
               data-facet-item
               data-facet-status={book.data.status}
               data-facet-genre={book.data.tags.join("|")}
-              data-facet-author={book.data.author}
+              data-facet-author={book.data.authors.join("|")}
               data-facet-series={book.data.series ?? ""}
               data-facet-favorite={book.data.favorite ? "true" : ""}
               data-search={[
                 book.data.title,
-                book.data.author,
+                ...book.data.authors,
                 book.data.series ?? "",
               ]
                 .join(" ")
@@ -121,7 +121,9 @@ const groups: FacetGroup[] = [
                 ) : (
                   <div class="cover-placeholder">
                     <span class="placeholder-title">{book.data.title}</span>
-                    <span class="placeholder-author">{book.data.author}</span>
+                    <span class="placeholder-author">
+                      {book.data.authors.join(", ")}
+                    </span>
                   </div>
                 )}
                 <span class={`status-badge status-${book.data.status}`}>
@@ -130,7 +132,7 @@ const groups: FacetGroup[] = [
               </div>
               <div class="book-meta">
                 <span class="book-title">{book.data.title}</span>
-                <span class="book-author">{book.data.author}</span>
+                <span class="book-author">{book.data.authors.join(", ")}</span>
               </div>
             </a>
           ))
@@ -256,5 +258,4 @@ const groups: FacetGroup[] = [
     gap: 0.5rem;
     color: var(--text-secondary);
   }
-
 </style>

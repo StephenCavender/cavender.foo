@@ -1,6 +1,7 @@
 ---
 title: "The Lion, the Witch and the Wardrobe"
-author: "C.S. Lewis"
+authors: ["C.S. Lewis"]
+url: "https://openlibrary.org/works/OL71037W"
 status: "unread"
 cover: "./cover.webp"
 tags: ["fiction", "fantasy", "classic"]
