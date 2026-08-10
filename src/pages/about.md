@@ -27,18 +27,14 @@ I work out several times a week for several reasons:
 
 ## Fun
 
-### Gaming
+### Video Games
 
 For fun I like to play video games. You can check out my [games](/games) page to see what I'm playing, have played, and want to play.
+
+### Tabletop
+
+I'm a Dhampir Cleric in a D&D campaign. We're playing Curse of Strahd and it's a lot of fun; first time I've played D&D since I was a kid.
 
 ### Guitar
 
 I also enjoy playing guitar. I play electric and acoustic; mostly Christian and country but some rock thrown in. I occasionally play for church as well.
-
-## Life Outside Code
-
-When I close my laptop, I'm fully present with my family - playing with my two kids, supporting my wife, or just being together. I lift weights 5+ days a week, not for aesthetics but to stay strong enough to be useful - to keep up with my kids now and be present for them (and their kids) decades from now. I also unwind by playing guitar and gaming on Xbox and Switch.
-
-## What I Value
-
-I value faith, family, and freedom: in that order. Jesus is Lord and I follow His example. I lead and support my family based on His teachings. I value work that honors these priorities and allows me to serve others well.
