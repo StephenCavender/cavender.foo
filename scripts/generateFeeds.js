@@ -57,7 +57,6 @@ const getFeed = ({
 
   try {
     await fs.mkdir(`${output}/articles/tags`, { recursive: true });
-    await fs.mkdir(`${output}/books/tags`, { recursive: true });
   } catch (err) {
     console.error("Error creating directories:", err);
   }
@@ -88,35 +87,9 @@ const getFeed = ({
 
   articles.sort((a, b) => +new Date(b.date) - +new Date(a.date));
 
-  // Process book reviews
-  const bookFiles = await fg("src/content/bookReviews/*.md");
-  const bookReviews = (
-    await Promise.all(
-      bookFiles.map(async (file) => {
-        const source = await fs.readFile(file, "utf-8");
-        const { data } = matter(source);
-        const filename = path.basename(file);
-
-        const slug = filename.split(".")[0].trim().toLowerCase();
-
-        return {
-          ...data,
-          date: new Date(data.pubDate),
-          id: `${SITE_URL}/books/${slug}`,
-          link: `${SITE_URL}/books/${slug}`,
-          description: data.description,
-        };
-      })
-    )
-  ).filter(Boolean);
-
-  bookReviews.sort((a, b) => +new Date(b.date) - +new Date(a.date));
-
-  // All content feed (articles + book reviews)
-  const allContent = [...articles, ...bookReviews].sort(
-    (a, b) => +new Date(b.date) - +new Date(a.date)
-  );
-  const rootFeed = getFeed({ year, items: allContent });
+  // Root feed. Articles only. Books, games, and the dated collections are
+  // catalogued on the site but deliberately not syndicated.
+  const rootFeed = getFeed({ year, items: articles });
 
   const promises = [
     fs.writeFile(`${output}/rss.xml`, rootFeed.rss2(), "utf-8"),
@@ -137,21 +110,6 @@ const getFeed = ({
     fs.writeFile(`${output}/articles/rss.xml`, articleFeed.rss2(), "utf-8"),
     fs.writeFile(`${output}/articles/atom.xml`, articleFeed.atom1(), "utf-8"),
     fs.writeFile(`${output}/articles/feed.json`, articleFeed.json1(), "utf-8")
-  );
-
-  // Book review-specific feed
-  const bookFeed = getFeed({
-    year,
-    items: bookReviews,
-    desc: `Book Reviews by ${AUTHOR_NAME}`,
-    title: `${SITE_TITLE} - Book Reviews`,
-    feedLink: `${SITE_URL}/books`,
-  });
-
-  promises.push(
-    fs.writeFile(`${output}/books/rss.xml`, bookFeed.rss2(), "utf-8"),
-    fs.writeFile(`${output}/books/atom.xml`, bookFeed.atom1(), "utf-8"),
-    fs.writeFile(`${output}/books/feed.json`, bookFeed.json1(), "utf-8")
   );
 
   // Article tags feeds
@@ -194,49 +152,6 @@ const getFeed = ({
       );
     } catch (err) {
       console.error(`Error processing article tag ${tag}:`, err);
-    }
-  }
-
-  // Book review tags feeds
-  const bookTags = [
-    ...new Set(bookReviews.map((book) => book.tags || []).flat()),
-  ];
-
-  for (const tag of bookTags) {
-    try {
-      await fs.mkdir(`${output}/books/tags/${tag}`, { recursive: true });
-
-      const filteredBooks = bookReviews.filter(
-        (book) => book.tags && book.tags.includes(tag)
-      );
-
-      const tagFeed = getFeed({
-        desc: `Book reviews tagged with "${tag}" by ${AUTHOR_NAME}`,
-        items: filteredBooks,
-        feedLink: `${SITE_URL}/books/tags/${tag}`,
-        title: `${SITE_TITLE} - Book reviews tagged "${tag}"`,
-        year,
-      });
-
-      promises.push(
-        fs.writeFile(
-          `${output}/books/tags/${tag}/rss.xml`,
-          tagFeed.rss2(),
-          "utf-8"
-        ),
-        fs.writeFile(
-          `${output}/books/tags/${tag}/atom.xml`,
-          tagFeed.atom1(),
-          "utf-8"
-        ),
-        fs.writeFile(
-          `${output}/books/tags/${tag}/feed.json`,
-          tagFeed.json1(),
-          "utf-8"
-        )
-      );
-    } catch (err) {
-      console.error(`Error processing book tag ${tag}:`, err);
     }
   }
 
