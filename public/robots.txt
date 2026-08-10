@@ -1,0 +1,8 @@
+# cavender.foo
+# All crawlers welcome, including AI agents.
+# Prose on this site is human-written. See /llms.txt for a machine-readable index.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://cavender.foo/sitemap-index.xml
