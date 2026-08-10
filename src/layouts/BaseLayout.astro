@@ -7,15 +7,33 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 interface Props {
   title?: string;
   description?: string;
+  ogImage?: URL;
+  pubDate?: Date;
+  updatedDate?: Date;
+  tags?: string[];
 }
 
-const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
+const {
+  title = SITE_TITLE,
+  description = SITE_DESCRIPTION,
+  ogImage,
+  pubDate,
+  updatedDate,
+  tags,
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={title} description={description} />
+    <BaseHead
+      title={title}
+      description={description}
+      ogImage={ogImage}
+      pubDate={pubDate}
+      updatedDate={updatedDate}
+      tags={tags}
+    />
   </head>
   <body>
     <div class="container">

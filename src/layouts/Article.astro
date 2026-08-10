@@ -3,12 +3,21 @@ import type { CollectionEntry } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 import BaseLayout from "./BaseLayout.astro";
 
-type Props = CollectionEntry<"articles">["data"];
+type Props = CollectionEntry<"articles">["data"] & { slug: string };
 
-const { title, description, pubDate, updatedDate, tags } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, slug } = Astro.props;
+
+const ogImage = new URL(`/articles/${slug}/og.png`, Astro.site);
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={ogImage}
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  tags={tags}
+>
   <article>
     <div class="prose">
       <div class="title">
