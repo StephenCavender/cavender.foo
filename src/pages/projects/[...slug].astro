@@ -18,104 +18,65 @@ const { Content } = await render(project);
 <BaseLayout>
   <article class="project">
     <header>
-      <div class="project-container">
-        <div class="project-meta">
-          <h1>{project.data.name}</h1>
-
-          <div class="project-status">
-            <span class="status-badge status-{project.data.status}"
-              >{project.data.status}</span
-            >
+      {
+        project.data.logoUrl && (
+          <div class="project-logo">
+            <img
+              src={project.data.logoUrl}
+              alt={`${project.data.name} logo`}
+              loading="lazy"
+            />
           </div>
+        )
+      }
 
-          <p class="project-description">{project.data.description}</p>
+      <h1>{project.data.name}</h1>
 
-          <div class="project-links">
-            {
-              project.data.url && (
-                <a
-                  href={project.data.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="project-link"
-                >
-                  Live Site <span class="external-link-icon">↗</span>
-                </a>
-              )
-            }
-            {
-              project.data.githubUrl && (
-                <a
-                  href={project.data.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="github-link"
-                >
-                  GitHub <span class="external-link-icon">↗</span>
-                </a>
-              )
-            }
-          </div>
+      {
+        project.data.status && (
+          <p class="project-status">
+            <span class={`status-badge status-${project.data.status}`}>
+              {project.data.status}
+            </span>
+          </p>
+        )
+      }
 
-          <div class="project-info">
-            {
-              project.data.techStack && project.data.techStack.length > 0 && (
-                <div class="tech-stack">
-                  <span class="meta-label">Tech Stack:</span>
-                  <div class="tech-list">
-                    {project.data.techStack.map((tech) => (
-                      <span class="tech-tag">{tech}</span>
-                    ))}
-                  </div>
-                </div>
-              )
-            }
+      <p class="project-description">{project.data.description}</p>
 
-            {
-              project.data.startDate && (
-                <p class="start-date">
-                  <span class="meta-label">Started:</span>{" "}
-                  {project.data.startDate.toLocaleDateString()}
-                </p>
-              )
-            }
-            {
-              project.data.endDate && (
-                <p class="end-date">
-                  <span class="meta-label">Ended:</span>{" "}
-                  {project.data.endDate.toLocaleDateString()}
-                </p>
-              )
-            }
-          </div>
+      {
+        project.data.techStack && project.data.techStack.length > 0 && (
+          <p class="meta-line">
+            <span class="meta-label">Tech:</span>{" "}
+            {project.data.techStack.join(", ")}
+          </p>
+        )
+      }
 
-          {
-            project.data.tags && project.data.tags.length > 0 && (
-              <div class="project-tags">
-                <span class="meta-label">Tags:</span>
-                <div class="tag-list">
-                  {project.data.tags.map((tag) => (
-                    <span class="tag">#{tag}</span>
-                  ))}
-                </div>
-              </div>
-            )
-          }
-        </div>
-
-        <div class="project-logo">
-          {
-            project.data.logoUrl && (
-              <div class="logo-image">
-                <img
-                  src={project.data.logoUrl}
-                  alt={`${project.data.name} logo`}
-                />
-              </div>
-            )
-          }
-        </div>
-      </div>
+      {
+        (project.data.url || project.data.githubUrl) && (
+          <p class="project-links">
+            {project.data.url && (
+              <a
+                href={project.data.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Live Site <span class="external-link-icon">↗</span>
+              </a>
+            )}
+            {project.data.githubUrl && (
+              <a
+                href={project.data.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub <span class="external-link-icon">↗</span>
+              </a>
+            )}
+          </p>
+        )
+      }
     </header>
 
     <div class="project-content prose">
@@ -126,11 +87,13 @@ const { Content } = await render(project);
       project.data.tags && project.data.tags.length > 0 && (
         <div class="tags">
           {project.data.tags.map((tag) => (
-            <a href={`/projects/tags/${tag}/`}>#{tag}</a>
+            <span>#{tag}</span>
           ))}
         </div>
       )
     }
+
+    <a href="/projects">Back to Projects</a>
   </article>
 </BaseLayout>
 
@@ -144,56 +107,36 @@ const { Content } = await render(project);
     margin-bottom: 2rem;
   }
 
-  .project-container {
-    display: flex;
-    gap: 1.5rem;
-    background-color: var(--bg-secondary);
-    padding: 1.5rem;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 2rem;
-  }
-
-  .project-meta {
-    flex: 3;
-    min-width: 280px;
-    color: var(--text-secondary);
-    font-size: 1rem;
-    padding-right: 1rem;
-  }
-
   .project-logo {
-    flex: 1;
-    min-width: 160px;
-    max-width: 180px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    float: right;
+    margin: 0 0 1.5rem 2rem;
+  }
+
+  .project-logo img {
+    max-width: 160px;
+    height: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    display: block;
   }
 
   h1 {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     line-height: 1.2;
-    color: var(--text-primary);
-  }
-
-  .project-description {
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-    color: var(--text-primary);
-    line-height: 1.5;
   }
 
   .project-status {
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.75rem;
   }
 
   .status-badge {
-    padding: 0.3rem 0.8rem;
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
     border-radius: 4px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: bold;
     text-transform: uppercase;
+    line-height: 1;
   }
 
   .status-active {
@@ -211,14 +154,31 @@ const { Content } = await render(project);
     color: white;
   }
 
+  .project-description {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .meta-line {
+    margin: 0.35rem 0;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+  }
+
+  .meta-label {
+    font-weight: bold;
+    color: var(--text-primary);
+  }
+
   .project-links {
     display: flex;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin: 0.75rem 0 0 0;
+    font-size: 0.95rem;
   }
 
-  .project-link,
-  .github-link {
+  .project-links a {
     color: var(--text-link);
     text-decoration: none;
     font-weight: 500;
@@ -227,8 +187,7 @@ const { Content } = await render(project);
     gap: 0.2rem;
   }
 
-  .project-link:hover,
-  .github-link:hover {
+  .project-links a:hover {
     text-decoration: underline;
   }
 
@@ -236,108 +195,20 @@ const { Content } = await render(project);
     font-size: 0.8em;
   }
 
-  .meta-label {
-    font-weight: bold;
-    margin-right: 0.5rem;
-    color: var(--text-primary);
+  .project-content {
+    clear: both;
+    line-height: 1.6;
   }
 
-  .project-info {
-    margin-bottom: 1rem;
-  }
-
-  .project-info p {
-    margin: 0.5rem 0;
-  }
-
-  .tech-stack {
-    margin-bottom: 1rem;
-  }
-
-  .tech-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-  }
-
-  .tech-tag {
-    background-color: var(--bg-primary);
-    color: var(--text-secondary);
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    font-weight: 500;
-  }
-
-  .project-tags {
-    margin-top: 1.5rem;
-    margin-bottom: 0;
-    border-top: 1px solid var(--line);
-    padding-top: 1rem;
-  }
-
-  .tag-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-  }
-
-  .tag {
-    background-color: var(--bg-primary);
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    display: inline-block;
-  }
-
-  .logo-image {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 0;
-    padding-top: 0;
-    width: 100%;
-  }
-
-  .logo-image img,
-  .logo-image :global(img) {
-    max-width: 160px;
-    height: auto;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    margin-top: 0;
-  }
-
-  @media (max-width: 768px) {
-    .project-container {
-      flex-direction: column-reverse;
-      gap: 2rem;
-    }
-
+  @media (max-width: 600px) {
     .project-logo {
-      margin: 0 auto 1rem auto;
-      max-width: 180px;
-      justify-content: center;
+      float: none;
+      margin: 0 auto 1.5rem auto;
+      text-align: center;
     }
 
-    .project-meta {
-      padding-right: 0;
-    }
-
-    .logo-image {
-      justify-content: center;
-    }
-
-    .logo-image img,
-    .logo-image :global(img) {
-      max-width: 160px;
+    .project-logo img {
       margin: 0 auto;
     }
-  }
-
-  .project-content {
-    line-height: 1.6;
   }
 </style>

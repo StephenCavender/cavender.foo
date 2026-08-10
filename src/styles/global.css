@@ -230,3 +230,6 @@ ul:not(article ul) {
 .tags a:hover {
   color: var(--text-secondary);
 }
+.tags span {
+  color: var(--text-secondary);
+}
