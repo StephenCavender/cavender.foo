@@ -72,10 +72,12 @@ const getFeed = ({
         const filename = path.basename(file);
 
         const slug = filename.split(".")[0].trim().toLowerCase();
+        const date = new Date(data.pubDate);
 
         return {
           ...data,
-          date: new Date(data.pubDate),
+          date,
+          published: date,
           id: `${SITE_URL}/articles/${slug}`,
           link: `${SITE_URL}/articles/${slug}`,
           description: data.description,
