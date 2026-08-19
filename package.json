@@ -6,8 +6,7 @@
     "@astrojs/sitemap": "3.7.3",
     "@resvg/resvg-js": "^2.6.2",
     "astro": "7.1.6",
-    "satori": "^0.26.0",
-    "satori-html": "^0.3.2"
+    "satori": "^0.26.0"
   },
   "scripts": {
     "dev": "astro dev",
@@ -25,7 +24,8 @@
     "new:game": "bash scripts/create-game-entry.sh",
     "new:now": "bash scripts/create-now-entry.sh",
     "new:project": "bash scripts/create-project-entry.sh",
-    "new:uses": "bash scripts/create-uses-entry.sh"
+    "new:uses": "bash scripts/create-uses-entry.sh",
+    "knip": "knip"
   },
   "type": "module",
   "engines": {
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/node": "^26.2.0",
     "@typescript-eslint/eslint-plugin": "^8.24.0",
     "@typescript-eslint/parser": "^8.24.0",
     "eslint": "^10.2.1",
@@ -44,7 +45,9 @@
     "feed": "^4.2.2",
     "globals": "^15.15.0",
     "gray-matter": "^4.0.3",
+    "knip": "^6.32.2",
     "prettier": "^3.5.1",
-    "prettier-plugin-astro": "^0.14.1"
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^7.0.2"
   }
 }

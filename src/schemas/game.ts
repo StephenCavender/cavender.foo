@@ -2,7 +2,7 @@ import { z } from "astro/zod";
 import type { SchemaContext } from "astro:content";
 
 /** Closed vocabulary. Adding a platform is a deliberate edit here, not a typo in content. */
-export const PLATFORMS = [
+const PLATFORMS = [
   "PC",
   "Xbox",
   "Switch",

@@ -24,8 +24,7 @@ const AUTHOR_SITES: Record<string, string> = {
 };
 
 /** Website for an author, or undefined when unknown. */
-export const authorSite = (name: string): string | undefined =>
-  AUTHOR_SITES[name];
+const authorSite = (name: string): string | undefined => AUTHOR_SITES[name];
 
 const escapeHtml = (value: string): string =>
   value.replace(
