@@ -13,202 +13,27 @@ type Props = CollectionEntry<"projects">;
 
 const project = Astro.props;
 const { Content } = await render(project);
+const { name, description, techStack, status } = project.data;
 ---
 
-<BaseLayout>
-  <article class="project">
-    <header>
-      {
-        project.data.logoUrl && (
-          <div class="project-logo">
-            <img
-              src={project.data.logoUrl}
-              alt={`${project.data.name} logo`}
-              loading="lazy"
-            />
-          </div>
-        )
-      }
+<BaseLayout title={name} description={description}>
+  <article>
+    <h1>{name}{status === "archived" && " (archived)"}</h1>
+    <p class="tech">Tech Stack: <span>{techStack.join(", ")}</span></p>
 
-      <h1>{project.data.name}</h1>
+    <Content />
 
-      {
-        project.data.status && (
-          <p class="project-status">
-            <span class={`status-badge status-${project.data.status}`}>
-              {project.data.status}
-            </span>
-          </p>
-        )
-      }
-
-      <p class="project-description">{project.data.description}</p>
-
-      {
-        project.data.techStack && project.data.techStack.length > 0 && (
-          <p class="meta-line">
-            <span class="meta-label">Tech:</span>{" "}
-            {project.data.techStack.join(", ")}
-          </p>
-        )
-      }
-
-      {
-        (project.data.url || project.data.githubUrl) && (
-          <p class="project-links">
-            {project.data.url && (
-              <a
-                href={project.data.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Live Site <span class="external-link-icon">↗</span>
-              </a>
-            )}
-            {project.data.githubUrl && (
-              <a
-                href={project.data.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GitHub <span class="external-link-icon">↗</span>
-              </a>
-            )}
-          </p>
-        )
-      }
-    </header>
-
-    <div class="project-content prose">
-      <Content />
-    </div>
-
-    {
-      project.data.tags && project.data.tags.length > 0 && (
-        <div class="tags">
-          {project.data.tags.map((tag) => (
-            <span>#{tag}</span>
-          ))}
-        </div>
-      )
-    }
-
-    <a href="/projects">Back to Projects</a>
+    <p><a href="/projects">← Back to Projects</a></p>
   </article>
 </BaseLayout>
-
 <style>
-  .project {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  header {
+  .tech {
     margin-bottom: 2rem;
-  }
-
-  .project-logo {
-    float: right;
-    margin: 0 0 1.5rem 2rem;
-  }
-
-  .project-logo img {
-    max-width: 160px;
-    height: auto;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    display: block;
-  }
-
-  h1 {
-    margin-bottom: 0.5rem;
-    line-height: 1.2;
-  }
-
-  .project-status {
-    margin-bottom: 0.75rem;
-  }
-
-  .status-badge {
-    display: inline-block;
-    padding: 0.2rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    line-height: 1;
-  }
-
-  .status-active {
-    background-color: var(--status-active);
-    color: white;
-  }
-
-  .status-in-development {
-    background-color: var(--status-in-progress);
-    color: white;
-  }
-
-  .status-archived {
-    background-color: var(--status-neutral);
-    color: white;
-  }
-
-  .project-description {
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
-    line-height: 1.5;
-  }
-
-  .meta-line {
-    margin: 0.35rem 0;
     font-size: 0.95rem;
-    color: var(--text-secondary);
-  }
-
-  .meta-label {
-    font-weight: bold;
     color: var(--text-primary);
   }
 
-  .project-links {
-    display: flex;
-    gap: 1rem;
-    margin: 0.75rem 0 0 0;
-    font-size: 0.95rem;
-  }
-
-  .project-links a {
-    color: var(--text-link);
-    text-decoration: none;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.2rem;
-  }
-
-  .project-links a:hover {
-    text-decoration: underline;
-  }
-
-  .external-link-icon {
-    font-size: 0.8em;
-  }
-
-  .project-content {
-    clear: both;
-    line-height: 1.6;
-  }
-
-  @media (max-width: 600px) {
-    .project-logo {
-      float: none;
-      margin: 0 auto 1.5rem auto;
-      text-align: center;
-    }
-
-    .project-logo img {
-      margin: 0 auto;
-    }
+  .tech span {
+    color: var(--text-secondary);
   }
 </style>

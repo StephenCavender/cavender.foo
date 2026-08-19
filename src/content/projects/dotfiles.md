@@ -1,9 +1,7 @@
 ---
 name: "dotfiles"
 description: "Personal dotfiles and development environment configuration"
-url: "https://github.com/StephenCavender/dotfiles"
-tags: ["dotfiles", "development", "configuration"]
-techStack: ["Shell", "Git", "Zsh"]
+techStack: ["Shell", "Zsh", "Neovim", "Homebrew"]
 status: "active"
 githubUrl: "https://github.com/StephenCavender/dotfiles"
 ---

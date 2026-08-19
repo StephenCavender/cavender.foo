@@ -2,9 +2,7 @@
 name: "cavender.foo"
 description: "Personal blog and portfolio website built with Astro"
 url: "https://cavender.foo"
-logoUrl: "https://cavender.foo/favicon.svg"
-tags: ["blog", "portfolio", "personal"]
-techStack: ["Astro", "TypeScript", "Tailwind CSS"]
+techStack: ["Astro", "TypeScript", "Bun"]
 status: "active"
 githubUrl: "https://github.com/stephencavender/cavender.foo"
 ---

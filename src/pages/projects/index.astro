@@ -2,38 +2,25 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 
-const allProjects = await getCollection("projects");
-const projects = allProjects.sort((a, b) => {
-  // Sort by status first (active > in-development > archived), then by name
-  const statusOrder = { active: 0, "in-development": 1, archived: 2 };
-  const aStatus = a.data.status ? statusOrder[a.data.status] : 3;
-  const bStatus = b.data.status ? statusOrder[b.data.status] : 3;
-
-  if (aStatus !== bStatus) {
-    return aStatus - bStatus;
-  }
-
-  // Otherwise sort by name
-  return a.data.name.localeCompare(b.data.name);
-});
+// Archived projects sink to the bottom; everything else is alphabetical.
+const projects = (await getCollection("projects")).sort(
+  (a, b) =>
+    Number(a.data.status === "archived") -
+      Number(b.data.status === "archived") ||
+    a.data.name.localeCompare(b.data.name)
+);
 ---
 
 <BaseLayout>
   <h2>Projects</h2>
   <section>
-    <ul class="projects-list">
+    <ul>
       {
         projects.map((project) => (
-          <li class="project-item">
-            <div class="project-header">
-              <a href={`/projects/${project.id}/`} class="project-name">
-                {project.data.name}
-              </a>
-              <span class="status-badge status-{project.data.status}">
-                {project.data.status}
-              </span>
-            </div>
-            <p class="project-description">{project.data.description}</p>
+          <li>
+            <a href={`/projects/${project.id}/`}>{project.data.name}</a>
+            {project.data.status === "archived" && " (archived)"}
+            <p>{project.data.description}</p>
           </li>
         ))
       }
@@ -41,68 +28,11 @@ const projects = allProjects.sort((a, b) => {
   </section>
 </BaseLayout>
 <style>
-  .projects-list {
-    list-style: none;
-    padding: 0;
-    margin: 2rem 0;
+  li {
+    margin-bottom: 1rem;
   }
-
-  .project-item {
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .project-item:last-child {
-    border-bottom: none;
-  }
-
-  .project-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .project-name {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  .project-header a.project-name {
-    text-decoration: none;
-  }
-
-  .project-header a.project-name:hover {
-    color: var(--text-link);
-  }
-
-  .status-badge {
-    padding: 0.2rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.7rem;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-
-  .status-active {
-    background-color: var(--status-active);
-    color: white;
-  }
-
-  .status-in-development {
-    background-color: var(--status-in-progress);
-    color: white;
-  }
-
-  .status-archived {
-    background-color: var(--status-neutral);
-    color: white;
-  }
-
-  .project-description {
+  p {
+    margin: 0.15rem 0 0;
     color: var(--text-secondary);
-    margin: 0;
-    line-height: 1.5;
   }
 </style>
