@@ -60,7 +60,11 @@ export default [
   // drift as a lint error so `bun run lint` and `bun run format:check` agree.
   prettierConfig,
   {
-    ignores: [".astro/**/*", "dist/**/*"],
+    // Only ts/js: prettier-plugin-astro (via `bun run format:check`) covers
+    // .astro files. eslint-plugin-prettier's own parser can't handle TS
+    // inside <script> blocks when mixed with the astro parser.
+    files: ["**/*.ts", "**/*.tsx", "**/*.js"],
+    ignores: [".astro/**/*", "dist/**/*", "**/*.astro/**"],
     plugins: {
       prettier: prettierPlugin,
     },

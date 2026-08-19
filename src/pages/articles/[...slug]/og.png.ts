@@ -146,7 +146,7 @@ export async function GET(context: APIContext) {
 
   const image = resvg.render();
 
-  return new Response(image.asPng(), {
+  return new Response(new Uint8Array(image.asPng()), {
     headers: {
       "Content-Type": "image/png",
     },
