@@ -1,61 +1,17 @@
 ---
-import { getCollection, render } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import FormattedDate from "../../components/FormattedDate.astro";
+import { getCollection } from "astro:content";
+import SnapshotEntry from "@components/SnapshotEntry.astro";
 
 export async function getStaticPaths() {
-  const aiEntries = await getCollection("ai");
+  const entries = await getCollection("ai");
 
-  return aiEntries.map((entry) => ({
+  return entries.map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
   }));
 }
 
 const { entry } = Astro.props;
-const { Content } = await render(entry);
 ---
 
-<BaseLayout>
-  <article class="ai-entry">
-    <h1>AI / <FormattedDate date={entry.data.pubDate} /></h1>
-
-    <div class="entry-content">
-      <Content />
-    </div>
-
-    <div class="entry-footer">
-      <a href="/ai" class="back-link">← Back to Current AI</a>
-    </div>
-  </article>
-</BaseLayout>
-
-<style>
-  .ai-entry {
-    max-width: 65ch;
-    margin: 0 auto;
-  }
-
-  .entry-content {
-    margin-bottom: 3rem;
-  }
-
-  .entry-footer {
-    border-top: 1px solid var(--border-color);
-    padding-top: 1rem;
-  }
-
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    color: var(--accent-color);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s ease;
-  }
-
-  .back-link:hover {
-    color: var(--accent-hover);
-    text-decoration: underline;
-  }
-</style>
+<SnapshotEntry entry={entry} label="AI" basePath="/ai" />

@@ -1,97 +1,15 @@
 ---
-import { getCollection, render } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { formatDate, sortByPubDate } from "../../utils/date";
+import { getCollection } from "astro:content";
+import SnapshotIndex from "@components/SnapshotIndex.astro";
 
-const aiEntries = await getCollection("ai");
-
-const sortedEntries = sortByPubDate(aiEntries);
-
-const latest = sortedEntries[0];
-const previous = sortedEntries.slice(1);
-
-const { Content: LatestContent } = latest
-  ? await render(latest)
-  : { Content: null };
-
-const formattedDate = latest?.data.pubDate
-  ? formatDate(new Date(latest.data.pubDate))
-  : "";
+const entries = await getCollection("ai");
 ---
 
-<BaseLayout title="How I Use AI">
-  <div class="ai-content">
-    <h1>AI</h1>
-    <p>An <a href="https://slashai.page/">/ai</a> page — how I use AI tools.</p>
-    <p><em>Updated {formattedDate}</em></p>
-
-    {
-      latest && LatestContent ? (
-        <div class="latest">
-          <div class="content">
-            <LatestContent />
-          </div>
-        </div>
-      ) : (
-        <div class="no-content">
-          <p>No entries found.</p>
-        </div>
-      )
-    }
-
-    {
-      previous && previous.length > 0 && (
-        <div class="history-section">
-          <details>
-            <summary class="history-toggle">
-              View Previous Versions ({previous.length})
-            </summary>
-            <ul>
-              {previous.map(async (entry) => {
-                const entryDate = formatDate(entry.data.pubDate);
-
-                return (
-                  <li>
-                    <a href={`/ai/${entry.id}/`}>{entryDate}</a>
-                  </li>
-                );
-              })}
-            </ul>
-          </details>
-        </div>
-      )
-    }
-  </div>
-</BaseLayout>
-
-<style>
-  .ai-content {
-    max-width: 65ch;
-  }
-
-  .latest {
-    margin-bottom: 2rem;
-  }
-
-  .content {
-    margin-bottom: 1rem;
-  }
-
-  .history-section {
-    margin-top: 2rem;
-    border-top: 1px solid var(--border-color);
-    padding-top: 2rem;
-  }
-
-  .history-toggle {
-    cursor: pointer;
-    font-weight: 600;
-    padding: 0.5rem 0;
-    color: var(--accent-color);
-    transition: color 0.2s ease;
-  }
-
-  .history-toggle:hover {
-    color: var(--accent-hover);
-  }
-</style>
+<SnapshotIndex
+  title="How I Use AI"
+  heading="AI"
+  basePath="/ai"
+  entries={entries}
+>
+  <p>An <a href="https://slashai.page/">/ai</a> page — how I use AI tools.</p>
+</SnapshotIndex>

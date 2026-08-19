@@ -1,4 +1,4 @@
-import { z } from "astro:content";
+import { z } from "astro/zod";
 import type { SchemaContext } from "astro:content";
 
 export const bookSchema = ({ image }: SchemaContext) =>
@@ -7,7 +7,7 @@ export const bookSchema = ({ image }: SchemaContext) =>
     /** Display names, e.g. ["Brett McKay", "Kate McKay"]. Websites live in utils/books.ts. */
     authors: z.array(z.string()).min(1),
     /** Link to the book itself, e.g. its Open Library or publisher page. */
-    url: z.string().url().optional(),
+    url: z.url().optional(),
     isbn: z.string().optional(),
     status: z.enum(["read", "unread", "reading"]),
     /** Slug, e.g. "torments". These never had a display form. */

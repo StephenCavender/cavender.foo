@@ -1,0 +1,62 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import FormattedDate from "@components/FormattedDate.astro";
+import type { SnapshotEntry } from "../utils/snapshots";
+
+interface Props {
+  entry: SnapshotEntry;
+  /** Collection label, e.g. "Now". Used in the heading and the back link. */
+  label: string;
+  /** Collection root, e.g. "/now". */
+  basePath: string;
+}
+
+const { entry, label, basePath } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<BaseLayout>
+  <article class="snapshot-entry">
+    <h1>{label} / <FormattedDate date={entry.data.pubDate} /></h1>
+
+    <div class="entry-content">
+      <Content />
+    </div>
+
+    <div class="entry-footer">
+      <a href={basePath} class="back-link">← Back to Current {label}</a>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .snapshot-entry {
+    max-width: 65ch;
+    margin: 0 auto;
+  }
+
+  .entry-content {
+    margin-bottom: 3rem;
+  }
+
+  .entry-footer {
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+  }
+</style>

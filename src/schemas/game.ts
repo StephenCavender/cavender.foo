@@ -1,4 +1,4 @@
-import { z } from "astro:content";
+import { z } from "astro/zod";
 import type { SchemaContext } from "astro:content";
 
 /** Closed vocabulary. Adding a platform is a deliberate edit here, not a typo in content. */
@@ -31,7 +31,7 @@ export const gameSchema = ({ image }: SchemaContext) =>
     favorite: z.boolean().default(false),
     rating: z.number().min(1).max(5).optional(),
     cover: image().optional(),
-    coverUrl: z.string().url().optional(),
+    coverUrl: z.url().optional(),
     /** Genre and descriptors only. Series/developer/publisher are fields above. */
     tags: z.array(z.string()),
     playDate: z.coerce.date().optional(),
