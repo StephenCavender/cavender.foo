@@ -13,14 +13,14 @@ In this article we'll be using Mocha and Selenium to write tests for web applica
 Here are the requirements before we get started:
 
 - [NodeJS](https://nodejs.org) (A JavaScript runtime)
-- [Selenium JavaScript language bindings](http://docs.seleniumhq.org/download/) (But we'll use NPM to grab these)
+- [Selenium JavaScript language bindings](https://www.selenium.dev/downloads/) (But we'll use NPM to grab these)
 - [MochaJS](http://mochajs.org/) (Mocha is a JS test framework)
 - [ChaiJS](http://chaijs.com/) (Chai is an assertion library)
-- Any browsers installed that you want to test [Supported Platforms](http://docs.seleniumhq.org/about/platforms.jsp)
+- Any browsers installed that you want to test [Supported Platforms](https://www.selenium.dev/downloads/#platforms-supported-by-selenium)
 
 ### Selenium Prep
 
-If you haven't read through my quick [Overview of Selenium](/2016/06/25/selenium-overview-setup) you should do that now. Selenium will need a few things configured before it'll do its magic!
+If you haven't read through my quick [Overview of Selenium](/articles/selenium-overview-setup) you should do that now. Selenium will need a few things configured before it'll do its magic!
 
 ### NodeJs Tutorial
 
@@ -72,7 +72,7 @@ We can now write our first test and use our installed packages! Here's what the 
 
 We'll write our test against [The Internet](http://the-internet.herokuapp.com/)[^theinternet].
 
-[^theinternet]: Credit to [Dave Haeffner](http://davehaeffner.com/).
+[^theinternet]: Credit to Dave Haeffner.
 
 Let's create a new JS file in our project folder: I'll create test1.js.
 
