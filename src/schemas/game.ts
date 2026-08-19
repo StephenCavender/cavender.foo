@@ -32,6 +32,8 @@ export const gameSchema = ({ image }: SchemaContext) =>
     rating: z.number().min(1).max(5).optional(),
     cover: image().optional(),
     coverUrl: z.url().optional(),
+    /** Page the cover art came from, e.g. a SteamGridDB game page. Credited on the detail page. */
+    coverSource: z.url().optional(),
     /** Genre and descriptors only. Series/developer/publisher are fields above. */
     tags: z.array(z.string()),
     playDate: z.coerce.date().optional(),

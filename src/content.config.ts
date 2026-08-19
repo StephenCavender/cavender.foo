@@ -19,7 +19,10 @@ const books = defineCollection({
 });
 
 const games = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/games" }),
+  loader: glob({
+    pattern: ["**/*.md", "!CREDITS.md"],
+    base: "./src/content/games",
+  }),
   schema: gameSchema,
 });
 

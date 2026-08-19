@@ -23,6 +23,17 @@ const { Content } = await render(game);
         game.data.cover && (
           <div class="game-cover">
             <Image src={game.data.cover} alt={`Cover for ${game.data.title}`} />
+            {game.data.coverSource && (
+              <a
+                class="cover-credit"
+                href={game.data.coverSource}
+                rel="noopener nofollow"
+                target="_blank"
+                title={`Cover artwork source: ${new URL(game.data.coverSource).hostname}`}
+              >
+                art source
+              </a>
+            )}
           </div>
         )
       }
@@ -94,8 +105,32 @@ const { Content } = await render(game);
   }
 
   .game-cover {
+    position: relative;
+    width: fit-content;
     float: right;
     margin: 0 0 1.5rem 2rem;
+  }
+
+  .cover-credit {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 0.2rem 0.45rem;
+    border-bottom-right-radius: 8px;
+    border-top-left-radius: 8px;
+    background: rgba(0, 0, 0, 0.65);
+    color: white;
+    font-size: 0.65rem;
+    line-height: 1;
+    text-decoration: none;
+    opacity: 0.65;
+    transition: opacity 0.15s ease;
+  }
+
+  .cover-credit:hover,
+  .cover-credit:focus-visible {
+    opacity: 1;
+    text-decoration: underline;
   }
 
   .game-cover img {
