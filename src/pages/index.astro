@@ -2,9 +2,10 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { sortByPubDate } from "../utils/date";
+import { RECENT_ARTICLES_COUNT } from "../consts";
 const recentArticles = sortByPubDate(await getCollection("articles")).slice(
   0,
-  3
+  RECENT_ARTICLES_COUNT
 );
 ---
 
@@ -27,8 +28,6 @@ const recentArticles = sortByPubDate(await getCollection("articles")).slice(
   <section>
     <p>Here's a <a href="/now">now</a> page to see what I'm currently up to.</p>
   </section>
-
-  <!-- TODO: add projects section when apps are live again -->
 
   <section>
     <h2>Recent Writing</h2>

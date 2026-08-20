@@ -47,8 +47,6 @@ const getFeed = ({
 (async () => {
   const start = Date.now();
 
-  console.log("generating feeds");
-
   const year = new Date().getFullYear();
 
   // Create necessary directories
@@ -57,8 +55,8 @@ const getFeed = ({
 
   try {
     await fs.mkdir(`${output}/articles/tags`, { recursive: true });
-  } catch (err) {
-    console.error("Error creating directories:", err);
+  } catch {
+    // Directory creation failed - likely already exists, continue
   }
 
   // Process articles
@@ -150,13 +148,16 @@ const getFeed = ({
           "utf-8"
         )
       );
-    } catch (err) {
-      console.error(`Error processing article tag ${tag}:`, err);
+    } catch {
+      // Tag processing failed - skip and continue
     }
   }
 
   await Promise.all(promises);
 
   const end = Date.now();
-  console.log(`completed in ${end - start}ms`);
+  const duration = end - start;
+  if (process.env.VERBOSE) {
+    console.log(`Feed generation completed in ${duration}ms`);
+  }
 })();

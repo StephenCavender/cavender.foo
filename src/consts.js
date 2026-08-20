@@ -5,3 +5,5 @@ export const SITE_URL = "https://cavender.foo";
 export const AUTHOR_NAME = "Stephen Cavender";
 export const AUTHOR_EMAIL = "s@cavender.foo";
 export const AUTHOR_URL = "https://cavender.foo";
+
+export const RECENT_ARTICLES_COUNT = 3;
