@@ -65,7 +65,7 @@ const getFeed = ({
     await Promise.all(
       articleFiles.map(async (file) => {
         const source = await fs.readFile(file, "utf-8");
-        const { data } = matter(source);
+        const { data, content } = matter(source);
         const filename = path.basename(file);
 
         const slug = filename.split(".")[0].trim().toLowerCase();
@@ -78,6 +78,7 @@ const getFeed = ({
           id: `${SITE_URL}/articles/${slug}`,
           link: `${SITE_URL}/articles/${slug}`,
           description: data.description,
+          content,
         };
       })
     )
