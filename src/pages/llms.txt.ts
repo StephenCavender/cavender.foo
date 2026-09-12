@@ -9,6 +9,7 @@ import { getContentIndex, type IndexEntry } from "../utils/content-index";
 const STATIC_PAGES: Array<{ path: string; label: string; note: string }> = [
   { path: "/about", label: "About", note: "who I am" },
   { path: "/work", label: "Work", note: "career history" },
+  { path: "/cv", label: "CV", note: "reverse-chronological resume" },
   { path: "/now", label: "Now", note: "what I'm focused on currently" },
   { path: "/uses", label: "Uses", note: "hardware and software I use" },
   { path: "/ai", label: "AI", note: "notes on working with AI tooling" },
