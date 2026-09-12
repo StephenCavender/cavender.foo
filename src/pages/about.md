@@ -10,11 +10,11 @@ Faith is a cornerstone of who I am and how I behave. I'm a Christian and strive 
 
 ## Family
 
-I'm a husband and father of two. We enjoy playing games (card, board, or anything we can think up), playing at parks, playing outside, playing on the lake... I believe play is extremely important for a family and we priorize it.
+I'm a husband and father of two. We enjoy playing games (card, board, or anything we can think up), playing at parks, playing outside, playing on the lake... I believe play is extremely important for a family and we prioritize it.
 
 ## Work
 
-I'm a developer. Check out my [work](/work) page for more details on my profession.
+I'm a developer. Check out my [work](/work) page for more details on my profession, or my [CV](/cv).
 
 ## Fitness
 
