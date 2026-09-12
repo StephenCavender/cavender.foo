@@ -12,6 +12,49 @@ import fg from "fast-glob";
 import matter from "gray-matter";
 import path from "path";
 
+const ARTICLE = /<article[^>]*>([\s\S]*?)<\/article>/i;
+// Article.astro renders .prose > (.title > h1 + .date + hr) + body, then .tags.
+// The .title end anchor is the <hr> so nested .date divs don't terminate early;
+// .tags holds only anchors, so the first </div> is its own.
+const TITLE_BLOCK = /<div class="title"[^>]*>[\s\S]*?<hr[^>]*>\s*<\/div>/i;
+const TAGS_BLOCK = /<div class="tags"[^>]*>[\s\S]*?<\/div>/i;
+const PROSE_OPEN = /^<div class="prose"[^>]*>/i;
+const PROSE_CLOSE = "</div>";
+const ASTRO_SCOPE_ATTR = /\s+data-astro-cid-[\w-]+(?:="[^"]*")?/g;
+
+const unwrapProse = (content) => {
+  const trimmed = content.trim();
+  if (!PROSE_OPEN.test(trimmed) || !trimmed.endsWith(PROSE_CLOSE))
+    return trimmed;
+  return trimmed.replace(PROSE_OPEN, "").slice(0, -PROSE_CLOSE.length).trim();
+};
+
+const extractArticleContent = async (slug) => {
+  try {
+    const htmlPath = `./dist/articles/${slug}/index.html`;
+    const html = await fs.readFile(htmlPath, "utf-8");
+
+    const contentMatch = html.match(ARTICLE);
+    if (!contentMatch) return null;
+
+    // Syndication targets (dev.to) render their own title, date, and tags.
+    let content = contentMatch[1]
+      .replace(TITLE_BLOCK, "")
+      .replace(TAGS_BLOCK, "");
+
+    content = unwrapProse(content).replace(ASTRO_SCOPE_ATTR, "");
+
+    // Feed readers resolve URLs with no page origin, so root-relative breaks.
+    content = content.replace(/src="\/([^"]+)"/g, `src="${SITE_URL}/$1"`);
+    content = content.replace(/href="\/([^"]+)"/g, `href="${SITE_URL}/$1"`);
+
+    return content;
+  } catch {
+    // Built HTML not available (e.g. feeds generated before build) - fall back
+    return null;
+  }
+};
+
 const getFeed = ({
   desc = SITE_DESCRIPTION,
   year,
@@ -71,6 +114,8 @@ const getFeed = ({
         const slug = filename.split(".")[0].trim().toLowerCase();
         const date = new Date(data.pubDate);
 
+        const htmlContent = await extractArticleContent(slug);
+
         return {
           ...data,
           date,
@@ -78,7 +123,7 @@ const getFeed = ({
           id: `${SITE_URL}/articles/${slug}`,
           link: `${SITE_URL}/articles/${slug}`,
           description: data.description,
-          content,
+          content: htmlContent || content,
         };
       })
     )
