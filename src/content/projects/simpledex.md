@@ -14,9 +14,9 @@ I've been rebuilding it as a turborepo and using AI to handle the coding.
 
 ## Links
 
-Marketing: https://marketing.simpledex.cavender.dev
-App: https://simpledex.cavender.dev
-GitHub: https://github.com/StephenCavender/simpledex
+- Marketing: https://marketing.simpledex.cavender.dev
+- App: https://simpledex.cavender.dev
+- GitHub: https://github.com/StephenCavender/simpledex
 
 ## Features
 
