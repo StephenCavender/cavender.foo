@@ -14,7 +14,9 @@ I've been rebuilding it as a turborepo and using AI to handle the coding.
 
 ## Links
 
-URL: https://marketing.simpledex.cavender.dev
+Marketing: https://marketing.simpledex.cavender.dev
+App: https://simpledex.cavender.dev
+GitHub: https://github.com/StephenCavender/simpledex
 
 ## Features
 
@@ -25,4 +27,4 @@ URL: https://marketing.simpledex.cavender.dev
 
 ## History
 
-I originally built this as a React Native app for me to learn React Native. I got busy and let my developer accounts on Google and Apple lapse and the app hasn't been available since. With AI I have picked it back up and launched a new web app version!
+I originally built this as a React Native app to reinforce my RN learnings. Through this process I learned how to interact with the app stores: submitting builds, settings up TestFlight and test lanes, configuring rollout, handling app reviews, etc. I got busy and let my developer accounts on Google and Apple lapse and the app hasn't been available since. With AI I have picked it back up and launched a new web app version!
