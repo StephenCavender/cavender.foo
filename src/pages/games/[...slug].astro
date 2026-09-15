@@ -22,7 +22,13 @@ const { Content } = await render(game);
       {
         game.data.cover && (
           <div class="game-cover">
-            <Image src={game.data.cover} alt={`Cover for ${game.data.title}`} />
+            <Image
+              src={game.data.cover}
+              alt={`Cover for ${game.data.title}`}
+              width={Math.min(640, game.data.cover.width)}
+              loading="eager"
+              fetchpriority="high"
+            />
             {game.data.coverSource && (
               <a
                 class="cover-credit"
