@@ -1,5 +1,5 @@
 import mdx from "@astrojs/mdx";
-import { defineConfig, passthroughImageService } from "astro/config";
+import { defineConfig } from "astro/config";
 
 import sitemap from "@astrojs/sitemap";
 
@@ -7,9 +7,6 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://cavender.foo",
   integrations: [mdx(), sitemap()],
-  image: {
-    service: passthroughImageService(),
-  },
   redirects: {
     "/feed": "/rss.xml",
     "/rss": "/rss.xml",
