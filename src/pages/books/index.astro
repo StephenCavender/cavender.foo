@@ -96,6 +96,7 @@ const groups: FacetGroup[] = [
                   <Image
                     src={book.data.cover}
                     alt={`Cover of ${book.data.title}`}
+                    width={Math.min(400, book.data.cover.width)}
                     class="cover-img"
                     loading="lazy"
                   />

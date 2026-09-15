@@ -126,6 +126,7 @@ const groups: FacetGroup[] = [
                   <Image
                     src={game.data.cover}
                     alt={game.data.title}
+                    width={Math.min(400, game.data.cover.width)}
                     class="cover-img"
                     loading="lazy"
                   />
