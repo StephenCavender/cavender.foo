@@ -19,12 +19,6 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "new:article": "bash scripts/create-article-entry.sh",
-    "new:book": "bash scripts/create-book-entry.sh",
-    "new:game": "bash scripts/create-game-entry.sh",
-    "new:now": "bash scripts/create-now-entry.sh",
-    "new:project": "bash scripts/create-project-entry.sh",
-    "new:uses": "bash scripts/create-uses-entry.sh",
     "knip": "knip"
   },
   "type": "module",
