@@ -6,6 +6,8 @@ techStack: ["React", "Convex", "PokéAPI", "Vercel"]
 status: "in-development"
 ---
 
+![SimpleDex logo](@assets/projects/simpledex/logo.svg)
+
 A simple Pokédex application that helps users understand Pokémon evolution patterns and timing.
 
 ## Status
@@ -28,3 +30,6 @@ I've been rebuilding it as a turborepo and using AI to handle the coding.
 ## History
 
 I originally built this as a React Native app to reinforce my RN learnings. Through this process I learned how to interact with the app stores: submitting builds, settings up TestFlight and test lanes, configuring rollout, handling app reviews, etc. I got busy and let my developer accounts on Google and Apple lapse and the app hasn't been available since. With AI I have picked it back up and launched a new web app version!
+
+### Screenshots of the old app
+![SimpleDex screens](@assets/projects/simpledex/screens.webp)
