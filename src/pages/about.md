@@ -14,7 +14,7 @@ I'm a husband and father of two. We enjoy playing games (card, board, or anythin
 
 ## Work
 
-I'm a developer. Check out my [work](/work) page for more details on my profession, or my [CV](/cv).
+I'm a Staff Software Engineer specializing in React Native and TypeScript, currently leading a team at Otto. Check out my [work](/work) page for more details on my profession, or my [CV](/cv).
 
 ## Fitness
 

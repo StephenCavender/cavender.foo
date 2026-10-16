@@ -29,7 +29,7 @@ _Leading veterinary software company serving 8,000+ veterinary practices across 
 - Led design and delivery of the Otto pet-parent mobile application (Expo/React Native, iOS + Android, 50k+ downloads), including OTP authentication and targeted push-notification reminders that reduced missed veterinary appointments; set up the release pipeline on Expo EAS Build/Submit for repeatable App Store and Google Play submissions.
 - Built the Otto Inform campaign enrollment and account-management web application (React, functional components, Context API, no Redux) enabling veterinary practices to manage client communication campaigns and account settings end-to-end.
 - Built the internal operations admin application (React) for practice support teams from the ground up, streamlining administrative workflows and operational oversight; the first iteration became foundational tooling for the team.
-- Established the first end-to-end test suite for the Inform platform, giving the team automated coverage where there had previously been none.
+- Contributed to the end-to-end test suite for the Inform platform, expanding automated coverage.
 - Built a shared widgets repository and embedded the widget into the pet portal, along with a conversations overlay, working across Next.js and tRPC after moving to a new delivery team.
 - Contributed to 20+ backend and frontend repositories (Node.js services, React front-ends), ensuring seamless full-stack feature integration across the platform.
 - Pushed back on building production campaigns against an unproven new event-emitter architecture; negotiated a compromise to build on the new system while holding launch until it was proven at scale, protecting delivery reliability under leadership pressure.
@@ -41,7 +41,7 @@ _Leading veterinary software company serving 8,000+ veterinary practices across 
 
 _Digital health startup building a client engagement platform for veterinary practices; dissolved in Apr 2022 when Boehringer Ingelheim partnered with Otto (then TeleVet), which extended offers to part of the team._
 
-- Assessed a contractor-delivered React Native app that turned out to be a native shell wrapping a webview; the team rejected that approach and, once the contract engagement ended, rebuilt it as a fully native React Native app for iOS and Android.
+- Assessed a contractor-delivered React Native app that turned out to be a native shell wrapping a webview; the team rejected that approach and, once the contract engagement ended, started a native React Native rebuild for iOS and Android.
 - Shipped new features and critical bug fixes on the legacy PetPro Connect Ionic/Angular app in parallel with the rebuild, keeping the live product healthy throughout.
 - Increased user engagement through data-driven, targeted email campaigns, boosting product adoption.
 - Refactored NodeJS/Express-based file services to fix slow image load times at the service layer rather than adding server capacity, improving user experience while reducing server costs.

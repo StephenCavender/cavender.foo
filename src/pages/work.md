@@ -4,7 +4,7 @@ layout: ../layouts/BaseLayout.astro
 
 # Work
 
-I'm a Staff Software Engineer I at Otto, where I build mobile and web applications that make veterinary staff's lives easier. I specialize in React Native and full-stack development.
+I'm a Staff Software Engineer at Otto, where I build mobile and web applications that make veterinary staff's lives easier. I specialize in React Native and full-stack development.
 
 You can also check out my [CV](/cv).
 
@@ -32,4 +32,4 @@ Pawru's RN app never shipped because Pawru dissolved and the team moved to Otto 
 
 I argued for building it full-native, without the webview - the same call we'd made at Pawru. Leadership wanted an app store presence as soon as possible, so we went the other way: a webview to the web app with native views and features layered on top as we could. It shipped with video calling, and we added push notifications and native share later. Communicating between the web app and the mobile app through the webview is complicated, but it got us into the store quickly.
 
-After shipping that app, I transitioned into full-stack development and began leveling up my backend skills using Node.js, prisma, and postgres. Today, I'm a Staff Software Engineer I at Otto, mentoring engineers, and building products that serve thousands of veterinary practices across North America.
+After shipping that app, I moved into full-stack work across Node.js, prisma, and postgres. Today, I'm a Staff Software Engineer and Tech Lead at Otto, mentoring engineers, and building products that serve thousands of veterinary practices across North America. I transitioned the team from kanban to 2-week sprints improving delivery predictability. Once AI got pretty good I built a workspace to aid with coding across multiple repos and shared it with the rest of the engineering org.
