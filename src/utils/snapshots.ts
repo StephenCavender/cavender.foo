@@ -7,6 +7,4 @@ import type { CollectionEntry } from "astro:content";
  * components (SnapshotIndex, SnapshotEntry).
  */
 export type SnapshotEntry =
-  | CollectionEntry<"now">
-  | CollectionEntry<"uses">
-  | CollectionEntry<"ai">;
+  CollectionEntry<"now"> | CollectionEntry<"uses"> | CollectionEntry<"ai">;

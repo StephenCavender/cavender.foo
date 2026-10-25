@@ -2,11 +2,11 @@
   "name": "cavender.foo",
   "version": "0.0.1",
   "dependencies": {
-    "@astrojs/mdx": "7.0.5",
-    "@astrojs/sitemap": "3.7.3",
+    "@astrojs/mdx": "8.1.1",
+    "@astrojs/sitemap": "3.7.4",
     "@resvg/resvg-js": "^2.6.2",
-    "astro": "7.1.6",
-    "satori": "^0.26.0"
+    "astro": "7.4.2",
+    "satori": "^0.63.2"
   },
   "scripts": {
     "dev": "astro dev",
@@ -30,22 +30,22 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
     "@eslint/js": "^10.0.1",
-    "@types/node": "^26.2.0",
-    "@typescript-eslint/eslint-plugin": "^8.24.0",
-    "@typescript-eslint/parser": "^8.24.0",
-    "eslint": "^10.2.1",
+    "@types/node": "^26.6.5",
+    "@typescript-eslint/eslint-plugin": "^8.72.0",
+    "@typescript-eslint/parser": "^8.72.0",
+    "eslint": "^10.13.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-astro": "^1.6.0",
+    "eslint-plugin-astro": "^3.2.1",
     "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-prettier": "^5.5.7",
     "fast-glob": "^3.3.3",
-    "feed": "^4.2.2",
-    "globals": "^15.15.0",
+    "feed": "^6.0.0",
+    "globals": "^17.13.0",
     "gray-matter": "^4.0.3",
     "husky": "^9.1.7",
-    "knip": "^6.32.2",
+    "knip": "^6.43.0",
     "lint-staged": "^17.6.0",
-    "prettier": "^3.5.1",
+    "prettier": "^3.9.10",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.9.3"
   }
