@@ -1,12 +1,12 @@
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 
-export const OG_DIMENSIONS = {
+const OG_DIMENSIONS = {
   width: 1200,
   height: 630,
 } as const;
 
-export const OG_COLORS = {
+const OG_COLORS = {
   background: "#282a36",
   gradientStart: "#9333ea",
   gradientEnd: "#c084fc",
@@ -14,13 +14,13 @@ export const OG_COLORS = {
   textSecondary: "#c084fc",
 } as const;
 
-export const OG_FONTS = {
+const OG_FONTS = {
   titleSize: "52px",
   subtitleSize: "28px",
   footerSize: "24px",
 } as const;
 
-export async function getFonts() {
+async function getFonts() {
   const { readFileSync } = await import("node:fs");
   const { join } = await import("node:path");
   const projectRoot = join(process.cwd());

@@ -64,18 +64,3 @@ export function sortByStatusWithDateFallback<T>(
     return getTitle(a).localeCompare(getTitle(b));
   });
 }
-
-/**
- * Count items by status.
- */
-export function countByStatus<T>(
-  items: T[],
-  statuses: string[],
-  getStatus: (item: T) => string
-): Record<string, number> {
-  const counts: Record<string, number> = {};
-  for (const status of statuses) {
-    counts[status] = items.filter((item) => getStatus(item) === status).length;
-  }
-  return counts;
-}

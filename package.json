@@ -19,13 +19,16 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "knip": "knip"
+    "knip": "knip",
+    "prepare": "husky",
+    "typecheck": "astro check"
   },
   "type": "module",
   "engines": {
     "node": ">=22.12.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.12",
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.2.0",
     "@typescript-eslint/eslint-plugin": "^8.24.0",
@@ -39,7 +42,9 @@
     "feed": "^4.2.2",
     "globals": "^15.15.0",
     "gray-matter": "^4.0.3",
+    "husky": "^9.1.7",
     "knip": "^6.32.2",
+    "lint-staged": "^17.6.0",
     "prettier": "^3.5.1",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.9.3"
