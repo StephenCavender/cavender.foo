@@ -32,44 +32,42 @@ const formattedDate = latest ? formatDate(latest.data.pubDate) : "";
   <div class="snapshot-content">
     <h1>{heading}</h1>
     <slot />
-    <p><em>Updated {formattedDate}</em></p>
+    <p>
+      <em>Updated {formattedDate}</em>
+    </p>
 
-    {
-      latest && LatestContent ? (
-        <div class="latest">
-          <div class="content">
-            <LatestContent />
-          </div>
+    {latest && LatestContent ? (
+      <div class="latest">
+        <div class="content">
+          <LatestContent />
         </div>
-      ) : (
-        <div class="no-content">
-          <p>No entries found.</p>
-        </div>
-      )
-    }
+      </div>
+    ) : (
+      <div class="no-content">
+        <p>No entries found.</p>
+      </div>
+    )}
 
-    {
-      previous.length > 0 && (
-        <div class="history-section">
-          <details>
-            <summary class="history-toggle">
-              View Previous Versions ({previous.length})
-            </summary>
-            <ul>
-              {previous.map((entry) => {
-                const entryDate = formatDate(entry.data.pubDate);
+    {previous.length > 0 && (
+      <div class="history-section">
+        <details>
+          <summary class="history-toggle">
+            View Previous Versions ({previous.length})
+          </summary>
+          <ul>
+            {previous.map((entry) => {
+              const entryDate = formatDate(entry.data.pubDate);
 
-                return (
-                  <li>
-                    <a href={`${basePath}/${entry.id}/`}>{entryDate}</a>
-                  </li>
-                );
-              })}
-            </ul>
-          </details>
-        </div>
-      )
-    }
+              return (
+                <li>
+                  <a href={`${basePath}/${entry.id}/`}>{entryDate}</a>
+                </li>
+              );
+            })}
+          </ul>
+        </details>
+      </div>
+    )}
   </div>
 </BaseLayout>
 

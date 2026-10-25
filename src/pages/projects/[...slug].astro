@@ -18,12 +18,19 @@ const { name, description, techStack, status } = project.data;
 
 <BaseLayout title={name} description={description}>
   <article>
-    <h1>{name}{status === "archived" && " (archived)"}</h1>
-    <p class="tech">Tech Stack: <span>{techStack.join(", ")}</span></p>
+    <h1>
+      {name}
+      {status === "archived" && " (archived)"}
+    </h1>
+    <p class="tech">
+      Tech Stack: <span>{techStack.join(", ")}</span>
+    </p>
 
     <Content />
 
-    <p><a href="/projects">← Back to Projects</a></p>
+    <p>
+      <a href="/projects">← Back to Projects</a>
+    </p>
   </article>
 </BaseLayout>
 <style>

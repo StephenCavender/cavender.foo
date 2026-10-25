@@ -72,53 +72,51 @@ const groups: FacetGroup[] = [
   >
     <section>
       <div class="card-grid">
-        {
-          books.map((book) => (
-            <a
-              href={`/books/${book.id}/`}
-              class="card-link"
-              data-facet-item
-              data-facet-status={book.data.status}
-              data-facet-genre={book.data.tags.join("|")}
-              data-facet-author={book.data.authors.join("|")}
-              data-facet-series={book.data.series ?? ""}
-              data-facet-favorite={book.data.favorite ? "true" : ""}
-              data-search={[
-                book.data.title,
-                ...book.data.authors,
-                book.data.series ?? "",
-              ]
-                .join(" ")
-                .toLowerCase()}
-            >
-              <div class="cover-wrap">
-                {book.data.cover ? (
-                  <Image
-                    src={book.data.cover}
-                    alt={`Cover of ${book.data.title}`}
-                    width={Math.min(400, book.data.cover.width)}
-                    class="cover-img"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div class="cover-placeholder">
-                    <span class="placeholder-title">{book.data.title}</span>
-                    <span class="placeholder-author">
-                      {book.data.authors.join(", ")}
-                    </span>
-                  </div>
-                )}
-                <span class={`status-badge status-${book.data.status}`}>
-                  {book.data.status}
-                </span>
-              </div>
-              <div class="card-meta">
-                <span class="card-title">{book.data.title}</span>
-                <span class="card-author">{book.data.authors.join(", ")}</span>
-              </div>
-            </a>
-          ))
-        }
+        {books.map((book) => (
+          <a
+            href={`/books/${book.id}/`}
+            class="card-link"
+            data-facet-item
+            data-facet-status={book.data.status}
+            data-facet-genre={book.data.tags.join("|")}
+            data-facet-author={book.data.authors.join("|")}
+            data-facet-series={book.data.series ?? ""}
+            data-facet-favorite={book.data.favorite ? "true" : ""}
+            data-search={[
+              book.data.title,
+              ...book.data.authors,
+              book.data.series ?? "",
+            ]
+              .join(" ")
+              .toLowerCase()}
+          >
+            <div class="cover-wrap">
+              {book.data.cover ? (
+                <Image
+                  src={book.data.cover}
+                  alt={`Cover of ${book.data.title}`}
+                  width={Math.min(400, book.data.cover.width)}
+                  class="cover-img"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="cover-placeholder">
+                  <span class="placeholder-title">{book.data.title}</span>
+                  <span class="placeholder-author">
+                    {book.data.authors.join(", ")}
+                  </span>
+                </div>
+              )}
+              <span class={`status-badge status-${book.data.status}`}>
+                {book.data.status}
+              </span>
+            </div>
+            <div class="card-meta">
+              <span class="card-title">{book.data.title}</span>
+              <span class="card-author">{book.data.authors.join(", ")}</span>
+            </div>
+          </a>
+        ))}
       </div>
     </section>
   </FacetFilter>

@@ -33,7 +33,9 @@ const populated = groups.filter((group) => group.options.length > 0);
 
 <div class="facets" data-facet-root data-noun={noun}>
   <div class="facet-search">
-    <label class="visually-hidden" for="facet-query">Search {noun}</label>
+    <label class="visually-hidden" for="facet-query">
+      Search {noun}
+    </label>
     <input
       id="facet-query"
       type="search"
@@ -44,50 +46,50 @@ const populated = groups.filter((group) => group.options.length > 0);
   </div>
 
   <div class="facet-groups">
-    {
-      populated.map((group) => (
-        <div class="facet-group" data-group-legend={group.legend}>
-          <button
-            type="button"
-            class="facet-trigger"
-            popovertarget={`facet-${group.key}`}
-            data-facet-trigger={group.key}
-          >
-            {group.legend}
-            <span class="facet-group-badge" data-group-badge={group.key} />
-          </button>
-          <div
-            id={`facet-${group.key}`}
-            class="facet-popover"
-            popover="auto"
-            data-facet-popover={group.key}
-          >
-            <div class="facet-options" role="group" aria-label={group.legend}>
-              {group.options.map((option) => (
-                <label class="facet-option">
-                  <input
-                    type="checkbox"
-                    value={option.value}
-                    data-facet-group={group.key}
-                  />
-                  <span class="facet-option-label">{option.label}</span>
-                  <span
-                    class="facet-count"
-                    data-count-for={`${group.key}:${option.value}`}
-                  />
-                </label>
-              ))}
-            </div>
+    {populated.map((group) => (
+      <div class="facet-group" data-group-legend={group.legend}>
+        <button
+          type="button"
+          class="facet-trigger"
+          popovertarget={`facet-${group.key}`}
+          data-facet-trigger={group.key}
+        >
+          {group.legend}
+          <span class="facet-group-badge" data-group-badge={group.key} />
+        </button>
+        <div
+          id={`facet-${group.key}`}
+          class="facet-popover"
+          popover="auto"
+          data-facet-popover={group.key}
+        >
+          <div class="facet-options" role="group" aria-label={group.legend}>
+            {group.options.map((option) => (
+              <label class="facet-option">
+                <input
+                  type="checkbox"
+                  value={option.value}
+                  data-facet-group={group.key}
+                />
+                <span class="facet-option-label">{option.label}</span>
+                <span
+                  class="facet-count"
+                  data-count-for={`${group.key}:${option.value}`}
+                />
+              </label>
+            ))}
           </div>
         </div>
-      ))
-    }
+      </div>
+    ))}
   </div>
 
   <div class="facet-active" data-facet-chips hidden></div>
 
   <p class="facet-summary">
-    <span data-facet-summary>Showing all {total} {noun}</span>
+    <span data-facet-summary>
+      Showing all {total} {noun}
+    </span>
     <button type="button" class="facet-clear" data-facet-clear hidden>
       Clear all
     </button>

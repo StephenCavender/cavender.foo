@@ -20,59 +20,49 @@ const { Content } = await render(book);
 <BaseLayout>
   <article class="book">
     <header>
-      {
-        book.data.cover && (
-          <div class="book-cover">
-            <Image
-              src={book.data.cover}
-              alt={`Cover for ${book.data.title}`}
-              width={Math.min(640, book.data.cover.width)}
-              loading="eager"
-              fetchpriority="high"
-            />
-          </div>
-        )
-      }
+      {book.data.cover && (
+        <div class="book-cover">
+          <Image
+            src={book.data.cover}
+            alt={`Cover for ${book.data.title}`}
+            width={Math.min(640, book.data.cover.width)}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      )}
 
       <h1>{book.data.title}</h1>
       <p class="book-author">
         by <Fragment set:html={bylineHtml(book.data.authors)} />
       </p>
 
-      {
-        book.data.readDate && (
-          <p class="read-date">
-            Read {book.data.readDate.toLocaleDateString()}
-          </p>
-        )
-      }
+      {book.data.readDate && (
+        <p class="read-date">Read {book.data.readDate.toLocaleDateString()}</p>
+      )}
 
       {book.data.isbn && <p class="book-isbn">ISBN: {book.data.isbn}</p>}
 
-      {
-        book.data.url && (
-          <p class="book-link">
-            <a href={book.data.url} target="_blank" rel="noopener noreferrer">
-              View this book <span class="external-link-icon">↗</span>
-            </a>
-          </p>
-        )
-      }
+      {book.data.url && (
+        <p class="book-link">
+          <a href={book.data.url} target="_blank" rel="noopener noreferrer">
+            View this book <span class="external-link-icon">↗</span>
+          </a>
+        </p>
+      )}
     </header>
 
     <div class="book-content prose">
       <Content />
     </div>
 
-    {
-      book.data.tags && book.data.tags.length > 0 && (
-        <div class="tags">
-          {book.data.tags.map((tag) => (
-            <a href={`/books/tags/${tag}/`}>#{tag}</a>
-          ))}
-        </div>
-      )
-    }
+    {book.data.tags && book.data.tags.length > 0 && (
+      <div class="tags">
+        {book.data.tags.map((tag) => (
+          <a href={`/books/tags/${tag}/`}>#{tag}</a>
+        ))}
+      </div>
+    )}
 
     <a href="/books">Back to Books</a>
   </article>

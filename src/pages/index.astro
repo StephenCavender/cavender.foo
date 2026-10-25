@@ -26,33 +26,49 @@ const recentArticles = sortByPubDate(await getCollection("articles")).slice(
   </section>
 
   <section>
-    <p>Here's a <a href="/now">now</a> page to see what I'm currently up to.</p>
+    <p>
+      Here's a <a href="/now">now</a> page to see what I'm currently up to.
+    </p>
   </section>
 
   <section>
     <h2>Recent Writing</h2>
     <ul>
-      {
-        recentArticles.map((article) => (
-          <li>
-            <a href={`/articles/${article.id}/`}>{article.data.title}</a>
-          </li>
-        ))
-      }
+      {recentArticles.map((article) => (
+        <li>
+          <a href={`/articles/${article.id}/`}>{article.data.title}</a>
+        </li>
+      ))}
     </ul>
-    <p><a href="/articles">See all</a></p>
+    <p>
+      <a href="/articles">See all</a>
+    </p>
   </section>
 
   <section>
     <h2>Links</h2>
     <ul>
-      <li><a href="/uses">My uses page</a></li>
-      <li><a href="/blogroll">Blogroll</a></li>
-      <li><a href="/ai">How I use AI</a></li>
-      <li><a href="/bookmarks">Bookmarks</a></li>
-      <li><a href="/books">My bookshelf</a></li>
-      <li><a href="/games">My gameshelf</a></li>
-      <li><a href="/if">Favorite Poem</a></li>
+      <li>
+        <a href="/uses">My uses page</a>
+      </li>
+      <li>
+        <a href="/blogroll">Blogroll</a>
+      </li>
+      <li>
+        <a href="/ai">How I use AI</a>
+      </li>
+      <li>
+        <a href="/bookmarks">Bookmarks</a>
+      </li>
+      <li>
+        <a href="/books">My bookshelf</a>
+      </li>
+      <li>
+        <a href="/games">My gameshelf</a>
+      </li>
+      <li>
+        <a href="/if">Favorite Poem</a>
+      </li>
     </ul>
   </section>
 </BaseLayout>

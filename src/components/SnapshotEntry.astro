@@ -18,14 +18,18 @@ const { Content } = await render(entry);
 
 <BaseLayout>
   <article class="snapshot-entry">
-    <h1>{label} / <FormattedDate date={entry.data.pubDate} /></h1>
+    <h1>
+      {label} / <FormattedDate date={entry.data.pubDate} />
+    </h1>
 
     <div class="entry-content">
       <Content />
     </div>
 
     <div class="entry-footer">
-      <a href={basePath} class="back-link">← Back to Current {label}</a>
+      <a href={basePath} class="back-link">
+        ← Back to Current {label}
+      </a>
     </div>
   </article>
 </BaseLayout>

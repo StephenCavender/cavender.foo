@@ -29,37 +29,35 @@ const { books } = Astro.props;
   </h2>
 
   <div class="book-grid">
-    {
-      books.map((book) => (
-        <a href={`/books/${book.id}/`} class="book-card">
-          <div class="cover-wrap">
-            {book.data.cover ? (
-              <Image
-                src={book.data.cover}
-                alt={`Cover of ${book.data.title}`}
-                width={Math.min(400, book.data.cover.width)}
-                class="cover-img"
-                loading="lazy"
-              />
-            ) : (
-              <div class="cover-placeholder">
-                <span class="placeholder-title">{book.data.title}</span>
-                <span class="placeholder-author">
-                  {book.data.authors.join(", ")}
-                </span>
-              </div>
-            )}
-            <span class={`status-badge status-${book.data.status}`}>
-              {book.data.status}
-            </span>
-          </div>
-          <div class="book-meta">
-            <span class="book-title">{book.data.title}</span>
-            <span class="book-author">{book.data.authors.join(", ")}</span>
-          </div>
-        </a>
-      ))
-    }
+    {books.map((book) => (
+      <a href={`/books/${book.id}/`} class="book-card">
+        <div class="cover-wrap">
+          {book.data.cover ? (
+            <Image
+              src={book.data.cover}
+              alt={`Cover of ${book.data.title}`}
+              width={Math.min(400, book.data.cover.width)}
+              class="cover-img"
+              loading="lazy"
+            />
+          ) : (
+            <div class="cover-placeholder">
+              <span class="placeholder-title">{book.data.title}</span>
+              <span class="placeholder-author">
+                {book.data.authors.join(", ")}
+              </span>
+            </div>
+          )}
+          <span class={`status-badge status-${book.data.status}`}>
+            {book.data.status}
+          </span>
+        </div>
+        <div class="book-meta">
+          <span class="book-title">{book.data.title}</span>
+          <span class="book-author">{book.data.authors.join(", ")}</span>
+        </div>
+      </a>
+    ))}
   </div>
 
   <div class="nav-links">

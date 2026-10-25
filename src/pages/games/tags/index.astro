@@ -16,15 +16,13 @@ const tagCounts = allTags.map((tag) => ({
   <h2>Game Tags</h2>
   <section>
     <ul class="tag-list">
-      {
-        tagCounts.map(({ tag, count }) => (
-          <li>
-            <a href={`/games/tags/${tag}/`}>
-              {tag} <span class="count">({count})</span>
-            </a>
-          </li>
-        ))
-      }
+      {tagCounts.map(({ tag, count }) => (
+        <li>
+          <a href={`/games/tags/${tag}/`}>
+            {tag} <span class="count">({count})</span>
+          </a>
+        </li>
+      ))}
     </ul>
   </section>
   <a href="/games">Back to Games</a>

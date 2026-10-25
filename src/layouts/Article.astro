@@ -24,29 +24,25 @@ const ogImage = new URL(`/articles/${slug}/og.png`, Astro.site);
         <h1>{title}</h1>
         <div class="date">
           Published on <FormattedDate date={pubDate} />
-          {
-            updatedDate && (
-              <div class="last-updated-on">
-                Last updated on <FormattedDate date={updatedDate} />
-              </div>
-            )
-          }
+          {updatedDate && (
+            <div class="last-updated-on">
+              Last updated on <FormattedDate date={updatedDate} />
+            </div>
+          )}
         </div>
         <hr />
       </div>
       <slot />
     </div>
-    {
-      tags.length && (
-        <>
-          <div class="tags">
-            {tags.map((tag) => (
-              <a href={`/articles/tags/${tag}`}>#{tag}</a>
-            ))}
-          </div>
-        </>
-      )
-    }
+    {tags.length && (
+      <>
+        <div class="tags">
+          {tags.map((tag) => (
+            <a href={`/articles/tags/${tag}`}>#{tag}</a>
+          ))}
+        </div>
+      </>
+    )}
   </article>
 </BaseLayout>
 <style>

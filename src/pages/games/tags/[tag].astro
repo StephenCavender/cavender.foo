@@ -29,28 +29,26 @@ const { games } = Astro.props;
   </h2>
 
   <div class="game-grid">
-    {
-      games.map((game) => (
-        <a href={`/games/${game.id}/`} class="game-card">
-          {game.data.cover ? (
-            <Image
-              src={game.data.cover}
-              alt={game.data.title}
-              width={Math.min(400, game.data.cover.width)}
-              class="game-cover"
-              loading="lazy"
-            />
-          ) : (
-            <div class="game-cover-placeholder">
-              <span class="game-title-fallback">{game.data.title}</span>
-            </div>
-          )}
-          <div class="game-info">
-            <h4 class="game-title">{game.data.title}</h4>
+    {games.map((game) => (
+      <a href={`/games/${game.id}/`} class="game-card">
+        {game.data.cover ? (
+          <Image
+            src={game.data.cover}
+            alt={game.data.title}
+            width={Math.min(400, game.data.cover.width)}
+            class="game-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div class="game-cover-placeholder">
+            <span class="game-title-fallback">{game.data.title}</span>
           </div>
-        </a>
-      ))
-    }
+        )}
+        <div class="game-info">
+          <h4 class="game-title">{game.data.title}</h4>
+        </div>
+      </a>
+    ))}
   </div>
 
   <div class="nav-links">

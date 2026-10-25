@@ -15,15 +15,13 @@ const projects = (await getCollection("projects")).sort(
   <h2>Projects</h2>
   <section>
     <ul>
-      {
-        projects.map((project) => (
-          <li>
-            <a href={`/projects/${project.id}/`}>{project.data.name}</a>
-            {project.data.status === "archived" && " (archived)"}
-            <p>{project.data.description}</p>
-          </li>
-        ))
-      }
+      {projects.map((project) => (
+        <li>
+          <a href={`/projects/${project.id}/`}>{project.data.name}</a>
+          {project.data.status === "archived" && " (archived)"}
+          <p>{project.data.description}</p>
+        </li>
+      ))}
     </ul>
   </section>
 </BaseLayout>

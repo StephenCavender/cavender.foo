@@ -98,55 +98,51 @@ const groups: FacetGroup[] = [
   >
     <section>
       <div class="card-grid">
-        {
-          games.map((game) => (
-            <a
-              href={`/games/${game.id}/`}
-              class="card-link"
-              data-facet-item
-              data-facet-status={game.data.status}
-              data-facet-genre={game.data.tags.join("|")}
-              data-facet-series={game.data.series ?? ""}
-              data-facet-platform={game.data.platform.join("|")}
-              data-facet-developer={game.data.developer ?? ""}
-              data-facet-publisher={game.data.publisher ?? ""}
-              data-facet-rating={game.data.rating?.toString() ?? ""}
-              data-facet-favorite={game.data.favorite ? "true" : ""}
-              data-search={[
-                game.data.title,
-                game.data.developer ?? "",
-                game.data.publisher ?? "",
-                game.data.series ?? "",
-              ]
-                .join(" ")
-                .toLowerCase()}
-            >
-              <div class="cover-wrap">
-                {game.data.cover ? (
-                  <Image
-                    src={game.data.cover}
-                    alt={game.data.title}
-                    width={Math.min(400, game.data.cover.width)}
-                    class="cover-img"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div class="cover-placeholder">
-                    <span class="placeholder-title">{game.data.title}</span>
-                  </div>
-                )}
-                <span class={`status-badge status-${game.data.status}`}>
-                  {game.data.status === "unplayed"
-                    ? "backlog"
-                    : game.data.status}
-                </span>
-              </div>
-              <div class="card-meta">
-                <span class="card-title">{game.data.title}</span>
-              </div>
-            </a>
-          ))
-        }
+        {games.map((game) => (
+          <a
+            href={`/games/${game.id}/`}
+            class="card-link"
+            data-facet-item
+            data-facet-status={game.data.status}
+            data-facet-genre={game.data.tags.join("|")}
+            data-facet-series={game.data.series ?? ""}
+            data-facet-platform={game.data.platform.join("|")}
+            data-facet-developer={game.data.developer ?? ""}
+            data-facet-publisher={game.data.publisher ?? ""}
+            data-facet-rating={game.data.rating?.toString() ?? ""}
+            data-facet-favorite={game.data.favorite ? "true" : ""}
+            data-search={[
+              game.data.title,
+              game.data.developer ?? "",
+              game.data.publisher ?? "",
+              game.data.series ?? "",
+            ]
+              .join(" ")
+              .toLowerCase()}
+          >
+            <div class="cover-wrap">
+              {game.data.cover ? (
+                <Image
+                  src={game.data.cover}
+                  alt={game.data.title}
+                  width={Math.min(400, game.data.cover.width)}
+                  class="cover-img"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="cover-placeholder">
+                  <span class="placeholder-title">{game.data.title}</span>
+                </div>
+              )}
+              <span class={`status-badge status-${game.data.status}`}>
+                {game.data.status === "unplayed" ? "backlog" : game.data.status}
+              </span>
+            </div>
+            <div class="card-meta">
+              <span class="card-title">{game.data.title}</span>
+            </div>
+          </a>
+        ))}
       </div>
     </section>
   </FacetFilter>

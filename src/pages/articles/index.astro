@@ -9,22 +9,18 @@ const articles = sortByPubDate(allArticles);
 
 <BaseLayout>
   <h2>Articles</h2>
-  <div
-    style="display: flex; justify-content: space-between; align-items: center;"
-  >
+  <div style="display: flex; justify-content: space-between; align-items: center;">
     <div></div>
     <a href="/articles/tags/">Browse by Tags</a>
   </div>
   <section>
     <ul>
-      {
-        articles.map((article) => (
-          <li>
-            <span>{article.data.pubDate.toLocaleDateString()}</span>
-            <a href={`/articles/${article.id}/`}>{article.data.title}</a>
-          </li>
-        ))
-      }
+      {articles.map((article) => (
+        <li>
+          <span>{article.data.pubDate.toLocaleDateString()}</span>
+          <a href={`/articles/${article.id}/`}>{article.data.title}</a>
+        </li>
+      ))}
     </ul>
   </section>
 </BaseLayout>

@@ -9,13 +9,11 @@ const tags = [...new Set(articles.map((article) => article.data.tags).flat())];
   <h2>Article Tags</h2>
   <section>
     <ul class="tag-list">
-      {
-        tags.map((tag) => (
-          <li>
-            <a href={`/articles/tags/${tag}/`}>{tag}</a>
-          </li>
-        ))
-      }
+      {tags.map((tag) => (
+        <li>
+          <a href={`/articles/tags/${tag}/`}>{tag}</a>
+        </li>
+      ))}
     </ul>
   </section>
   <a href="/articles">Back to Articles</a>

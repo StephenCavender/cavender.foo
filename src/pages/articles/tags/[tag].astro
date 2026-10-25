@@ -24,18 +24,18 @@ const { articles } = Astro.props;
 ---
 
 <BaseLayout title={`Articles tagged with ${tag}`}>
-  <h2>Articles tagged with <code>{tag}</code></h2>
+  <h2>
+    Articles tagged with <code>{tag}</code>
+  </h2>
   <section>
     <ul>
-      {
-        articles.map((article) => (
-          <>
-            <li>
-              <a href={`/articles/${article.id}`}>{article.data.title}</a>
-            </li>
-          </>
-        ))
-      }
+      {articles.map((article) => (
+        <>
+          <li>
+            <a href={`/articles/${article.id}`}>{article.data.title}</a>
+          </li>
+        </>
+      ))}
     </ul>
   </section>
   <a href="/articles/tags">All Article Tags</a>
