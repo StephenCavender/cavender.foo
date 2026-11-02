@@ -2,10 +2,10 @@
   "name": "cavender.foo",
   "version": "0.0.1",
   "dependencies": {
-    "@astrojs/mdx": "8.1.1",
+    "@astrojs/mdx": "8.1.2",
     "@astrojs/sitemap": "3.7.4",
     "@resvg/resvg-js": "^2.6.2",
-    "astro": "7.4.2",
+    "astro": "7.4.4",
     "satori": "^0.63.2"
   },
   "scripts": {
@@ -30,9 +30,9 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
     "@eslint/js": "^10.0.1",
-    "@types/node": "^26.6.5",
-    "@typescript-eslint/eslint-plugin": "^8.72.0",
-    "@typescript-eslint/parser": "^8.72.0",
+    "@types/node": "^26.6.6",
+    "@typescript-eslint/eslint-plugin": "^8.72.1",
+    "@typescript-eslint/parser": "^8.72.1",
     "eslint": "^10.13.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^3.2.1",
@@ -43,7 +43,7 @@
     "globals": "^17.13.0",
     "gray-matter": "^4.0.3",
     "husky": "^9.1.7",
-    "knip": "^6.43.0",
+    "knip": "^6.44.0",
     "lint-staged": "^17.6.0",
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.2",
